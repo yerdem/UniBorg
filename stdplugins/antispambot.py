@@ -95,7 +95,8 @@ async def ANTI_SPAMBOT(welcm):
                         f"User Joined: {check_user.first_name} [ID: {check_user.id}]\n"
                         f"Chat: {welcm.chat.title}\n"
                         f"Time: {join_time}\n"
-                        f"Message Sent: {message.text}\n\n[Time: {message_date}]\n"
+                        f"Message Sent: {message.text}\n\n[Time: {message_date}]\n",
+                        link_preview=False
                     )
                     try:
                         cas_url = f"https://combot.org/api/cas/check?user_id={check_user.id}"
