@@ -151,7 +151,8 @@ async def ANTI_SPAMBOT(welcm):
                             "@admins\n"
                             "`ANTI SPAMBOT DETECTOR!\n"
                             "THIS USER MATCHES MY ALGORITHMS AS A SPAMBOT!`"
-                            f"REASON: {reason}")
+                            f"REASON: {reason}",
+                            link_preview=False)
                         kicked = False
                         reported = True
                 else:
@@ -161,7 +162,8 @@ async def ANTI_SPAMBOT(welcm):
                             "`Potential Spambot Detected !!`\n"
                             f"`REASON:` {reason}\n"
                             "Kicking away for now, will log the ID for further purposes.\n"
-                            f"`USER:` [{check_user.first_name}](tg://user?id={check_user.id})"
+                            f"`USER:` [{check_user.first_name}](tg://user?id={check_user.id})",
+                            link_preview=False
                         )
 
                         await welcm.client.kick_participant(
@@ -175,7 +177,8 @@ async def ANTI_SPAMBOT(welcm):
                                 "@admins\n"
                                 "`ANTI SPAMBOT DETECTOR!\n"
                                 "THIS USER MATCHES MY ALGORITHMS AS A SPAMBOT!`"
-                                f"REASON: {reason}")
+                                f"REASON: {reason}",
+                                link_preview=False)
                             kicked = False
                             reported = True
 
@@ -188,6 +191,7 @@ async def ANTI_SPAMBOT(welcm):
                             f"CHAT: {welcm.chat.title}\n"
                             f"CHAT ID: `{welcm.chat_id}`\n"
                             f"REASON: {reason}\n"
-                            f"MESSAGE:\n\n{message.text}")
+                            f"MESSAGE:\n\n{message.text}",
+                            link_preview=False)
     except ValueError:
         pass
