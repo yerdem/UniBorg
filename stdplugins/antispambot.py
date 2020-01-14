@@ -74,7 +74,12 @@ async def ANTI_SPAMBOT(welcm):
                     message_date = message.date
                     if message_date < join_time:
                         continue  # The message was sent before the user joined, thus ignore it
-                    check_user = await welcm.client.get_entity(user_id)
+                    try:
+                        check_user = await welcm.client.get_entity(user_id)
+                    except ValueError as e:
+                        welcm.client.send_message(Config.PRIVATE_GROUP_BOT_API_ID,str(e))
+                    except TypeError as e:
+                        welcm.client.send_message(Config.PRIVATE_GROUP_BOT_API_ID,str(e))
                     # DEBUGGING. LEAVING IT HERE FOR SOME TIME ###
                     print(
                         f"User Joined: {check_user.first_name} [ID: {check_user.id}]"
