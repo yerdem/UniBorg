@@ -85,7 +85,13 @@ async def ANTI_SPAMBOT(welcm):
                         f"Message Sent: {message.text}\n\n[Time: {message_date}]"
                     )
                     ##############################################
-
+                    await welcm.client.send_message(
+                        Config.PRIVATE_GROUP_BOT_API_ID,
+                        f"User Joined: {check_user.first_name} [ID: {check_user.id}]\n"
+                        f"Chat: {welcm.chat.title}\n"
+                        f"Time: {join_time}\n"
+                        f"Message Sent: {message.text}\n\n[Time: {message_date}]\n"
+                    )
                     try:
                         cas_url = f"https://combot.org/api/cas/check?user_id={check_user.id}"
                         r = get(cas_url, timeout=3)
