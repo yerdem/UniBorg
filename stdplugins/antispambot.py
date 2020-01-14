@@ -92,7 +92,7 @@ async def ANTI_SPAMBOT(welcm):
                     ##############################################
                     await welcm.client.send_message(
                         Config.PRIVATE_GROUP_BOT_API_ID,
-                        f"User Joined: {check_user.first_name} [ID: {check_user.id}]\n"
+                        f"User Joined: {check_user.first_name}\n[ID: {check_user.id}]\n"
                         f"Chat: {welcm.chat.title}\n"
                         f"Time: {join_time}\n"
                         f"Message Sent: {message.text}\n\n[Time: {message_date}]\n",
