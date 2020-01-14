@@ -41,6 +41,8 @@ async def _(cas):
                         view_messages=True,
                         send_messages=True
                     )
+                    user_entity = cas.client.get_entity(PeerUser(id))
+                    print(user_entity)
                     await borg(EditBannedRequest(cas.chat_id, id, rights))
                     await borg.send_message(
                         Config.PRIVATE_GROUP_BOT_API_ID, 
