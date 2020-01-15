@@ -10,7 +10,7 @@ from telethon.tl.types import MessageEntityMentionName
 import asyncio
 from telethon import events
 
-@borg.on(events.NewMessage(admin_cmd(pattern="^.gban", outgoing=True)))
+@borg.on(admin_cmd(pattern="^.gban", outgoing=True))
 @errors_handler
 async def gban_all(msg):
     if not msg.text[0].isalpha() and msg.text[0] not in ("/", "#", "@", "!"):
@@ -71,7 +71,7 @@ async def gban_all(msg):
 
 
 
-@borg.on(events.NewMessage(admin_cmd(pattern="^.fban", outgoing=True)))
+@borg.on(admin_cmd(pattern="^.fban", outgoing=True))
 @errors_handler
 async def fedban_all(msg):
     if not msg.text[0].isalpha() and msg.text[0] not in ("/", "#", "@", "!"):
@@ -157,7 +157,7 @@ async def fedban_all(msg):
 
 
 
-@borg.on(events.NewMessage(admin_cmd(pattern="^.addfban", outgoing=True)))
+@borg.on(admin_cmd(pattern="^.addfban", outgoing=True))
 @errors_handler
 async def add_to_fban(chat):
     try:
@@ -170,7 +170,7 @@ async def add_to_fban(chat):
 
 
 
-@borg.on(events.NewMessage(admin_cmd(pattern="^.addgban", outgoing=True)))
+@borg.on(admin_cmd(pattern="^.addgban", outgoing=True))
 @errors_handler
 async def add_to_gban(chat):
     try:
@@ -184,7 +184,7 @@ async def add_to_gban(chat):
 
 
 
-@borg.on(events.NewMessage(admin_cmd(pattern="^.removefban", outgoing=True)))
+@borg.on(admin_cmd(pattern="^.removefban", outgoing=True))
 @errors_handler
 async def remove_from_fban(chat):
     try:
@@ -197,7 +197,7 @@ async def remove_from_fban(chat):
 
 
 
-@borg.on(events.NewMessage(admin_cmd(pattern="^.removegban", outgoing=True)))
+@borg.on(admin_cmd(pattern="^.removegban", outgoing=True))
 @errors_handler
 async def remove_from_gban(chat):
     try:
