@@ -19,7 +19,7 @@ from telethon.tl.types import (ChannelParticipantsAdmins, ChatAdminRights,
 
 
 from sample_config import Config
-from userbot.events import events
+from telethon import events
 from uniborg.util import admin_cmd
 from stdplugins.dbhelper import (get_gmuted, get_muted, gmute, mute,
                                       ungmute, unmute)
