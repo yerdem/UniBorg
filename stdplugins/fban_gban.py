@@ -15,20 +15,12 @@ from stdplugins.dbhelper import (add_chat_fban, add_chat_gban, get_fban,
                                       remove_chat_gban)
 from sample_config import Config
 from uniborg.util import admin_cmd
-from pymongo import MongoClient
-
-MONGOCLIENT = MongoClient(Config.MONGO_DB_URI, 27017, serverSelectionTimeoutMS=1)
-MONGO = MONGOCLIENT.uniborg
-
-def is_mongo_alive():
-    try:
-        MONGOCLIENT.server_info()
-    except BaseException:
-        return False
-    return True
 
 
 
+
+
+MONGOCLIENT = Config.MONGOCLIENT
 
 @borg.on(admin_cmd(pattern=("gban ?(.*)")))
 async def gban_all(msg):

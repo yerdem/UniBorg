@@ -26,18 +26,9 @@ from stdplugins.dbhelper import (get_gmuted, get_muted, gmute, mute,
 # from stdplugins.fban_gban import is_mongo_alive
 # from uniborg.uniborg import Uniborg
 
-from pymongo import MongoClient
 
-MONGOCLIENT = MongoClient(Config.MONGO_DB_URI, 27017, serverSelectionTimeoutMS=1)
-MONGO = MONGOCLIENT.uniborg
 
-def is_mongo_alive():
-    try:
-        MONGOCLIENT.server_info()
-    except BaseException:
-        return False
-    return True
-
+MONGOCLIENT = Config.MONGOCLIENT
 BOTLOG = Config.BOTLOG
 BOTLOG_CHATID = Config.PRIVATE_GROUP_BOT_API_ID
 
