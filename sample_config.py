@@ -122,7 +122,8 @@ class Config(object):
     ANTI_SPAMBOT_SHOUT = os.environ.get("ANTI_SPAMBOT_SHOUT", None)
     #API_TOKEN for quote plugin
     API_TOKEN = os.environ.get("API_TOKEN",None)
-
+    MONGO_DB_URI = os.environ.get("MONGO_DB_URI", None)
+    
 
 class Production(Config):
     LOGGER = False
