@@ -108,6 +108,7 @@ async def ANTI_SPAMBOT(welcm):
                         )
                         data = None
                         pass
+                    chinese_detect = re.search(r'[\u4e00-\u9fff]+', message.text)
                     if data and data['ok']:
                         reason = f"[Banned by Combot Anti Spam](https://combot.org/cas/query?u={check_user.id})"
                         spambot = True
@@ -125,6 +126,9 @@ async def ANTI_SPAMBOT(welcm):
                         spambot = True
                     elif "bit.ly/" in message.text:
                         reason = "Match on `bit.ly` URLs"
+                        spambot = True
+                    elif bool(chinese_detect):
+                        reason = "Match Chinese Userbot"
                         spambot = True
                     else:
                         if check_user.first_name in ("Bitmex", "Promotion",
