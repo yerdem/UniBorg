@@ -57,6 +57,8 @@ async def _(event):
                 progress(d, t, mone, c_time, "trying to upload")
             )
         )
+        await time.sleep(5)
+        await event.delete()
         shutil.rmtree(watermark_path)
 
 def watermark(inputpdf, outputpdf, watermarkpdf):
