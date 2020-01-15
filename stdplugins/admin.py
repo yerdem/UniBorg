@@ -23,7 +23,7 @@ from telethon import events
 from uniborg.util import admin_cmd
 from stdplugins.dbhelper import (get_gmuted, get_muted, gmute, mute,
                                       ungmute, unmute)
-
+from stdplugins.fban_gban import is_mongo_alive
 BOTLOG = Config.BOTLOG
 BOTLOG_CHATID = Config.PRIVATE_GROUP_BOT_API_ID
 
