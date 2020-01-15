@@ -291,7 +291,7 @@ class Admin:
             except ChatAdminRequiredError:
                 await message.edit("<b>Oh honey, I'm not admin enough to unban this user 🙄</b>")
 
-    @borg.on(admin_cmd(pattern="gban ?(.*)"))
+    @borg.on(admin_cmd(pattern="pin ?(.*)"))
         async def pin_uniborg(message):
             reply = await message.get_reply_message()
             loud = True if utils.get_arg(message) == "loud" else False
@@ -301,7 +301,7 @@ class Admin:
             await message.client.pin_message(
                 message.input_chat, reply.id, notify=loud)
             await message.edit("<b>Pinned succesfully.</b>")
-            
+
     @borg.on(admin_cmd(pattern="gban ?(.*)"))
         async def gban_uniborg(message):
             try:
