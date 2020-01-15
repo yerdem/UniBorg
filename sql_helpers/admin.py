@@ -91,307 +91,306 @@ class Admin:
     logger.setLevel(logging.DEBUG)
 
     @borg.on(admin_cmd(pattern="promot ?(.*)"))
-        async def promote_uniborg(message):
-            await message.edit("<b>Promoting...</b>")
-            chat = message.input_chat
+        async def promote_uniborg(event):
+            await event.edit("<b>Promoting...</b>")
+            chat = event.input_chat
             try:
                 user = (
-                    (await message.client.get_entity(utils.get_arg(message))).id
-                    if not message.is_reply else
-                    (await message.get_reply_message()).sender.id)
+                    (await event.client.get_entity(utils.get_arg(message))).id
+                    if not event.is_reply else
+                    (await event.get_reply_message()).sender.id)
             except ValueError:
-                await message.edit("<b>No user found in that name</b>")
+                await event.edit("<b>No user found in that name</b>")
                 return
             try:
-                await message.client(EditAdminRequest(chat, user, PROMOTE, "Admin"))
-                await message.edit("<b>Successfully promoted</b>")
+                await event.client(EditAdminRequest(chat, user, PROMOTE, "Admin"))
+                await event.edit("<b>Successfully promoted</b>")
             except TypeError:
-                await message.edit("<b>Are you sure this is a genuine chat?</b>")
+                await event.edit("<b>Are you sure this is a genuine chat?</b>")
             except AdminsTooMuchError:
-                await message.edit("<b>There are too many admins in this chat</b>")
+                await event.edit("<b>There are too many admins in this chat</b>")
             except UserPrivacyRestrictedError:
-                await message.edit("<b>The user's privacy settings do not allow you to do this</b>")
+                await event.edit("<b>The user's privacy settings do not allow you to do this</b>")
             except UserNotMutualContactError:
-                await message.edit("<b>The provided user is not a mutual contact</b>")
+                await event.edit("<b>The provided user is not a mutual contact</b>")
             except UserIdInvalidError:
-                await message.edit("<b>Specified user is a no go</b>")
+                await event.edit("<b>Specified user is a no go</b>")
             except UserCreatorError:
-                await message.edit("<b>Wtf, that is the chat owner..</b>")
+                await event.edit("<b>Wtf, that is the chat owner..</b>")
             except RightForbiddenError:
-                await message.edit(
+                await event.edit(
                     "<b>You either don't have enough permissions or there's something wrong with the admin rights</b>")
             except ChatAdminRequiredError:
-                await message.edit("<b>Oh honey, I'm not admin enough to promote this user 🙄</b>")
+                await event.edit("<b>Oh honey, I'm not admin enough to promote this user 🙄</b>")
 
     @borg.on(admin_cmd(pattern="demot ?(.*)"))
-        async def demot_uniborg(message):
-            await message.edit("<b>Demoting...</b>")
-            chat = message.input_chat
+        async def demot_uniborg(event):
+            await event.edit("<b>Demoting...</b>")
+            chat = event.input_chat
             try:
                 user = (
-                    (await message.client.get_entity(utils.get_arg(message))).id
-                    if not message.is_reply else
-                    (await message.get_reply_message()).sender.id)
+                    (await event.client.get_entity(utils.get_arg(message))).id
+                    if not event.is_reply else
+                    (await event.get_reply_message()).sender.id)
             except ValueError:
-                await message.edit("<b>No user found in that name</b>")
+                await event.edit("<b>No user found in that name</b>")
                 return
             try:
-                await message.client(EditAdminRequest(chat, user, DEMOTE, "User"))
-                await message.edit("<b>Successfully demoted</b>")
+                await event.client(EditAdminRequest(chat, user, DEMOTE, "User"))
+                await event.edit("<b>Successfully demoted</b>")
             except TypeError:
-                await message.edit("<b>Are you sure this is a genuine chat?</b>")
+                await event.edit("<b>Are you sure this is a genuine chat?</b>")
             except AdminsTooMuchError:
-                await message.edit("<b>There are too many admins in this chat</b>")
+                await event.edit("<b>There are too many admins in this chat</b>")
             except UserPrivacyRestrictedError:
-                await message.edit("<b>The user's privacy settings do not allow you to do this</b>")
+                await event.edit("<b>The user's privacy settings do not allow you to do this</b>")
             except UserNotMutualContactError:
-                await message.edit("<b>The provided user is not a mutual contact</b>")
+                await event.edit("<b>The provided user is not a mutual contact</b>")
             except UserIdInvalidError:
-                await message.edit("<b>Specified user is a no go</b>")
+                await event.edit("<b>Specified user is a no go</b>")
             except UserCreatorError:
-                await message.edit("<b>Wtf, that is the chat owner..</b>")
+                await event.edit("<b>Wtf, that is the chat owner..</b>")
             except RightForbiddenError:
-                await message.edit(
+                await event.edit(
                     "<b>You either don't have enough permissions or"
                     " there's something wrong with the admin rights</b>")
             except ChatAdminRequiredError:
-                await message.edit("<b>Oh honey, I'm not admin enough to demote this user 🙄</b>")
+                await event.edit("<b>Oh honey, I'm not admin enough to demote this user 🙄</b>")
 
     @borg.on(admin_cmd(pattern="mute ?(.*)"))
-        async def mute_uniborg(message):
-            await message.edit("<b>Muting...</b>")
-            chat = message.input_chat
+        async def mute_uniborg(event):
+            await event.edit("<b>Muting...</b>")
+            chat = event.input_chat
             try:
                 user = (
-                    (await message.client.get_entity(utils.get_arg(message))).id if not message.is_reply else
-                    (await message.get_reply_message()).sender.id)
+                    (await event.client.get_entity(utils.get_arg(message))).id if not event.is_reply else
+                    (await event.get_reply_message()).sender.id)
             except ValueError:
-                await message.edit("<b>No user found in that name</b>")
+                await event.edit("<b>No user found in that name</b>")
                 return
-            if user == (await message.client.get_me()).id:
-                await message.edit("<b>Specified user is a no go</b>")
+            if user == (await event.client.get_me()).id:
+                await event.edit("<b>Specified user is a no go</b>")
                 return
-            if not await nicedb.check_user(user):
-                await nicedb.add_user(user, True, False, False, message.chat_id)
-            else:
-                await nicedb.update_user({"User": user}, {"Mute": True})
+            if not await is_muted(user):
+                await mute(event.chat_id)
             try:
-                await message.client(EditBannedRequest(chat, user, MUTE))
-                await message.edit("<b>Muted</b>")
+                await event.client(EditBannedRequest(chat, user, MUTE))
+                await event.edit("<b>Muted</b>")
             except TypeError:
-                await message.edit("<b>You need to be in a chat to do this</b>")
+                await event.edit("<b>You need to be in a chat to do this</b>")
                 return
             except UserAdminInvalidError:
-                await message.edit("<b>You're either not an admin or that's more admin than you</b>")
+                await event.edit("<b>You're either not an admin or that's more admin than you</b>")
             except UserIdInvalidError:
-                await message.edit("<b>Specified user is a no go</b>")
+                await event.edit("<b>Specified user is a no go</b>")
             except ChatAdminRequiredError:
-                await message.edit("<b>Oh honey, I'm not admin enough to mute this user 🙄</b>")
+                await event.edit("<b>Oh honey, I'm not admin enough to mute this user 🙄</b>")
 
     @borg.on(admin_cmd(pattern="unmute ?(.*)"))
-        async def unmute_uniborg(message):
-            await message.edit("<b>Unmuting...</b>")
-            chat = message.input_chat
+        async def unmute_uniborg(event):
+            await event.edit("<b>Unmuting...</b>")
+            chat = event.input_chat
             try:
                 user = (
-                    (await message.client.get_entity(utils.get_arg(message))).id
-                    if not message.is_reply else
-                    (await message.get_reply_message()).sender.id)
+                    (await event.client.get_entity(utils.get_arg(message))).id
+                    if not event.is_reply else
+                    (await event.get_reply_message()).sender.id)
             except ValueError:
-                await message.edit("<b>No user found in that name</b>")
+                await event.edit("<b>No user found in that name</b>")
                 return
-            if not await nicedb.check_user(user):
-                await nicedb.add_user(user, False, False, False, message.chat_id)
-            else:
-                await nicedb.update_user({"User": user}, {"Mute": False})
+            if not await is_muted(user):
+                await unmute(event.chat_id)
             try:
-                await message.client(EditBannedRequest(chat, user, UNMUTE))
+                await event.client(EditBannedRequest(chat, user, UNMUTE))
                 # add_unmuted(user)
-                await message.edit("<b>Unmuted</b>")
+                await event.edit("<b>Unmuted</b>")
             except TypeError:
-                await message.edit("<b>You need to be in a chat to do this</b>")
+                await event.edit("<b>You need to be in a chat to do this</b>")
                 return
             except TypeError:
-                await message.edit("<b>You need to be in a chat to do this</b>")
+                await event.edit("<b>You need to be in a chat to do this</b>")
                 return
             except UserAdminInvalidError:
-                await message.edit("<b>You're either not an admin or that's more admin than you</b>")
+                await event.edit("<b>You're either not an admin or that's more admin than you</b>")
             except UserIdInvalidError:
-                await message.edit("<b>Specified user is a no go</b>")
+                await event.edit("<b>Specified user is a no go</b>")
             except ChatAdminRequiredError:
-                await message.edit("<b>Oh honey, I'm not admin enough to unmute this user 🙄</b>")
+                await event.edit("<b>Oh honey, I'm not admin enough to unmute this user 🙄</b>")
 
     @borg.on(admin_cmd(pattern="kick ?(.*)"))
-        async def kick_uniborg(message):
-            chat = message.input_chat
+        async def kick_uniborg(event):
+            chat = event.input_chat
             try:
                 user = (
-                    (await message.client.get_entity(utils.get_arg(message))).id if not message.is_reply else
-                    (await message.get_reply_message()).sender.id)
+                    (await event.client.get_entity(utils.get_arg(message))).id if not event.is_reply else
+                    (await event.get_reply_message()).sender.id)
             except ValueError:
-                await message.edit("<b>No user found in that name</b>")
+                await event.edit("<b>No user found in that name</b>")
                 return
             try:
-                await message.client(EditBannedRequest(chat, user, ChatBannedRights(
+                await event.client(EditBannedRequest(chat, user, ChatBannedRights(
                     until_date=None, view_messages=True)))
-                await message.edit("<b>Kicked...</b>")
+                await event.edit("<b>Kicked...</b>")
             except TypeError:
-                await message.edit("<b>You need to be in a chat to do this</b>")
+                await event.edit("<b>You need to be in a chat to do this</b>")
                 return
             except UserAdminInvalidError:
-                await message.edit("<b>You're either not an admin or that's more admin than you</b>")
+                await event.edit("<b>You're either not an admin or that's more admin than you</b>")
             except UserIdInvalidError:
-                await message.edit("<b>Specified user is a no go</b>")
+                await event.edit("<b>Specified user is a no go</b>")
             except ChatAdminRequiredError:
-                await message.edit("<b>Oh honey, I'm not admin enough to kick this user 🙄</b>")
+                await event.edit("<b>Oh honey, I'm not admin enough to kick this user 🙄</b>")
 
     @borg.on(admin_cmd(pattern="ban ?(.*)"))
-        async def ban_uniborg(message):
-            chat = message.input_chat
+        async def ban_uniborg(event):
+            chat = event.input_chat
             try:
                 user = (
-                    (await message.client.get_entity(utils.get_arg(message))).id if not message.is_reply else
-                    (await message.get_reply_message()).sender.id)
+                    (await event.client.get_entity(utils.get_arg(message))).id if not event.is_reply else
+                    (await event.get_reply_message()).sender.id)
             except ValueError:
-                await message.edit("<b>No user found in that name</b>")
+                await event.edit("<b>No user found in that name</b>")
                 return
             try:
-                await message.client(EditBannedRequest(chat, user, BAN))
-                await message.edit("<b>Banned</b>")
+                await event.client(EditBannedRequest(chat, user, BAN))
+                await event.edit("<b>Banned</b>")
             except TypeError:
-                await message.edit("<b>You need to be in a chat to do this</b>")
+                await event.edit("<b>You need to be in a chat to do this</b>")
                 return
             except UserAdminInvalidError:
-                await message.edit("<b>You're either not an admin or that's more admin than you</b>")
+                await event.edit("<b>You're either not an admin or that's more admin than you</b>")
             except UserIdInvalidError:
-                await message.edit("<b>Specified user is a no go</b>")
+                await event.edit("<b>Specified user is a no go</b>")
             except ChatAdminRequiredError:
-                await message.edit("<b>Oh honey, I'm not admin enough to ban this user 🙄</b>")
+                await event.edit("<b>Oh honey, I'm not admin enough to ban this user 🙄</b>")
 
     @borg.on(admin_cmd(pattern="unban ?(.*)"))
-        async def unban_uniborg(message):
-            chat = message.input_chat
+        async def unban_uniborg(event):
+            chat = event.input_chat
             try:
                 user = (
-                    (await message.client.get_entity(utils.get_arg(message))).id if not message.is_reply else
-                    (await message.get_reply_message()).sender.id)
+                    (await event.client.get_entity(utils.get_arg(message))).id if not event.is_reply else
+                    (await event.get_reply_message()).sender.id)
             except ValueError:
-                await message.edit("<b>No user found in that name</b>")
+                await event.edit("<b>No user found in that name</b>")
                 return
             try:
-                await message.client(EditBannedRequest(chat, user, UNBAN))
-                await message.edit("<b>Alright, fine..All is forgiven, unbanned..</b>")
+                await event.client(EditBannedRequest(chat, user, UNBAN))
+                await event.edit("<b>Alright, fine..All is forgiven, unbanned..</b>")
             except TypeError:
-                await message.edit("<b>You need to be in a chat to do this</b>")
+                await event.edit("<b>You need to be in a chat to do this</b>")
                 return
             except UserAdminInvalidError:
-                await message.edit("<b>You're either not an admin or that's more admin than you</b>")
+                await event.edit("<b>You're either not an admin or that's more admin than you</b>")
             except UserIdInvalidError:
-                await message.edit("<b>Specified user is a no go</b>")
+                await event.edit("<b>Specified user is a no go</b>")
             except ChatAdminRequiredError:
-                await message.edit("<b>Oh honey, I'm not admin enough to unban this user 🙄</b>")
+                await event.edit("<b>Oh honey, I'm not admin enough to unban this user 🙄</b>")
 
     @borg.on(admin_cmd(pattern="pin ?(.*)"))
-        async def pin_uniborg(message):
-            reply = await message.get_reply_message()
+        async def pin_uniborg(event):
+            reply = await event.get_reply_message()
             loud = True if utils.get_arg(message) == "loud" else False
             if not reply:
-                await message.edit("<b>Reply to a message first.</b>")
+                await event.edit("<b>Reply to a message first.</b>")
                 return
-            await message.client.pin_message(
-                message.input_chat, reply.id, notify=loud)
-            await message.edit("<b>Pinned succesfully.</b>")
+            await event.client.pin_message(
+                event.input_chat, reply.id, notify=loud)
+            await event.edit("<b>Pinned succesfully.</b>")
 
     @borg.on(admin_cmd(pattern="gban ?(.*)"))
-        async def gban_uniborg(message):
+        async def gban_uniborg(event):
             try:
                 user = (
-                    (await message.client.get_entity(utils.get_arg(message))).id if not message.is_reply else
-                    (await message.get_reply_message()).sender.id)
+                    (await event.client.get_entity(utils.get_arg(message))).id if not event.is_reply else
+                    (await event.get_reply_message()).sender.id)
             except ValueError:
-                await message.edit("<b>No user found in that name</b>")
+                await event.edit("<b>No user found in that name</b>")
                 return
             try:
-                await message.client(EditBannedRequest(message.chat_id, user, BAN))
+                await event.client(EditBannedRequest(message.chat_id, user, BAN))
             except TypeError:
                 pass
             if not await get_fban(user):
-                await add_chat_fban(message.chat_id)
-            await message.edit("<b>Globally banned</b>")
+                await add_chat_fban(event.chat_id)
+            await event.edit("<b>Globally banned</b>")
+
     @borg.on(admin_cmd(pattern="ungban ?(.*)"))
-        async def ungban_uniborg(message):
+        async def ungban_uniborg(event):
             try:
                 user = (
-                    (await message.client.get_entity(utils.get_arg(message))).id if not message.is_reply else
-                    (await message.get_reply_message()).sender.id)
+                    (await event.client.get_entity(utils.get_arg(message))).id if not event.is_reply else
+                    (await event.get_reply_message()).sender.id)
             except ValueError:
-                await message.edit("<b>No user found in that name</b>")
+                await event.edit("<b>No user found in that name</b>")
                 return
             try:
-                await message.client(EditBannedRequest(message.chat_id, user, UNBAN))
+                await event.client(EditBannedRequest(event.chat_id, user, UNBAN))
             except TypeError:
                 pass
             if not await is_gban(user):
-                await remove_chat_gban(message.chat_id)
-            await message.edit("<b>Global ban lifted</b>")
+                await remove_chat_gban(event.chat_id)
+            await event.edit("<b>Global ban lifted</b>")
+
     @borg.on(admin_cmd(pattern="gmute ?(.*)"))
-        async def gmute_uniborg(message):
-            await message.edit("<b>Muting...</b>")
+        async def gmute_uniborg(event):
+            await event.edit("<b>Muting...</b>")
             try:
                 user = (
-                    (await message.client.get_entity(utils.get_arg(message))).id if not message.is_reply else
-                    (await message.get_reply_message()).sender.id)
+                    (await event.client.get_entity(utils.get_arg(message))).id if not event.is_reply else
+                    (await event.get_reply_message()).sender.id)
             except ValueError:
-                await message.edit("<b>No user found in that name</b>")
+                await event.edit("<b>No user found in that name</b>")
                 return
             try:
-                await message.client(EditBannedRequest(message.chat_id, user, MUTE))
+                await event.client(EditBannedRequest(message.chat_id, user, MUTE))
             except TypeError:
                 pass
             if not await is_gmuted(user):
-                await gmute(message.chat_id)
-            await message.edit("<b>Globally muted</b>")
+                await gmute(event.chat_id)
+            await event.edit("<b>Globally muted</b>")
+
     @borg.on(admin_cmd(pattern="ungmute ?(.*)"))
-        async def ungmute_uniborg(message):
-            await message.edit("<b>Unmuting...</b>")
+        async def ungmute_uniborg(event):
+            await event.edit("<b>Unmuting...</b>")
             try:
                 user = (
-                    (await message.client.get_entity(utils.get_arg(message))).id if not message.is_reply else
-                    (await message.get_reply_message()).sender.id)
+                    (await event.client.get_entity(utils.get_arg(message))).id if not event.is_reply else
+                    (await event.get_reply_message()).sender.id)
             except TypeError:
-                await message.edit("<b>No user found in that name</b>")
+                await event.edit("<b>No user found in that name</b>")
                 return
             try:
-                await message.client(EditBannedRequest(message.chat_id, user, UNMUTE))
+                await event.client(EditBannedRequest(event.chat_id, user, UNMUTE))
             except TypeError:
                 pass
             if not await is_gmuted(user):
-                await ungmute(message.chat_id)
-            await message.edit("<b>Global mute lifted</b>")
+                await ungmute(event.chat_id)
+            await event.edit("<b>Global mute lifted</b>")
 
 
     @borg.on(admin_cmd(pattern="ungban ?(.*)"))
-        async def kickme_uniborg(message):
-            await message.edit("<b>Okay, im leaving the chat</b>")
-            await message.client(functions.channels.LeaveChannelRequest(channel=message.chat_id))
+        async def kickme_uniborg(event):
+            await event.edit("<b>Okay, im leaving the chat</b>")
+            await event.client(functions.channels.LeaveChannelRequest(channel=event.chat_id))
 
     @borg.on(events.ChatAction())
-        async def watchout(message):
-            user = message.sender_id
-            chat = message.chat_id
-            if await check_user = await message.client.get_entity(user):
+        async def watchout(event):
+            user = event.sender_id
+            chat = event.chat_id
+            if await check_user = await event.client.get_entity(user):
                 entity = await is_gban(user) and await is_gmuted(user) and is_muted(user)
                 gban = is_gban(user)
                 gmute = is_gmuted(user)
                 mute = is_muted(user)
-                if (await message.client.get_me()).id == entity(user):
+                if (await event.client.get_me()).id == entity(user):
                     return
                 if mute and gmute:
-                    await message.delete()
+                    await event.delete()
                 elif mute and not gmute  == chat:
-                    await message.delete()
+                    await event.delete()
                 if gban:
                     try:
-                        await message.client(EditBannedRequest(chat, user, BAN))
+                        await event.client(EditBannedRequest(chat, user, BAN))
                     except Exception:
                         pass
