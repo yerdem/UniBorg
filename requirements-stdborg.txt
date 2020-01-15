@@ -40,3 +40,4 @@ wget
 hurry.filesize
 PyPDF2
 pymongo 
+dnspython
