@@ -49,7 +49,7 @@ async def _(event):
         await borg.send_file(
             event.chat_id,
             watermark_path + reply_message.file.name,
-            caption=f"`{caption_rts}`",
+            caption=f"`{caption_rts}`"
         )
         shutil.rmtree(watermark_path)
 
