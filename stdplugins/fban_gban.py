@@ -20,11 +20,11 @@ MONGOCLIENT = MongoClient(Config.MONGO_DB_URI, 27017, serverSelectionTimeoutMS=1
 MONGO = MONGOCLIENT.uniborg
 
 def is_mongo_alive():
-try:
-    MONGOCLIENT.server_info()
-except BaseException:
-    return False
-return True
+    try:
+        MONGOCLIENT.server_info()
+    except BaseException:
+        return False
+    return True
 
 
 
