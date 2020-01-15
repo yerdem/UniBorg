@@ -22,8 +22,9 @@ async def _(event):
     mone = await event.edit("Processing ...")
     if not os.path.isdir(Config.TMP_DOWNLOAD_DIRECTORY):
         os.makedirs(Config.TMP_DOWNLOAD_DIRECTORY)
-    if not os.path.isdir("./DOWNLOADS/watermark/"):
-        os.makedirs("./DOWNLOADS/watermark/")
+    watermark_path = "./DOWNLOADS/watermark/"
+    if not os.path.isdir(watermark_path):
+        os.makedirs(watermark_path)
     if event.reply_to_msg_id:
         start = datetime.now()
         reply_message = await event.get_reply_message()
@@ -44,7 +45,7 @@ async def _(event):
             await mone.edit("Stored the pdf to `{}` in {} seconds.".format(downloaded_file_name, ms))
             watermark(
                 inputpdf=downloaded_file_name,
-                outputpdf='./DOWNLOADS/watermark/' + reply_message.file.name,
+                outputpdf=watermark_path + reply_message.file.name,
                 watermarkpdf='./bin/watermark.pdf'
             )
         # filename = sorted(get_lst_of_files('./DOWNLOADS/watermark/' + reply_message.file.name, []))
