@@ -55,7 +55,7 @@ async def _(event):
             ms = (end - start).seconds
             await mone.edit("Stored the zip to `{}` in {} seconds.".format(downloaded_file_name, ms))
 
-            with zipfile.ZipFile(downloaded_file_name, 'r') as zip_ref:
+        with zipfile.ZipFile(downloaded_file_name, 'r') as zip_ref:
             zip_ref.extractall(extracted)
         filename = sorted(get_lst_of_files(extracted, []))
         #filename = filename + "/"
