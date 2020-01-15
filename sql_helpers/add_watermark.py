@@ -15,7 +15,7 @@ from hachoir.parser import createParser
 from sample_config import Config
 
 
-@borg.on(admin_cmd(pattern="unzip"))
+@borg.on(admin_cmd(pattern="addwatermark"))
 async def _(event):
     if event.fwd_from:
         return
