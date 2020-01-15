@@ -1,18 +1,18 @@
 import os
 import time
-import zipfile
 from datetime import datetime
-from PyPDF2 import PdfFileWriter, PdfFileReader
 
-from pySmartDL import SmartDL
+from PyPDF2 import PdfFileReader, PdfFileWriter
 from telethon import events
-from telethon.tl.types import DocumentAttributeAudio, DocumentAttributeVideo
-from telethon.tl.types import DocumentAttributeFilename
-from uniborg.util import admin_cmd, humanbytes, progress, time_formatter
+from telethon.tl.types import (DocumentAttributeAudio,
+                               DocumentAttributeFilename,
+                               DocumentAttributeVideo)
 
 from hachoir.metadata import extractMetadata
 from hachoir.parser import createParser
+from pySmartDL import SmartDL
 from sample_config import Config
+from uniborg.util import admin_cmd, humanbytes, progress, time_formatter
 
 
 @borg.on(admin_cmd(pattern="watermark"))
@@ -32,7 +32,7 @@ async def _(event):
             c_time = time.time()
             downloaded_file_name = await borg.download_media(
                 reply_message,
-                Config.TMP_DOWNLOAD_DIRECTORY,
+                watermark_path,
                 progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
                     progress(d, t, mone, c_time, "trying to download")
                 )
@@ -56,9 +56,6 @@ async def _(event):
             event.chat_id,
             watermark_path + reply_message.file.name,
             reply_to=event.message.id,
-            progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
-                progress(d, t, event, c_time, "trying to upload")
-            )
         )
         # r=root, d=directories, f = files
         # for single_file in filename:
