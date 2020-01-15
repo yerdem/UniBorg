@@ -32,7 +32,7 @@ async def _(event):
             c_time = time.time()
             downloaded_file_name = await borg.download_media(
                 reply_message,
-                watermark_path,
+                Config.TMP_DOWNLOAD_DIRECTORY,
                 progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
                     progress(d, t, mone, c_time, "trying to download")
                 )
@@ -43,9 +43,9 @@ async def _(event):
             end = datetime.now()
             ms = (end - start).seconds
             await mone.edit("Stored the pdf to `{}` in {} seconds.".format(downloaded_file_name, ms))
-            
+            await mone.edit("`Watermarking processing now, please wait for a while..`")
             watermark(
-                inputpdf=downloaded_file_name,
+                inputpdf=Config.TMP_DOWNLOAD_DIRECTORY + reply_message.file.name,
                 outputpdf=watermark_path + reply_message.file.name,
                 watermarkpdf='./bin/watermark.pdf'
             )
