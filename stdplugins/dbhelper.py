@@ -5,9 +5,9 @@
 #
 """ Module that holding database components """
 
-from sample_config import MONGO
+from sample_config import Config
 
-
+MONGO = Config.MONGO_DB_URI
 # Mutes
 async def mute(chatid, userid):
     """ Add muted person ID to database """
