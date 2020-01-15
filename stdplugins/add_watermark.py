@@ -1,17 +1,10 @@
 import os
 import time
-import zipfile
 from datetime import datetime
 from PyPDF2 import PdfFileWriter, PdfFileReader
 import asyncio
-from pySmartDL import SmartDL
 from telethon import events
-from telethon.tl.types import DocumentAttributeAudio, DocumentAttributeVideo
-from telethon.tl.types import DocumentAttributeFilename
-from uniborg.util import admin_cmd, humanbytes, progress, time_formatter
-
-from hachoir.metadata import extractMetadata
-from hachoir.parser import createParser
+from uniborg.util import admin_cmd
 from sample_config import Config
 
 
@@ -117,7 +110,7 @@ async def _(event):
 def watermark(inputpdf, outputpdf, watermarkpdf):
     watermark = PdfFileReader(watermarkpdf)
     watermarkpage = watermark.getPage(0)
-    pdf = PdfFileReader(inputpdf,strict=False)
+    pdf = PdfFileReader(inputpdf)
     pdfwrite = PdfFileWriter()
     for page in range(pdf.getNumPages()):
         pdfpage = pdf.getPage(page)
