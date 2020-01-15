@@ -50,7 +50,6 @@ async def _(event):
             event.chat_id,
             watermark_path + reply_message.file.name,
             caption=f"`{caption_rts}`",
-            reply_to=event.message.id,
         )
         shutil.rmtree(watermark_path)
 
