@@ -57,9 +57,12 @@ async def _(event):
                 progress(d, t, mone, c_time, "trying to upload")
             )
         )
-        await time.sleep(5)
+        await asyncio.sleep(5)
         await event.delete()
+        await asyncio.sleep(5)
         shutil.rmtree(watermark_path)
+        await asyncio.sleep(5)
+        os.remove(Config.TMP_DOWNLOAD_DIRECTORY + reply_message.file.name)
 
 def watermark(inputpdf, outputpdf, watermarkpdf):
     watermark = PdfFileReader(watermarkpdf)
