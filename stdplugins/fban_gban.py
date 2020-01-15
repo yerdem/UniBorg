@@ -28,7 +28,8 @@ def is_mongo_alive():
 
 
 
-@borg.on(admin_cmd(pattern=(pattern="gban ?(.*)")))
+
+@borg.on(admin_cmd(pattern=("gban ?(.*)")))
 async def gban_all(msg):
     if not is_mongo_alive():
         await msg.edit("`Database connections failing!`")
@@ -88,7 +89,7 @@ async def gban_all(msg):
 
 
 
-@borg.on(admin_cmd(pattern=(pattern="fban ?(.*)")))
+@borg.on(admin_cmd(pattern=("fban ?(.*)")))
 async def fedban_all(msg):
     if not is_mongo_alive():
         await msg.edit("`Database connections failing!`")
@@ -171,7 +172,7 @@ async def fedban_all(msg):
 
 
 
-@borg.on(admin_cmd(pattern=(pattern="addfban ?(.*)")))
+@borg.on(admin_cmd(pattern=("addfban ?(.*)")))
 async def add_to_fban(chat):
     if not is_mongo_alive():
         await chat.edit("`Database connections failing!`")
@@ -181,7 +182,7 @@ async def add_to_fban(chat):
 
 
 
-@borg.on(admin_cmd(pattern=(pattern="addgban ?(.*)")))
+@borg.on(admin_cmd(pattern=("addgban ?(.*)")))
 async def add_to_gban(chat):
     if not is_mongo_alive():
         await chat.edit("`Database connections failing!`")
@@ -192,7 +193,7 @@ async def add_to_gban(chat):
 
 
 
-@borg.on(admin_cmd(pattern=(pattern="removefban ?(.*)")))
+@borg.on(admin_cmd(pattern=("removefban ?(.*)")))
 async def remove_from_fban(chat):
     if not is_mongo_alive():
         await chat.edit("`Database connections failing!`")
@@ -202,7 +203,7 @@ async def remove_from_fban(chat):
 
 
 
-@borg.on(admin_cmd(pattern=(pattern="removegban ?(.*)")))
+@borg.on(admin_cmd(pattern=("removegban ?(.*)")))
 async def remove_from_gban(chat):
     if not is_mongo_alive():
         await chat.edit("`Database connections failing!`")
