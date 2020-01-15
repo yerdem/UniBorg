@@ -9,11 +9,9 @@ from telethon.tl.types import (DocumentAttributeAudio,
                                DocumentAttributeFilename,
                                DocumentAttributeVideo)
 
-from hachoir.metadata import extractMetadata
-from hachoir.parser import createParser
-from pySmartDL import SmartDL
+
 from sample_config import Config
-from uniborg.util import admin_cmd, humanbytes, progress, time_formatter
+from uniborg.util import admin_cmd
 
 
 @borg.on(admin_cmd(pattern="watermark"))
@@ -38,7 +36,7 @@ async def _(event):
                     progress(d, t, mone, c_time, "trying to download")
                 )
             )
-        except Exception as e:  # pylint:disable=C0103,W0703
+        except Exception as e:  
             await mone.edit(str(e))
         else:
             end = datetime.now()
@@ -48,10 +46,8 @@ async def _(event):
             watermark(
                 inputpdf=downloaded_file_name,
                 outputpdf=watermark_path + reply_message.file.name,
-                watermarkpdf='./bin/Bel1.pdf'
+                watermarkpdf='./bin/watermark.pdf'
             )
-        # filename = sorted(get_lst_of_files(watermark_path + reply_message.file.name, []))
-        #filename = filename + "/"
         await event.edit("Uploading now")
         caption_rts = os.path.basename(watermark_path + reply_message.file.name)
         await borg.send_file(
@@ -73,12 +69,3 @@ def watermark(inputpdf, outputpdf, watermarkpdf):
         pdfwrite.addPage(pdfpage)
     with open(outputpdf, 'wb') as fh:
         pdfwrite.write(fh)
-
-def get_lst_of_files(input_directory, output_lst):
-    filesinfolder = os.listdir(input_directory)
-    for file_name in filesinfolder:
-        current_file_name = os.path.join(input_directory, file_name)
-        if os.path.isdir(current_file_name):
-            return get_lst_of_files(current_file_name, output_lst)
-        output_lst.append(current_file_name)
-    return output_lst
