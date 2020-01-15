@@ -117,7 +117,7 @@ async def _(event):
 def watermark(inputpdf, outputpdf, watermarkpdf):
     watermark = PdfFileReader(watermarkpdf)
     watermarkpage = watermark.getPage(0)
-    pdf = PdfFileReader(inputpdf)
+    pdf = PdfFileReader(inputpdf,strict=False)
     pdfwrite = PdfFileWriter()
     for page in range(pdf.getNumPages()):
         pdfpage = pdf.getPage(page)
