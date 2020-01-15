@@ -12,7 +12,7 @@ from telethon import events
 from telethon.events import ChatAction
 from telethon.tl.functions.channels import EditBannedRequest
 from telethon.tl.types import (ChannelParticipantsAdmins, ChatBannedRights,
-                               Message, PeerUser)
+                               Message)
 
 from sample_config import Config
 from uniborg.util import admin_cmd
