@@ -61,7 +61,7 @@ class Config(object):
     NO_LOAD = [
         "gban",
         "notification_mtab_manager",
-        "unbanmute"
+        "unbanmute",
         "gban"
     ]
     # Get your own API key from https://www.remove.bg/ or
