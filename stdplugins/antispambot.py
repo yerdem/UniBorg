@@ -75,7 +75,7 @@ async def ANTI_SPAMBOT(welcm):
                     if message_date < join_time:
                         continue  # The message was sent before the user joined, thus ignore it
                     try:
-                        check_user = await welcm.client.get_entity(PeerUser(user_id))
+                        check_user = await welcm.client.get_entity(user_id)
                     except ValueError as e:
                         welcm.client.send_message(Config.PRIVATE_GROUP_BOT_API_ID,str(e))
                     except TypeError as e:
