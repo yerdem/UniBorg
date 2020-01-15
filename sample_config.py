@@ -123,7 +123,7 @@ class Config(object):
     #API_TOKEN for quote plugin
     API_TOKEN = os.environ.get("API_TOKEN",None)
     MONGO_DB_URI = os.environ.get("MONGO_DB_URI", None)
-    
+    BOTLOG = os.environ.get("BOTLOG", None)
 
 class Production(Config):
     LOGGER = False

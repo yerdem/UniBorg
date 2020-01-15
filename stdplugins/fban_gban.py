@@ -15,6 +15,7 @@ from stdplugins.dbhelper import (add_chat_fban, add_chat_gban, get_fban,
                                       remove_chat_gban)
 from sample_config import Config
 from uniborg.util import admin_cmd
+from pymongo import MongoClient
 
 MONGOCLIENT = MongoClient(Config.MONGO_DB_URI, 27017, serverSelectionTimeoutMS=1)
 MONGO = MONGOCLIENT.uniborg
