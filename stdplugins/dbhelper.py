@@ -38,7 +38,7 @@ async def unmute(chatid, userid):
 
 async def get_muted(chatid):
     """ Grab if the current userID is muted """
-    muted_db = MONGO.mutes.find({'chat_id': chatid})
+    muted_db = MONGO.mutes.find({'chat_id': int(chatid)})
 
     muted = []
     for user in muted_db:
