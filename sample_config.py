@@ -128,12 +128,7 @@ class Config(object):
     MONGO = MONGOCLIENT.userbot
 
 
-def is_mongo_alive():
-    try:
-        MONGOCLIENT.server_info()
-    except BaseException:
-        return False
-    return True
+
 
 class Production(Config):
     LOGGER = False
@@ -141,3 +136,11 @@ class Production(Config):
 
 class Development(Config):
     LOGGER = True
+
+
+def is_mongo_alive():
+    try:
+        Config.MONGOCLIENT.server_info()
+    except BaseException:
+        return False
+    return True
