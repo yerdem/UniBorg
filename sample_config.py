@@ -124,13 +124,13 @@ class Config(object):
     API_TOKEN = os.environ.get("API_TOKEN",None)
     MONGO_DB_URI = os.environ.get("MONGO_DB_URI", None)
     BOTLOG = os.environ.get("BOTLOG", None)
-    MONGOCLIENT = MongoClient(Config.MONGO_DB_URI, 27017, serverSelectionTimeoutMS=1)
+    MONGOCLIENT = pymongo.MongoClient(MONGO_DB_URI)
     MONGO = MONGOCLIENT.userbot
 
 
 def is_mongo_alive():
     try:
-        MONGOCLIENT.server_info()
+        Config.MONGOCLIENT.server_info()
     except BaseException:
         return False
     return True
