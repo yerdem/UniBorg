@@ -62,7 +62,8 @@ class Config(object):
         "gban",
         "notification_mtab_manager",
         "unbanmute",
-        "gban"
+        "gban",
+        "dbhelper"
     ]
     # Get your own API key from https://www.remove.bg/ or
     # feel free to use http://telegram.dog/Remove_BGBot
@@ -122,10 +123,10 @@ class Config(object):
     ANTI_SPAMBOT_SHOUT = os.environ.get("ANTI_SPAMBOT_SHOUT", None)
     #API_TOKEN for quote plugin
     API_TOKEN = os.environ.get("API_TOKEN",None)
-    MONGO_DB_URI = os.environ.get("MONGO_DB_URI", None)
+    # MONGO_DB_URI = os.environ.get("MONGO_DB_URI", None)
     BOTLOG = os.environ.get("BOTLOG", None)
-    MONGOCLIENT = pymongo.MongoClient(MONGO_DB_URI)
-    MONGO = MONGOCLIENT.userbot
+    # MONGOCLIENT = pymongo.MongoClient(MONGO_DB_URI)
+    # MONGO = MONGOCLIENT.userbot
 
 
 

@@ -20,12 +20,16 @@ from telethon.tl.types import (ChannelParticipantsAdmins, ChatAdminRights,
 
 # from stdplugins.fban_gban import is_mongo_alive
 # from uniborg.uniborg import Uniborg
-from sample_config import Config, is_mongo_alive
-from stdplugins.dbhelper import (get_gmuted, get_muted, gmute, mute, ungmute,
-                                 unmute)
+from sample_config import Config
+# from stdplugins.dbhelper import (get_gmuted, get_muted, gmute, mute, ungmute,
+#                                  unmute)
+from sql_helpers.gmute_sql import (is_gmuted, gmute, ungmute)
+from sql_helpers.mute_sql import (is_muted, mute ,unmute)
+from sql_helpers.fban_sql_helper import (is_fban,get_fban,add_chat_fban,remove_chat_fban)
+from sql_helpers.spam_mute_sql import (is_muted,mute,unmute)
 from uniborg.util import admin_cmd
 
-MONGOCLIENT = Config.MONGOCLIENT
+
 BOTLOG = Config.BOTLOG
 BOTLOG_CHATID = Config.PRIVATE_GROUP_BOT_API_ID
 
@@ -310,9 +314,9 @@ async def spider(spdr):
     This function is basically muting peeps
     """
     # Check if the function running under SQL mode
-    if not is_mongo_alive():
-        await spdr.edit(NO_SQL)
-        return
+    # if not is_mongo_alive():
+    #     await spdr.edit(NO_SQL)
+    #     return
 
     # Admin or creator check
     chat = await spdr.get_chat()
@@ -338,7 +342,7 @@ async def spider(spdr):
 
     # If everything goes well, do announcing and mute
     await spdr.edit("`Gets a tape!`")
-    if await mute(spdr.chat_id, user.id) is False:
+    if await mute(user.id) is False:
         return await spdr.edit('`Error! User probably already muted.`')
     else:
         try:
@@ -385,9 +389,9 @@ async def unmoot(unmot):
         return
 
     # Check if the function running under SQL mode
-    if not is_mongo_alive():
-        await unmot.edit(NO_SQL)
-        return
+    # if not is_mongo_alive():
+    #     await unmot.edit(NO_SQL)
+    #     return
     # If admin or creator, inform the user and start unmuting
     await unmot.edit('```Unmuting...```')
     user = await get_user_from_event(unmot)
@@ -398,7 +402,7 @@ async def unmoot(unmot):
     else:
         return
 
-    if await unmute(unmot.chat_id, user.id) is False:
+    if await unmute(user.id) is False:
         return await unmot.edit("`Error! User probably already unmuted.`")
     else:
 
@@ -421,10 +425,10 @@ async def unmoot(unmot):
 @borg.on(events.ChatAction())
 async def muter(moot):
     """ Used for deleting the messages of muted people """
-    if not is_mongo_alive():
-        return
-    muted = await get_muted(moot.chat_id)
-    gmuted = await get_gmuted()
+    # if not is_mongo_alive():
+    #     return
+    muted = await is_muted(moot.chat_id)
+    gmuted = await is_gmuted(moot.chat_id)
     rights = ChatBannedRights(
         until_date=None,
         send_messages=True,
@@ -461,9 +465,9 @@ async def ungmoot(un_gmute):
     """ For .ungmute command, ungmutes the target in the userbot """
 
     # Check if the function running under SQL mode
-    if not is_mongo_alive():
-        await un_gmute.edit(NO_SQL)
-        return
+    # if not is_mongo_alive():
+    #     await un_gmute.edit(NO_SQL)
+    #     return
 
     user = await get_user_from_event(un_gmute)
     if user:
@@ -494,9 +498,9 @@ async def gspider(gspdr):
     """ For .gmute command, gmutes the target in the userbot """
 
     # Check if the function running under SQL mode
-    if not is_mongo_alive():
-        await gspdr.edit(NO_SQL)
-        return
+    # if not is_mongo_alive():
+    #     await gspdr.edit(NO_SQL)
+    #     return
     user, reason = await get_user_from_event(gspdr)
     if user:
         pass
@@ -506,7 +510,7 @@ async def gspider(gspdr):
     # If pass, inform and start gmuting
     await gspdr.edit("`Grabs a huge, sticky duct tape!`")
 
-    if await gmute(user.id) is False:
+    if await is_gmuted(user.id) is False:
         await gspdr.edit('`Error! User probably already gmuted.`')
     else:
         if reason:
