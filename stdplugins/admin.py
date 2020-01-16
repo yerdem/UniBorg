@@ -18,6 +18,7 @@ from telethon.tl.types import (ChannelParticipantsAdmins, ChatAdminRights,
                                MessageMediaPhoto)
 
 
+
 from sample_config import Config
 from telethon import events
 from uniborg.util import admin_cmd
@@ -25,7 +26,7 @@ from stdplugins.dbhelper import (get_gmuted, get_muted, gmute, mute,
                                       ungmute, unmute)
 # from stdplugins.fban_gban import is_mongo_alive
 # from uniborg.uniborg import Uniborg
-
+from sample_config import is_mongo_alive
 
 
 MONGOCLIENT = Config.MONGOCLIENT

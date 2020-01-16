@@ -13,7 +13,7 @@ from telethon import events
 from stdplugins.dbhelper import (add_chat_fban, add_chat_gban, get_fban,
                                       get_gban, remove_chat_fban,
                                       remove_chat_gban)
-from sample_config import Config
+from sample_config import Config, is_mongo_alive
 from uniborg.util import admin_cmd
 
 
