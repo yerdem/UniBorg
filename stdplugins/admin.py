@@ -343,7 +343,7 @@ async def spider(spdr):
 
     # If everything goes well, do announcing and mute
     await spdr.edit("`Gets a tape!`")
-    if await mute(user.id) is False:
+    if mute(user.id) is False:
         return await spdr.edit('`Error! User probably already muted.`')
     else:
         try:
@@ -403,7 +403,7 @@ async def unmoot(unmot):
     else:
         return
 
-    if await unmute(user.id) is False:
+    if unmute(user.id) is False:
         return await unmot.edit("`Error! User probably already unmuted.`")
     else:
 
@@ -428,8 +428,8 @@ async def muter(moot):
     """ Used for deleting the messages of muted people """
     # if not is_mongo_alive():
     #     return
-    muted = await is_muted(moot.chat_id)
-    gmuted = await is_gmuted(moot.chat_id)
+    muted = is_muted(moot.chat_id)
+    gmuted = is_gmuted(moot.chat_id)
     rights = ChatBannedRights(
         until_date=None,
         send_messages=True,
@@ -479,7 +479,7 @@ async def ungmoot(un_gmute):
     # If pass, inform and start ungmuting
     await un_gmute.edit('```Ungmuting...```')
 
-    if await ungmute(user.id) is False:
+    if ungmute(user.id) is False:
         await un_gmute.edit("`Error! User probably not gmuted.`")
     else:
 
@@ -511,7 +511,7 @@ async def gspider(gspdr):
     # If pass, inform and start gmuting
     await gspdr.edit("`Grabs a huge, sticky duct tape!`")
 
-    if await is_gmuted(user.id) is False:
+    if is_gmuted(user.id) is False:
         await gspdr.edit('`Error! User probably already gmuted.`')
     else:
         if reason:
