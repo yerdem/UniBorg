@@ -3,7 +3,7 @@
 # Create a new config.py file in same dir and import, then extend this class.
 import os
 from pymongo import MongoClient
-
+import pymongo
 
 
 class Config(object):
@@ -130,7 +130,7 @@ class Config(object):
 
 def is_mongo_alive():
     try:
-        Config.MONGOCLIENT.server_info()
+        MONGOCLIENT.server_info()
     except BaseException:
         return False
     return True
