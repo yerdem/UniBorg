@@ -66,7 +66,7 @@ async def gban_all(msg):
         )
         # Ensure User Read the warning
         await sleep(1)
-    x = (await get_gban())
+    x = get_gban()
     count = 0
     banlist = []
     for i in x:
@@ -127,7 +127,7 @@ async def fedban_all(msg):
     failed = dict()
     count = 1
     fbanlist = []
-    x = (await get_fban())
+    x = get_fban()
     for i in x:
         fbanlist.append(i["chatid"])
     for bangroup in fbanlist:
@@ -174,7 +174,7 @@ async def add_to_fban(chat):
     # if not is_mongo_alive():
     #     await chat.edit("`Database connections failing!`")
     #     return
-    await add_chat_fban(chat.chat_id)
+    add_chat_fban(chat.chat_id)
     await chat.edit("`Added this chat under the Fbanlist!`")
 
 
@@ -184,7 +184,7 @@ async def add_to_gban(chat):
     # if not is_mongo_alive():
     #     await chat.edit("`Database connections failing!`")
     #     return
-    await add_chat_gban(chat.chat_id)
+    add_chat_gban(chat.chat_id)
     print(chat.chat_id)
     await chat.edit("`Added this bot under the Gbanlist!`")
 
@@ -195,7 +195,7 @@ async def remove_from_fban(chat):
     # if not is_mongo_alive():
     #     await chat.edit("`Database connections failing!`")
     #     return
-    await remove_chat_fban(chat.chat_id)
+    remove_chat_fban(chat.chat_id)
     await chat.edit("`Removed this chat from the Fbanlist!`")
 
 
@@ -205,6 +205,6 @@ async def remove_from_gban(chat):
     # if not is_mongo_alive():
     #     await chat.edit("`Database connections failing!`")
     #     return
-    await remove_chat_gban(chat.chat_id)
+    remove_chat_gban(chat.chat_id)
     await chat.edit("`Removed this bot from the Gbanlist!`")
 
