@@ -423,7 +423,8 @@ async def muter(moot):
     """ Used for deleting the messages of muted people """
     if not is_mongo_alive():
         return
-    muted = await get_muted(moot.chat_id)
+    # muted = await get_muted(moot.chat_id)
+    muted = await get_muted(moot.from_id)
     gmuted = await get_gmuted()
     rights = ChatBannedRights(
         until_date=None,
