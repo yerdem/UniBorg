@@ -8,19 +8,19 @@
 from sample_config import Config
 
 MONGO = Config.MONGO_DB_URI
-# Mutes
+# mute
 async def mute(chatid, userid):
     """ Add muted person ID to database """
     if await is_muted(chatid, userid) is True:
         return False
 
-    MONGO.mutes.insert_one({'chat_id': chatid, 'user_id': userid})
+    MONGO.mute.insert_one({'chat_id': chatid, 'user_id': userid})
     return True
 
 
 async def is_muted(chatid, userid):
     """ Return if the current ID is muted """
-    muted = MONGO.mutes.find_one({'chat_id': chatid, 'user_id': userid})
+    muted = MONGO.mute.find_one({'chat_id': chatid, 'user_id': userid})
     if not muted:
         return False
 
@@ -32,13 +32,13 @@ async def unmute(chatid, userid):
     if await is_muted(chatid, userid) is False:
         return False
 
-    MONGO.mutes.delete_one({'chat_id': chatid, 'user_id': userid})
+    MONGO.mute.delete_one({'chat_id': chatid, 'user_id': userid})
     return True
 
 
 async def get_muted(chatid):
     """ Grab if the current userID is muted """
-    muted_db = MONGO.mutes.find({'chat_id': int(chatid)})
+    muted_db = MONGO.mute.find({'chat_id': int(chatid)})
 
     muted = []
     for user in muted_db:
@@ -47,19 +47,19 @@ async def get_muted(chatid):
     return muted
 
 
-# GMutes
+# Gmute
 async def gmute(userid):
     """ Add a globally muted person ID into database """
     if await is_gmuted(userid) is True:
         return False
 
-    MONGO.gmutes.insert_one({'user_id': userid})
+    MONGO.gmute.insert_one({'user_id': userid})
     return True
 
 
 async def is_gmuted(userid):
     """ Return if the current ID is globally muted """
-    gmuted = MONGO.gmutes.find_one({'user_id': userid})
+    gmuted = MONGO.gmute.find_one({'user_id': userid})
     if not gmuted:
         return False
 
@@ -71,13 +71,13 @@ async def ungmute(userid):
     if await is_gmuted(userid) is False:
         return False
 
-    MONGO.gmutes.delete_one({'user_id': userid})
+    MONGO.gmute.delete_one({'user_id': userid})
     return True
 
 
 async def get_gmuted():
     """ Grab if the current ID is globally muted """
-    gmuted_db = MONGO.gmutes.find()
+    gmuted_db = MONGO.gmute.find()
     gmuted = []
 
     for user in gmuted_db:
