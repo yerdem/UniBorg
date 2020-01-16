@@ -24,7 +24,7 @@ from sql_helpers.gban_sql_helper import (is_gban,get_gban,add_chat_gban,remove_c
 from sql_helpers.spam_mute_sql import (is_muted,mute,unmute)
 
 
-MONGOCLIENT = Config.MONGOCLIENT
+# MONGOCLIENT = Config.MONGOCLIENT
 
 @borg.on(admin_cmd(pattern=("gban ?(.*)")))
 async def gban_all(msg):
