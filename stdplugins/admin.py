@@ -5,6 +5,7 @@ Userbot module to help you manage a group
 
 from asyncio import sleep
 
+from telethon import events
 from telethon.errors import (BadRequestError, ChatAdminRequiredError,
                              ImageProcessFailedError, PhotoCropSizeSmallError,
                              UserAdminInvalidError)
@@ -17,17 +18,12 @@ from telethon.tl.types import (ChannelParticipantsAdmins, ChatAdminRights,
                                ChatBannedRights, MessageEntityMentionName,
                                MessageMediaPhoto)
 
-
-
-from sample_config import Config
-from telethon import events
-from uniborg.util import admin_cmd
-from stdplugins.dbhelper import (get_gmuted, get_muted, gmute, mute,
-                                      ungmute, unmute)
 # from stdplugins.fban_gban import is_mongo_alive
 # from uniborg.uniborg import Uniborg
-from sample_config import is_mongo_alive
-
+from sample_config import Config, is_mongo_alive
+from stdplugins.dbhelper import (get_gmuted, get_muted, gmute, mute, ungmute,
+                                 unmute)
+from uniborg.util import admin_cmd
 
 MONGOCLIENT = Config.MONGOCLIENT
 BOTLOG = Config.BOTLOG
@@ -746,4 +742,3 @@ async def get_user_from_id(user, event):
         return None
 
     return user_obj
-
