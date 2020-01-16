@@ -124,7 +124,7 @@ class Config(object):
     API_TOKEN = os.environ.get("API_TOKEN",None)
     MONGO_DB_URI = os.environ.get("MONGO_DB_URI", None)
     BOTLOG = os.environ.get("BOTLOG", None)
-    MONGOCLIENT = MongoClient(Config.MONGO_DB_URI, 27017, serverSelectionTimeoutMS=1)
+    MONGOCLIENT = MongoClient(MONGO_DB_URI, 27017, serverSelectionTimeoutMS=1)
     MONGO = MONGOCLIENT.userbot
 
 
