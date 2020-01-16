@@ -27,6 +27,7 @@ from sql_helpers.gmute_sql import (is_gmuted, gmute, ungmute)
 from sql_helpers.mute_sql import (is_muted, mute ,unmute)
 from sql_helpers.fban_sql_helper import (is_fban,get_fban,add_chat_fban,remove_chat_fban)
 from sql_helpers.spam_mute_sql import (is_muted,mute,unmute)
+from sql_helpers.gban_sql_helper import (is_gban,get_gban,add_chat_gban,remove_chat_gban)
 from uniborg.util import admin_cmd
 
 
