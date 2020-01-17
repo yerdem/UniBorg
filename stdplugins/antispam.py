@@ -35,11 +35,6 @@ async def _(cas):
             r = get(f'https://combot.org/api/cas/check?user_id={id}') 
             r_dict = r.json()
             # r_dict = requests.get(r).json()
-            await cas.client.send_message(
-                Config.PRIVATE_GROUP_BOT_API_ID,
-                r_dict,
-                link_preview=False
-            ) 
             if r_dict['ok']:
                 try:                
                     more = r_dict['result']
