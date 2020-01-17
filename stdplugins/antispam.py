@@ -8,6 +8,7 @@ import os
 import sys
 
 from requests import get
+import requests
 from telethon import events
 from telethon.events import ChatAction
 from telethon.tl.functions.channels import EditBannedRequest
@@ -32,7 +33,13 @@ async def _(cas):
             mid = "{}".format(chat.title)
             mention = "[{}](tg://user?id={})".format(user.first_name, user.id) 
             r = get(f'https://combot.org/api/cas/check?user_id={id}') 
-            r_dict = r.json() 
+            # r_dict = r.json()
+            r_dict = requests.get(r).json()
+            await cas.client.send_message(
+                Config.PRIVATE_GROUP_BOT_API_ID,
+                r_dict,
+                link_preview=False
+            ) 
             if r_dict['ok']:
                 try:                
                     more = r_dict['result']
