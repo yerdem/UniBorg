@@ -41,3 +41,4 @@ hurry.filesize
 PyPDF2
 pymongo 
 dnspython
+urllib3

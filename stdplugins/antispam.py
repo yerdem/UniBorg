@@ -33,8 +33,8 @@ async def _(cas):
             mid = "{}".format(chat.title)
             mention = "[{}](tg://user?id={})".format(user.first_name, user.id) 
             r = get(f'https://combot.org/api/cas/check?user_id={id}') 
-            # r_dict = r.json()
-            r_dict = requests.get(r).json()
+            r_dict = r.json()
+            # r_dict = requests.get(r).json()
             await cas.client.send_message(
                 Config.PRIVATE_GROUP_BOT_API_ID,
                 r_dict,
