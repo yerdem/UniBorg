@@ -49,7 +49,7 @@ async def _(cas):
                 try:                
                     more = r_dict['result']
                     rights = ChatBannedRights(
-                        until_date=None,
+                        until_date=0,
                         view_messages=True,
                         send_messages=True,
                         send_media=True,
