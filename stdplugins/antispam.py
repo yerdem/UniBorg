@@ -4,67 +4,36 @@
 import logging
 logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s',
                     level=logging.WARNING)
-import os
-import sys
+#COMBOT ANTI SPAM SYSTEM IS USED
+#created for @uniborg (unfinished)
 
-from requests import get
-import requests
 from telethon import events
-from telethon.events import ChatAction
-from telethon.tl.functions.channels import EditBannedRequest
-from telethon.tl.types import (ChannelParticipantsAdmins, ChatBannedRights,
-                               Message, PeerUser)
-
-from sample_config import Config
 from uniborg.util import admin_cmd
-
-
-
-# BANNED_RIGHTS = ChatBannedRights(
-#     until_date=None,
-#     view_messages=True,
-#     send_messages=True,
-#     send_media=True,
-#     send_stickers=True,
-#     send_gifs=True,
-#     send_games=True,
-#     send_inline=True,
-#     embed_links=True,
-# )
-
 
 @borg.on(events.ChatAction())
 async def _(cas):
-    chat = await cas.get_chat()
-    if (chat.admin_rights or chat.creator):
-        if cas.user_joined or cas.user_added: 
-            user = await cas.get_user()
+       chat = await cas.get_chat()
+       if (chat.admin_rights or chat.creator):
+            if cas.user_joined or cas.user_added: 
+                user = await cas.get_user()
             id = user.id
             mid = "{}".format(chat.title)
             mention = "[{}](tg://user?id={})".format(user.first_name, user.id) 
+            from requests import get
             r = get(f'https://combot.org/api/cas/check?user_id={id}') 
-            r_dict = r.json()
-            # r_dict = requests.get(r).json()
+            r_dict = r.json() 
             if r_dict['ok']:
-                try:                
-                    more = r_dict['result']
-                    rights = ChatBannedRights(
-                        until_date=0,
-                        view_messages=True,
-                        send_messages=True,
-                        send_media=True,
-                        send_stickers=True,
-                        send_gifs=True,
-                        send_games=True,
-                        send_inline=True,
-                        embed_links=True,
-                    )
-                    # user_entity = cas.client.get_entity(PeerUser(id))
-                    # print(user_entity)
-                    await borg.edit_permissions(cas.chat_id, id, rights)
-                    await borg.send_message(
-                        Config.PRIVATE_GROUP_BOT_API_ID, 
-                        "**antispam log** \n**Who**: {} \n**Where**: {} \n**How**: [here](https://combot.org/api/cas/check?user_id={}) \n**Action**: Banned \n".format(mention, mid, id),link_preview=False)
+               try: 
+                   more = r_dict['result']
+                   from telethon.tl.types import ChatBannedRights
+                   from telethon.tl.functions.channels import EditBannedRequest
+                   rights = ChatBannedRights(
+                         until_date=None,
+                         view_messages=True,
+                         send_messages=True
+                           )
+                   await borg(EditBannedRequest(cas.chat_id, id, rights))
+                   await borg.send_message(Config.PRIVATE_GROUP_BOT_API_ID, "**antispam log** \n**Who**: {} \n**Where**: {} \n**How**: [here](https://combot.org/api/cas/check?user_id={}) \n**Action**: Banned \n**More**: ```{}```".format(mention, mid, id, more),link_preview=False)
                 except (Exception) as exc:
                     await borg.send_message(Config.PRIVATE_GROUP_BOT_API_ID, str(exc))
                     exc_type, exc_obj, exc_tb = sys.exc_info()
