@@ -61,7 +61,7 @@ async def _(cas):
                     )
                     # user_entity = cas.client.get_entity(PeerUser(id))
                     # print(user_entity)
-                    await borg.edit_permissions(cas.chat_id, id, BANNED_RIGHTS)
+                    await borg.edit_permissions(cas.chat_id, id, rights)
                     await borg.send_message(
                         Config.PRIVATE_GROUP_BOT_API_ID, 
                         "**antispam log** \n**Who**: {} \n**Where**: {} \n**How**: [here](https://combot.org/api/cas/check?user_id={}) \n**Action**: Banned \n".format(mention, mid, id),link_preview=False)
