@@ -10,6 +10,10 @@ Pluggable [``asyncio``](https://docs.python.org/3/library/asyncio.html)
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
+#### Other way 
+
+[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/muhammedfurkan/UniBorg) 
+
 #### The Legacy Way
 Simply clone the repository and run the main file:
 ```sh
