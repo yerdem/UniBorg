@@ -20,7 +20,17 @@ from uniborg.util import admin_cmd
 
 
 
-
+BANNED_RIGHTS = ChatBannedRights(
+    until_date=None,
+    view_messages=True,
+    send_messages=True,
+    send_media=True,
+    send_stickers=True,
+    send_gifs=True,
+    send_games=True,
+    send_inline=True,
+    embed_links=True,
+)
 
 
 @borg.on(events.ChatAction())
@@ -38,14 +48,14 @@ async def _(cas):
             if r_dict['ok']:
                 try:                
                     more = r_dict['result']
-                    rights = ChatBannedRights(
-                        until_date=None,
-                        view_messages=True,
-                        send_messages=True
-                    )
+                    # rights = ChatBannedRights(
+                    #     until_date=None,
+                    #     view_messages=True,
+                    #     send_messages=True
+                    # )
                     # user_entity = cas.client.get_entity(PeerUser(id))
                     # print(user_entity)
-                    await borg.edit_permissions(cas.chat_id, id, rights)
+                    await borg.edit_permissions(cas.chat_id, id, BANNED_RIGHTS)
                     await borg.send_message(
                         Config.PRIVATE_GROUP_BOT_API_ID, 
                         "**antispam log** \n**Who**: {} \n**Where**: {} \n**How**: [here](https://combot.org/api/cas/check?user_id={}) \n**Action**: Banned \n".format(mention, mid, id),link_preview=False)
