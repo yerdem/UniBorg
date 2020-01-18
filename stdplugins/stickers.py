@@ -13,6 +13,7 @@ import os
 import zipfile
 from collections import defaultdict
 from io import BytesIO
+import io
 import random
 import requests
 from PIL import Image
