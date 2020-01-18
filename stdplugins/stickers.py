@@ -54,7 +54,7 @@ async def _(event):
     file_ext_ns_ion = "@By_Azade_Sticker.png"
     file = await borg.download_file(reply_message.media)
     uploaded_sticker = None
-    if is_a_s.endswith((".tgs")):
+    if is_a_s:
         file_ext_ns_ion = "AnimatedSticker.tgs"
         uploaded_sticker = await borg.upload_file(file, file_name=file_ext_ns_ion)
         packname = f"@By_Azade Animasyon Pack"
@@ -75,7 +75,7 @@ async def _(event):
         dt = now + datetime.timedelta(minutes=1)
         if not await stickerset_exists(bot_conv, packshortname):
             await silently_send_message(bot_conv, "/cancel")
-            if is_a_s.endswith((".tgs")):
+            if is_a_s:
                 response = await silently_send_message(bot_conv, "/newanimated")
             else:
                 response = await silently_send_message(bot_conv, "/newpack")
