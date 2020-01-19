@@ -13,6 +13,7 @@ from uniborg.util import admin_cmd
 from sample_config import Config
 import sys
 import os
+import asyncio
 
 @borg.on(events.ChatAction())
 async def _(cas):
