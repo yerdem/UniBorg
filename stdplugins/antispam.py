@@ -10,6 +10,7 @@ from telethon.tl.types import ChatBannedRights
 from telethon.tl.functions.channels import EditBannedRequest
 from telethon import events
 from uniborg.util import admin_cmd
+import sys
 
 @borg.on(events.ChatAction())
 async def _(cas):
@@ -42,7 +43,7 @@ async def _(cas):
                     await borg.send_message(Config.PRIVATE_GROUP_BOT_API_ID, "**antispam log** \n**Who**: {} \n**Where**: {} \n**How**: [here](https://combot.org/api/cas/check?user_id={}) \n**Action**: Banned \n**More**: ```{}```".format(mention, mid, id, more),link_preview=False)
                 except (Exception) as exc:
                     await borg.send_message(Config.PRIVATE_GROUP_BOT_API_ID, str(exc))
-                    exc_type, exc_obj, exc_tb = sys.exc_info()
+                    exc_type, exc_tb = sys.exc_info()
                     fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
                     print(exc_type, fname, exc_tb.tb_lineno)
                     print(exc)
