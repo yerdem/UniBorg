@@ -22,85 +22,59 @@ from sample_config import Config
 
 
 @borg.on(admin_cmd(pattern="download ?(.*)", allow_sudo=True))
-async def _(event):
-    if event.fwd_from:
-        return
-    mone = await event.edit("Processing ...")
-    input_str = event.pattern_match.group(1)
-    if not os.path.isdir(Config.TMP_DOWNLOAD_DIRECTORY):
-        os.makedirs(Config.TMP_DOWNLOAD_DIRECTORY)
-    if event.reply_to_msg_id:
-        start = datetime.now()
-        reply_message = await event.get_reply_message()
-        try:
-            c_time = time.time()
-            downloaded_file_name = await borg.download_media(
-                reply_message,
-                Config.TMP_DOWNLOAD_DIRECTORY,
-                progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
-                    progress(d, t, mone, c_time, "trying to download")
-                )
+async def download(target_file):
+    """ For .download command, download files to the userbot's server. """
+    if not target_file.text[0].isalpha() and target_file.text[0] not in ("/", "#", "@", "!"):
+        if target_file.fwd_from:
+            return
+        await target_file.edit("Processing ...")
+        input_str = target_file.pattern_match.group(1)
+        if not os.path.isdir(TEMP_DOWNLOAD_DIRECTORY):
+            os.makedirs(TEMP_DOWNLOAD_DIRECTORY)
+        if target_file.reply_to_msg_id:
+            start = datetime.now()
+            downloaded_file_name = await target_file.client.download_media(
+                await target_file.get_reply_message(),
+                TEMP_DOWNLOAD_DIRECTORY,
+                progress_callback=progress,
             )
-        except Exception as e:  # pylint:disable=C0103,W0703
-            await mone.edit(str(e))
-        else:
             end = datetime.now()
-            ms = (end - start).seconds
-            await mone.edit("Downloaded to `{}` in {} seconds.".format(downloaded_file_name, ms))
-    elif input_str:
-        start = datetime.now()
-        url = input_str
-        file_name = os.path.basename(url)
-        to_download_directory = Config.TMP_DOWNLOAD_DIRECTORY
-        if "|" in input_str:
-            url, file_name = input_str.split("|")
-        url = url.strip()
-        file_name = file_name.strip()
-        downloaded_file_name = os.path.join(to_download_directory, file_name)
-        downloader = SmartDL(url, downloaded_file_name, progress_bar=False)
-        downloader.start(blocking=False)
-        display_message = ""
-        c_time = time.time()
-        while not downloader.isFinished():
-            total_length = downloader.filesize if downloader.filesize else None
-            downloaded = downloader.get_dl_size()
-            now = time.time()
-            diff = now - c_time
-            percentage = downloader.get_progress() * 100
-            speed = downloader.get_speed()
-            elapsed_time = round(diff) * 1000
-            downloaded += len(chunk)
-            file.write(chunk)
-            done = int(100 * downloaded / total_length)
-            progress_str = "Downloading ... [%s%s]" % (
-                "=" * done,
-                " " * (50 - done),
+            duration = (end - start).seconds
+            await target_file.edit(
+                "Downloaded to `{}` in {} seconds.".format(downloaded_file_name, duration)
             )
-            # progress_str = "[{0}{1}]\nProgress: {2}%".format(
-            #     ''.join(["█" for i in range(math.floor(percentage / 5))]),
-            #     ''.join(["░" for i in range(20 - math.floor(percentage / 5))]),
-            #     round(percentage, 2))
-            estimated_total_time = downloader.get_eta(human=True)
-            try:
-                current_message = f"trying to download\n"
-                current_message += f"URL: {url}\n"
-                current_message += f"File Name: {file_name}\n"
-                current_message += f"{progress_str}\n"
-                current_message += f"{humanbytes(downloaded)} of {humanbytes(total_length)}\n"
-                current_message += f"ETA: {estimated_total_time}"
-                if round(diff % 10.00) == 0 and current_message != display_message:
-                    await mone.edit(current_message)
-                    display_message = current_message
-            except Exception as e:
-                logger.info(str(e))
-        end = datetime.now()
-        ms = (end - start).seconds
-        if os.path.exists(downloaded_file_name):
-            await mone.edit("Downloaded to `{}` in {} seconds.".format(downloaded_file_name, ms))
+        elif "|" in input_str:
+            url, file_name = input_str.split("|")
+            url = url.strip()
+            # https://stackoverflow.com/a/761825/4723940
+            file_name = file_name.strip()
+            required_file_name = TEMP_DOWNLOAD_DIRECTORY + "" + file_name
+            start = datetime.now()
+            resp = requests.get(url, stream=True)
+            with open(required_file_name, "wb") as file:
+                total_length = resp.headers.get("content-length")
+                # https://stackoverflow.com/a/15645088/4723940
+                if total_length is None:  # no content length header
+                    file.write(resp.content)
+                else:
+                    downloaded = 0
+                    total_length = int(total_length)
+                    for chunk in resp.iter_content(chunk_size=128):
+                        downloaded += len(chunk)
+                        file.write(chunk)
+                        done = int(100 * downloaded / total_length)
+                        download_progress_string = "Downloading ... [%s%s]" % (
+                            "=" * done,
+                            " " * (50 - done),
+                        )
+                        LOGS.info(download_progress_string)
+            end = datetime.now()
+            duration = (end - start).seconds
+            await target_file.edit(
+                "Downloaded to `{}` in {} seconds.".format(required_file_name, duration)
+            )
         else:
-            await mone.edit("Incorrect URL\n {}".format(input_str))
-    else:
-        await mone.edit("Reply to a message to download to my local server.")
+            await target_file.edit("Reply to a message to download to my local server.")
 
 
 async def download_coroutine(session, url, file_name, event, start):
