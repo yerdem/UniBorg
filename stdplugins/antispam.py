@@ -7,13 +7,13 @@ import os
 import sys
 
 from telethon import events
-from telethon.tl.functions.channels import EditBannedRequest
+# from telethon.tl.functions.channels import EditBannedRequest
 #COMBOT ANTI SPAM SYSTEM IS USED
 #created for @uniborg (unfinished)
-from telethon.tl.types import ChatBannedRights
+# from telethon.tl.types import ChatBannedRights
 
 from sample_config import Config
-from uniborg.util import admin_cmd
+# from uniborg.util import admin_cmd
 
 logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s',
                     level=logging.WARNING)
