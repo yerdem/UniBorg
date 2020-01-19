@@ -10,6 +10,7 @@ from telethon.tl.types import ChatBannedRights
 from telethon.tl.functions.channels import EditBannedRequest
 from telethon import events
 from uniborg.util import admin_cmd
+from sample_config import Config
 import sys
 
 @borg.on(events.ChatAction())
