@@ -46,7 +46,12 @@ async def _(cas):
                     # await borg(EditBannedRequest(cas.chat_id, id, rights))
                     entity = await borg.get_entity(chat)
                     await borg.edit_permissions(int('-100' + str(entity.id)), user.id, view_messages=False)
-                    await borg.send_message(Config.PRIVATE_GROUP_BOT_API_ID, "**antispam log** \n**Who**: {} \n**Where**: {} \n**How**: [here](https://combot.org/api/cas/check?user_id={}) \n**Action**: Banned \n**More**: ```{}```".format(mention, mid, id, more),link_preview=False)
+                    await borg.send_message(Config.PRIVATE_GROUP_BOT_API_ID,
+                     """**antispam log** \n
+                     **Who**: {} \n
+                     **Where**: {} \n
+                     **How**: [here](https://combot.org/api/cas/check?user_id={}) \n
+                     **Action**: Banned \n**More**: ```{}```""".format(mention, mid, id, more),link_preview=False)
                 except (Exception) as exc:
                     await borg.send_message(Config.PRIVATE_GROUP_BOT_API_ID, str(exc))
                     exc_type = sys.exc_info()
