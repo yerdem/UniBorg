@@ -12,6 +12,7 @@ from telethon import events
 from uniborg.util import admin_cmd
 from sample_config import Config
 import sys
+import os
 
 @borg.on(events.ChatAction())
 async def _(cas):
@@ -44,9 +45,15 @@ async def _(cas):
                     await borg.send_message(Config.PRIVATE_GROUP_BOT_API_ID, "**antispam log** \n**Who**: {} \n**Where**: {} \n**How**: [here](https://combot.org/api/cas/check?user_id={}) \n**Action**: Banned \n**More**: ```{}```".format(mention, mid, id, more),link_preview=False)
                 except (Exception) as exc:
                     await borg.send_message(Config.PRIVATE_GROUP_BOT_API_ID, str(exc))
-                    exc_type, exc_tb = sys.exc_info()
+                    exc_type = sys.exc_info()
+                    exc_tb = sys.exc_info()
                     fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
                     print(exc_type, fname, exc_tb.tb_lineno)
                     print(exc)
+                    await borg.send_message(Config.PRIVATE_GROUP_BOT_API_ID,exc)
+                    await asyncio.sleep(5)
+                    await borg.send_message(Config.PRIVATE_GROUP_BOT_API_ID,fname)
+                    await asyncio.sleep(5)
+                    await borg.send_message(Config.PRIVATE_GROUP_BOT_API_ID,exc_tb.tb_lineno)
     else:
         return ""
