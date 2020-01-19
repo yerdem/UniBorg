@@ -10,7 +10,7 @@ import math
 import os
 import time
 from datetime import datetime
-
+from logging import getLogger
 import aiohttp
 from pySmartDL import SmartDL
 from telethon import events
@@ -19,6 +19,8 @@ from telethon.tl.types import DocumentAttributeVideo
 from uniborg.util import admin_cmd, humanbytes, progress, time_formatter
 
 from sample_config import Config
+
+LOGS = getLogger(__name__)
 
 def progress(current, total):
     """ Logs the download progress """
