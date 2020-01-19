@@ -20,6 +20,12 @@ from uniborg.util import admin_cmd, humanbytes, progress, time_formatter
 
 from sample_config import Config
 
+def progress(current, total):
+    """ Logs the download progress """
+    LOGS.info(
+        "Downloaded %s of %s\nCompleted %s",
+        current, total, (current / total) * 100
+    )
 
 @borg.on(admin_cmd(pattern="download ?(.*)", allow_sudo=True))
 async def download(target_file):
@@ -29,13 +35,13 @@ async def download(target_file):
             return
         await target_file.edit("Processing ...")
         input_str = target_file.pattern_match.group(1)
-        if not os.path.isdir(TEMP_DOWNLOAD_DIRECTORY):
-            os.makedirs(TEMP_DOWNLOAD_DIRECTORY)
+        if not os.path.isdir(Config.TMP_DOWNLOAD_DIRECTORY):
+            os.makedirs(Config.TMP_DOWNLOAD_DIRECTORY)
         if target_file.reply_to_msg_id:
             start = datetime.now()
             downloaded_file_name = await target_file.client.download_media(
                 await target_file.get_reply_message(),
-                TEMP_DOWNLOAD_DIRECTORY,
+                Config.TMP_DOWNLOAD_DIRECTORY,
                 progress_callback=progress,
             )
             end = datetime.now()
@@ -48,7 +54,7 @@ async def download(target_file):
             url = url.strip()
             # https://stackoverflow.com/a/761825/4723940
             file_name = file_name.strip()
-            required_file_name = TEMP_DOWNLOAD_DIRECTORY + "" + file_name
+            required_file_name = Config.TMP_DOWNLOAD_DIRECTORY + "" + file_name
             start = datetime.now()
             resp = requests.get(url, stream=True)
             with open(required_file_name, "wb") as file:
