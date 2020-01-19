@@ -70,7 +70,7 @@ async def _(event):
             speed = downloader.get_speed()
             elapsed_time = round(diff) * 1000
             bar = Bar('Downloaded: ', max=20)
-            progress_str = 
+            # progress_str = 
             # progress_str = "[{0}{1}]\nProgress: {2}%".format(
             #     ''.join(["█" for i in range(math.floor(percentage / 5))]),
             #     ''.join(["░" for i in range(20 - math.floor(percentage / 5))]),
