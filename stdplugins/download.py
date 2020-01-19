@@ -69,10 +69,17 @@ async def _(event):
             percentage = downloader.get_progress() * 100
             speed = downloader.get_speed()
             elapsed_time = round(diff) * 1000
-            progress_str = "[{0}{1}]\nProgress: {2}%".format(
-                ''.join(["█" for i in range(math.floor(percentage / 5))]),
-                ''.join(["░" for i in range(20 - math.floor(percentage / 5))]),
-                round(percentage, 2))
+            downloaded += len(chunk)
+            file.write(chunk)
+            done = int(100 * downloaded / total_length)
+            progress_str = "Downloading ... [%s%s]" % (
+                "=" * done,
+                " " * (50 - done),
+            )
+            # progress_str = "[{0}{1}]\nProgress: {2}%".format(
+            #     ''.join(["█" for i in range(math.floor(percentage / 5))]),
+            #     ''.join(["░" for i in range(20 - math.floor(percentage / 5))]),
+            #     round(percentage, 2))
             estimated_total_time = downloader.get_eta(human=True)
             try:
                 current_message = f"trying to download\n"
