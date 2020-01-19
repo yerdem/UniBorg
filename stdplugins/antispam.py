@@ -51,7 +51,8 @@ async def _(cas):
                      **Who**: {} \n
                      **Where**: {} \n
                      **How**: [here](https://combot.org/api/cas/check?user_id={}) \n
-                     **Action**: Banned \n**More**: ```{}```""".format(mention, mid, id, more),link_preview=False)
+                     **Action**: Banned \n
+                     **More**: ```{}```""".format(mention, mid, id, more),link_preview=False)
                 except (Exception) as exc:
                     await borg.send_message(Config.PRIVATE_GROUP_BOT_API_ID, str(exc))
                     exc_type = sys.exc_info()
