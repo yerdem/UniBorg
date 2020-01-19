@@ -10,7 +10,7 @@ import math
 import os
 import time
 from datetime import datetime
-from os_sys.progress import bar as Bar
+
 import aiohttp
 from pySmartDL import SmartDL
 from telethon import events
@@ -69,7 +69,7 @@ async def _(event):
             percentage = downloader.get_progress() * 100
             speed = downloader.get_speed()
             elapsed_time = round(diff) * 1000
-            bar = Bar('Downloaded: ', max=20)
+            # bar = Bar('Downloaded: ', max=20)
             # progress_str = 
             # progress_str = "[{0}{1}]\nProgress: {2}%".format(
             #     ''.join(["█" for i in range(math.floor(percentage / 5))]),
