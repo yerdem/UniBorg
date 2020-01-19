@@ -25,9 +25,10 @@ def progress(current, total):
     LOGS.info(
         "Downloaded %s of %s\nCompleted %s",
         current, total, (current / total) * 100
-    )
+    ).
 
-@borg.on(admin_cmd(pattern="download ?(.*)", allow_sudo=True))
+
+@borg.on(admin_cmd(pattern="download ?(.*)"))
 async def download(target_file):
     """ For .download command, download files to the userbot's server. """
     if not target_file.text[0].isalpha() and target_file.text[0] not in ("/", "#", "@", "!"):
