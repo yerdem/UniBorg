@@ -2,7 +2,7 @@
 Syntax:
 .download
 .download url | file.name to download files from a Public Link"""
-import asyncio
+# import asyncio
 import logging
 import math
 import os
@@ -13,8 +13,8 @@ from logging import getLogger
 from telethon import events
 from telethon.tl.types import DocumentAttributeVideo
 
-import aiohttp
-from pySmartDL import SmartDL
+# import aiohttp
+# from pySmartDL import SmartDL
 from sample_config import Config
 from uniborg.util import admin_cmd, humanbytes, progress, time_formatter
 
