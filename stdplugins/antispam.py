@@ -1,19 +1,22 @@
 #COMBOT ANTI SPAM SYSTEM IS USED
 #created for @uniborg (unfinished)
 
+import asyncio
 import logging
-logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s',
-                    level=logging.WARNING)
+import os
+import sys
+
+from telethon import events
+from telethon.tl.functions.channels import EditBannedRequest
 #COMBOT ANTI SPAM SYSTEM IS USED
 #created for @uniborg (unfinished)
 from telethon.tl.types import ChatBannedRights
-from telethon.tl.functions.channels import EditBannedRequest
-from telethon import events
-from uniborg.util import admin_cmd
+
 from sample_config import Config
-import sys
-import os
-import asyncio
+from uniborg.util import admin_cmd
+
+logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s',
+                    level=logging.WARNING)
 
 @borg.on(events.ChatAction())
 async def _(cas):
