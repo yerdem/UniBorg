@@ -25,7 +25,7 @@ def progress(current, total):
     LOGS.info(
         "Downloaded %s of %s\nCompleted %s",
         current, total, (current / total) * 100
-    ).
+    )
 
 
 @borg.on(admin_cmd(pattern="download ?(.*)"))
