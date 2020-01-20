@@ -51,11 +51,10 @@ async def _(cas):
                     await borg.send_message(Config.PRIVATE_GROUP_BOT_API_ID, f"**antispam log** \n{who}\n{where}\n{how}\n**Action**: Banned \n{moree}",link_preview=False)
                 except (Exception) as exc:
                     await borg.send_message(Config.PRIVATE_GROUP_BOT_API_ID, str(exc))
-                    exc_type = sys.exc_info()
-                    exc_tb = sys.exc_info()
+                    exc_type, exc_obj, exc_tb = sys.exc_info()
                     fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
                     print(exc_type, fname, exc_tb.tb_lineno)
-                    print(exc)
+                    print(e)
                     await borg.send_message(Config.PRIVATE_GROUP_BOT_API_ID,exc)
                     await asyncio.sleep(5)
                     await borg.send_message(Config.PRIVATE_GROUP_BOT_API_ID,fname)
