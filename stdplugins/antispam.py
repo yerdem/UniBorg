@@ -7,13 +7,13 @@ import os
 import sys
 
 from telethon import events
-# from telethon.tl.functions.channels import EditBannedRequest
+from telethon.tl.functions.channels import EditBannedRequest
 #COMBOT ANTI SPAM SYSTEM IS USED
 #created for @uniborg (unfinished)
-# from telethon.tl.types import ChatBannedRights
+from telethon.tl.types import ChatBannedRights
 
 from sample_config import Config
-# from uniborg.util import admin_cmd
+from uniborg.util import admin_cmd
 
 logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s',
                     level=logging.WARNING)
@@ -38,21 +38,17 @@ async def _(cas):
                     #     view_messages=True,
                     #     send_messages=True
                     # )
-
-                    
                     # await borg.send_message('me',entity)
                     # get_entity = await event.get_participants(chat)
                     # await borg.send_message('me',get_entity)
                     # await borg(EditBannedRequest(cas.chat_id, id, rights))
+                    who = "**Who**: {}".format(mention)
+                    where = "**Where**: {}".format(mid)
+                    how = "**How**: [here](https://combot.org/api/cas/check?user_id={})".format(id)
+                    moree = "**More**: ```{}```".format(more)
                     entity = await borg.get_entity(chat)
                     await borg.edit_permissions(int('-100' + str(entity.id)), user.id, view_messages=False)
-                    await borg.send_message(Config.PRIVATE_GROUP_BOT_API_ID,
-                     """**antispam log** \n
-                     **Who**: {} \n
-                     **Where**: {} \n
-                     **How**: [here](https://combot.org/api/cas/check?user_id={}) \n
-                     **Action**: Banned \n
-                     **More**: ```{}```""".format(mention, mid, id, more),link_preview=False)
+                    await borg.send_message(Config.PRIVATE_GROUP_BOT_API_ID, f"**antispam log** \n{who}\n{where}\n{how}\n**Action**: Banned \n{moree}",link_preview=False)
                 except (Exception) as exc:
                     await borg.send_message(Config.PRIVATE_GROUP_BOT_API_ID, str(exc))
                     exc_type = sys.exc_info()
