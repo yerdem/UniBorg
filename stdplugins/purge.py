@@ -58,7 +58,7 @@ async def purgeme(delme):
         "`Purge complete!` Purged " + str(count) + " messages.",
     )
     await asyncio.sleep(5)
-    await delme.delete(delme.message_id,delme.chat_id)
+    await delme.delete()
     await asyncio.sleep(5)
 
 
