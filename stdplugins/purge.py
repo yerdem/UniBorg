@@ -57,7 +57,7 @@ async def purgeme(delme):
     await asyncio.sleep(5)
 
 
-@register(outgoing=True, pattern="^\.sd")
+@borg.on(admin_cmd(pattern="sd ?(.*)d"))
 async def selfdestruct(destroy):
     """ For .sd command, make seflf-destructable messages. """
     message = destroy.text
