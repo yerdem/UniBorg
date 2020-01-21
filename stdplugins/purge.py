@@ -36,3 +36,22 @@ async def _(event):
             await event.delete()
         else:
             await event.edit("**PURGE** Failed!")
+
+@borg.on(admin_cmd(pattern="purgme ?(.*)"))
+async def purgeme(delme):
+    """ For .purgeme, delete x count of your latest message."""
+    message = delme.text
+    count = int(message[9:])
+    i = 1
+
+    async for message in delme.client.iter_messages(delme.chat_id,from_user='me'):
+        if i > count + 1:
+            break
+        i = i + 1
+        await message.delete()
+
+    smsg = await delme.client.send_message(
+        delme.chat_id,
+        "`Purge complete!` Purged " + str(count) + " messages.",
+    )
+    await asyncio.sleep(5)
