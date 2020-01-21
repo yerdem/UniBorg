@@ -5,7 +5,7 @@ logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s'
 from telethon import events
 import asyncio
 from uniborg.util import admin_cmd
-
+from sample_config import Config
 
 
 @borg.on(admin_cmd(pattern="purge ?(.*)"))
@@ -41,7 +41,7 @@ async def _(event):
 async def purgeme(delme):
     """ For .purgeme, delete x count of your latest message."""
     message = delme.text
-    count = int(message[5S:])
+    count = int(message[5:])
     i = 1
 
     async for message in delme.client.iter_messages(delme.chat_id,from_user='me'):
@@ -55,3 +55,18 @@ async def purgeme(delme):
         "`Purge complete!` Purged " + str(count) + " messages.",
     )
     await asyncio.sleep(5)
+
+
+@register(outgoing=True, pattern="^\.sd")
+async def selfdestruct(destroy):
+    """ For .sd command, make seflf-destructable messages. """
+    message = destroy.text
+    counter = int(message[4:6])
+    text = str(destroy.text[6:])
+    await destroy.delete()
+    smsg = await destroy.client.send_message(destroy.chat_id, text)
+    await sleep(counter)
+    await smsg.delete()
+    if BOTLOG:
+        await destroy.client.send_message(Config.PRIVATE_GROUP_BOT_API_ID,
+                                          "sd query done successfully")
