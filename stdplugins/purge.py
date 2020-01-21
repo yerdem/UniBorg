@@ -1,14 +1,17 @@
 """Purge your messages without the admins seeing it in Recent Actions"""
-import logging
-logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s',
-                    level=logging.WARNING)
-from telethon import events
 import asyncio
-from uniborg.util import admin_cmd
-from sample_config import Config
+import logging
 from asyncio import sleep
 
-level=logging.DEBUG
+from telethon import events
+
+from sample_config import Config
+from uniborg.util import admin_cmd
+
+logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s',
+                    level=logging.WARNING)
+
+level=logging.INFO
 print(level)
 
 @borg.on(admin_cmd(pattern="purge ?(.*)"))
