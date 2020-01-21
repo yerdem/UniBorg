@@ -41,7 +41,7 @@ async def _(event):
 async def purgeme(delme):
     """ For .purgeme, delete x count of your latest message."""
     message = delme.text
-    count = int(message[5:])
+    count = int(message[8:])
     i = 1
 
     async for message in delme.client.iter_messages(delme.chat_id,from_user='me'):
