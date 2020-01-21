@@ -61,7 +61,7 @@ async def purgeme(delme):
         "`Purge complete!` Purged " + str(count) + " messages.",
     )
     await asyncio.sleep(5)
-    await delme.delete()
+    await smsg.delete()
     await asyncio.sleep(5)
 
 
