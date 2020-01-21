@@ -8,6 +8,9 @@ from uniborg.util import admin_cmd
 from sample_config import Config
 from asyncio import sleep
 
+level=logging.DEBUG
+print(level)
+
 @borg.on(admin_cmd(pattern="purge ?(.*)"))
 async def _(event):
     if event.fwd_from:
