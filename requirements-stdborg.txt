@@ -42,3 +42,4 @@ PyPDF2
 pymongo 
 dnspython
 urllib3
+pysocks
