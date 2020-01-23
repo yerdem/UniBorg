@@ -45,10 +45,10 @@ async def _(cas):
                     who = "**Who**: {}".format(mention)
                     where = "**Where**: {}".format(mid)
                     how = "**How**: [here](https://combot.org/api/cas/check?user_id={})".format(id)
-                    moree = "**More**: ```{}```".format(more)
+                    # moree = "**More**: ```{}```".format(more)
                     entity = await borg.get_entity(chat)
                     await borg.edit_permissions(int('-100' + str(entity.id)), user.id, view_messages=False)
-                    await borg.send_message(Config.PRIVATE_GROUP_BOT_API_ID, f"**antispam log** \n{who}\n{where}\n{how}\n**Action**: Banned \n{moree}",link_preview=False)
+                    await borg.send_message(Config.PRIVATE_GROUP_BOT_API_ID, f"**antispam log** \n{who}\n{where}\n{how}\n**Action**: Banned",link_preview=False)
                 except (Exception) as exc:
                     await borg.send_message(Config.PRIVATE_GROUP_BOT_API_ID, str(exc))
                     exc_type, exc_obj, exc_tb = sys.exc_info()
