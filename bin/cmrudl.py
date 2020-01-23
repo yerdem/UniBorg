@@ -45,6 +45,7 @@ class Main(object):
 			return
 		self.output(message, err, nl)
 
+	@classmethod
 	def output(self, message, err=False, nl=True):
 		out = sys.stderr if err else sys.stdout
 		out.write(message)
@@ -61,6 +62,7 @@ class Main(object):
 		message_pad = message.ljust(l)
 		self.output('\r%s\r' % message_pad, err, False)
 
+    @classmethod
 	def stat(self, path):
 		try:
 			return os.stat(path)
@@ -68,22 +70,22 @@ class Main(object):
 			if ex.errno != errno.ENOENT:
 				raise ex
 		return None
-
+    @classmethod
 	def dict_has_props(self, dic, props):
 		for p in props:
 			if not p in dic:
 				return False
 		return True
-
+    @classmethod
 	def assert_status_code(self, code, expected):
 		if code != expected:
 			raise Exception('Invalid status code: %s expected: %s' % (code, expected))
-
+    @classmethod
 	def seconds_human(self, seconds):
 		m, s = divmod(seconds, 60)
 		h, m = divmod(m, 60)
 		return '%d:%02d:%02d' % (h, m, s)
-
+    @classmethod
 	def bytes_human(self, size):
 		based = float(size)
 		base = 1024
@@ -94,11 +96,11 @@ class Main(object):
 			based /= base
 			i += 1
 		return '%.2f%s' % (based, names[i])
-
+    @classmethod
 	def percent_human(self, part, total):
 		f = (part / float(total)) if total else 0
 		return '%.2f%%' % (f * 100)
-
+    @classmethod
 	def json_decode(self, s):
 		return json.loads(s)
 
@@ -110,7 +112,7 @@ class Main(object):
 			return ''.join(p)
 		json_clean = re.sub(r'(^|[^\\])(\\\\)*\\x[0-9A-Fa-f]{2}', repl, s)
 		return self.json_decode(json_clean)
-
+    @classmethod
 	def request(self, url, headers):
 		r = None
 		try:
@@ -119,7 +121,7 @@ class Main(object):
 		except HTTPError as ex:
 			r = ex
 		return r
-
+    @classmethod
 	def request_data(self, url):
 		res = self.request(url, {
 			'User-Agent': ''
@@ -128,11 +130,11 @@ class Main(object):
 		headers = res.info()
 		body = res.read()
 		return (code, headers, body)
-
+    @classmethod
 	def request_data_decode(self, body, headers):
 		# Should use headers to determine the correct encoding.
 		return body.decode('utf-8')
-
+    @classmethod
 	def request_header_get(self, headers, header, cast=None):
 		r = headers[header] if header in headers else None
 		if cast:
@@ -313,7 +315,7 @@ class Main(object):
 				elif isinstance(v, dict):
 					queue.append(v)
 		return None
-
+    @classmethod
 	def create_download_url(self, storage, token):
 		return '%s/%s?key=%s' % (
 			storage['url'],
@@ -338,7 +340,7 @@ class Main(object):
 		size = self.stat(file_path).st_size
 		if size != file_size:
 			raise Exception('Unexected download size: %s expected: %s' % (size, file_size))
-
+    @classmethod
 	def download_set_mtime(self, file_path, file_mtime):
 		os.utime(file_path, (file_mtime, file_mtime))
 
