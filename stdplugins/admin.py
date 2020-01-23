@@ -492,7 +492,7 @@ async def gmute(eventGmute):
 
 
 @borg.on(events.NewMessage(outgoing=True, pattern="^.iungmute(?: |$)(.*)"))
-async def ungmute(eventUnGmute):
+async def ungmute_(eventUnGmute):
     if not eventUnGmute.text[0].isalpha() and eventUnGmute.text[0] \
             not in ("/", "#", "@", "!"):
         chat = await eventUnGmute.get_chat()
