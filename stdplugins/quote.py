@@ -217,7 +217,8 @@ def get_markdown(reply):
         elif isinstance(entity, telethon.tl.types.MessageEntityUnderline):
             md_item["Type"] = "underline"
         else:
-            logger.warning("Unknown entity: " + str(entity))
+            # logger.warning("Unknown entity: " + str(entity))
+            logger.warnin('Unknown entity: {}', entity)
 
         markdown.append(md_item)
     return markdown
