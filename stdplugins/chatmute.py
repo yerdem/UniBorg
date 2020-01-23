@@ -32,7 +32,7 @@ async def mute_chat(mute_e):
     await mute_e.edit("`Shush! This chat will be silenced!`")
     await sleep(2)
     await mute_e.delete()
-    if LOLBOT:
+    if Config.BOTLOG:
         await mute_e.client.send_message(
             Config.PM_LOGGR_BOT_API_ID,
             str(mute_e.chat_id) + " was silenced.")
