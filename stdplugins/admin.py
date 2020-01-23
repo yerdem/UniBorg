@@ -42,6 +42,11 @@ from telethon.tl.functions.messages import UpdatePinnedMessageRequest
 from telethon.tl.types import (ChannelParticipantsAdmins, ChatAdminRights,
                                ChatBannedRights, MessageEntityMentionName,
                                MessageMediaPhoto, PeerChat)
+from sample_config import Config
+
+LOGGING_CHATID = Config.PRIVATE_GROUP_BOT_API_ID
+
+
 ENABLE_LOG = True
 LOGGING_CHATID = Config.PRIVATE_CHANNEL_BOT_API_ID
 BANNED_RIGHTS = ChatBannedRights(
