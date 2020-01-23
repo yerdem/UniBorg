@@ -61,10 +61,8 @@ class Config(object):
     NO_LOAD = [
         "notification_mtab_manager",
         "dbhelper",
-        "admin",
         "fban_gban",
-        "gban",
-        "antispambot"
+        "gban"
     ]
     # Get your own API key from https://www.remove.bg/ or
     # feel free to use http://telegram.dog/Remove_BGBot
