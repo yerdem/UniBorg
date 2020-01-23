@@ -4,13 +4,14 @@ from telethon.errors import MessageEmptyError, MessageTooLongError, MessageNotMo
 import io
 import asyncio
 import time
-from uniborg import admin_cmd
+from uniborg.util import admin_cmd
 import glob
 import os
-try:
- import instantmusic , subprocess
-except:
- os.system("pip install instantmusic")
+import instantmusic
+# try:
+#   , subprocess
+# except:
+#  os.system("pip install instantmusic")
  
 
 
