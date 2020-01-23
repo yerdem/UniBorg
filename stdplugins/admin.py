@@ -28,21 +28,24 @@ Userbot module to help you manage a group.
 
 from asyncio import sleep
 from os import remove
+
 from telethon import events
-from uniborg.util import admin_cmd
 from telethon.errors import (BadRequestError, ChatAdminRequiredError,
                              ImageProcessFailedError, PhotoCropSizeSmallError,
                              UserAdminInvalidError)
-from telethon.errors.rpcerrorlist import (UserIdInvalidError,
-                                          MessageTooLongError)
+from telethon.errors.rpcerrorlist import (MessageTooLongError,
+                                          UserIdInvalidError)
 from telethon.tl.functions.channels import (EditAdminRequest,
                                             EditBannedRequest,
                                             EditPhotoRequest)
 from telethon.tl.functions.messages import UpdatePinnedMessageRequest
-from telethon.tl.types import (ChannelParticipantsAdmins, ChatAdminRights,
+from telethon.tl.types import (ChannelParticipantsAdmins,
+                               ChannelParticipantsBots, ChatAdminRights,
                                ChatBannedRights, MessageEntityMentionName,
                                MessageMediaPhoto, PeerChat)
+
 from sample_config import Config
+from uniborg.util import admin_cmd
 
 LOGGING_CHATID = Config.PRIVATE_GROUP_BOT_API_ID
 
@@ -277,9 +280,12 @@ async def listbots(eventListBots):
     except MessageTooLongError:
         await eventListBots.edit(
             "This group is filled with bots as hell. Uploading bots list as file.")
-        file = open("botlist.txt", "w+")
-        file.write(mentions)
-        file.close()
+        with open('botlist.txt', 'w') as file:
+            file.write(mentions)
+            file.close()
+        # file = open("botlist.txt", "w+")
+        # file.write(mentions)
+        # file.close()
         await eventListBots.client.send_file(
             eventListBots.chat_id,
             "botlist.txt",
@@ -777,4 +783,3 @@ async def get_user_from_id(user, event):
         await event.edit(str(err))
         return None
     return user_obj
-
