@@ -4,7 +4,7 @@ from telethon.errors import MessageEmptyError, MessageTooLongError, MessageNotMo
 import io
 import asyncio
 import time
-from userbot.utils import admin_cmd
+from uniborg import admin_cmd
 import glob
 import os
 try:
