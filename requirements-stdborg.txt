@@ -43,3 +43,4 @@ pymongo
 dnspython
 urllib3
 pysocks
+instantmusic
