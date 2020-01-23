@@ -15,7 +15,7 @@ import instantmusic
  
 
 
-os.system("rm -rf *.mp3")
+# os.system("rm -rf *.mp3")
 
 
 def bruh(name):
