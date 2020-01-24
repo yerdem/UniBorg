@@ -40,12 +40,9 @@ async def get_users(show):
             await show.edit(mentions)
         except MessageTooLongError:
             await show.edit("Damn, this is a huge group. Uploading users lists as file.")
-            with open('output.txt', 'w') as file:
-                file.write(mentions)
-                file.close()
-            # file = open("userslist.txt", "w+")
-            # file.write(mentions)
-            # file.close()
+            file = open("userslist.txt", "w+")
+            file.write(mentions)
+            file.close()
             await show.client.send_file(
                 show.chat_id,
                 "userslist.txt",
