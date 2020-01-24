@@ -1,16 +1,25 @@
-FROM muhammedfurkan/uniborg:latest
+# From PaperPlaneExtended
+FROM alpine:edge
+ADD https://github.com/muhammedfurkan/UniBorg.git .
+ARG HOME=.
+FROM heroku/python
 
-ENV PATH="/app/bin:$PATH"
-WORKDIR /app
+RUN apt-get install -y \
+    bash \
+    python3-dev \
+    git \
+    fakeroot \
+    ffmpeg \
+    aria2 \
+    youtube-dl \
+    
 
-RUN git clone https://github.com/muhammedfurkan/UniBorg.git -b master /app
+RUN python3 -m ensurepip \
+    && pip3 install --upgrade pip setuptools \
+    && rm -r /usr/lib/python*/ensurepip && \
+    if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi && \
+    if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python; fi && \
+    rm -r /root/.cache
 
-#
-# Copies session and config(if it exists)
-#
-COPY ./userbot.session ./config.env* ./client_secrets.json* ./secret.json* /app/
-
-#
-# Finalization
-#
-CMD python3 -m stdborg
+RUN pip3 install -r requirements.txt && pip3 install tgcrypto
+CMD ["python3", "-m", "uniborg", "uni"]
