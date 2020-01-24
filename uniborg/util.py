@@ -80,47 +80,21 @@ async def is_read(borg, entity, message, is_out=None):
     return message_id <= max_id
 
 
-# async def progress(current, total, event, start, type_of_ps):
-#     """Generic progress_callback for both
-#     upload.py and download.py"""
-#     now = time.time()
-#     diff = now - start
-#     if round(diff % 10.00) == 0 or current == total:
-#         percentage = current * 100 / total
-#         speed = current / diff
-#         elapsed_time = round(diff) * 1000
-#         time_to_completion = round((total - current) / speed) * 1000
-#         estimated_total_time = elapsed_time + time_to_completion
-#         progress_str = "[{0}{1}]\nPercent: {2}%\n".format(
-#             ''.join(["█" for i in range(math.floor(percentage / 5))]),
-#             ''.join(["░" for i in range(20 - math.floor(percentage / 5))]),
-#             round(percentage, 2))
-#         tmp = progress_str + \
-#             "{0} of {1}\nETA: {2}".format(
-#                 humanbytes(current),
-#                 humanbytes(total),
-#                 time_formatter(estimated_total_time)
-#             )
-#         await event.edit("{}\n {}".format(
-#             type_of_ps,
-#             tmp
-#         ))
-
-async def progress(current,total,event,start,type_of_ps):
-	"""Faster progressbar
-	"""
-	now = time.time()
-	diff = now - start
-	if round(diff % 10.00) == 0 or current == total:
-		percentage = current * 100 / total
+async def progress(current, total, event, start, type_of_ps):
+    """Generic progress_callback for both
+    upload.py and download.py"""
+    now = time.time()
+    diff = now - start
+    if round(diff % 10.00) == 0 or current == total:
+        percentage = current * 100 / total
         speed = current / diff
         elapsed_time = round(diff) * 1000
         time_to_completion = round((total - current) / speed) * 1000
         estimated_total_time = elapsed_time + time_to_completion
-        with alive_bar(100, bar='blocks') as bar:
-        	for i in range(100):
-			await asyncio.sleep(5)
-			progress_str = bar()
+        progress_str = "[{0}{1}]\nPercent: {2}%\n".format(
+            ''.join(["█" for i in range(math.floor(percentage / 5))]),
+            ''.join(["░" for i in range(20 - math.floor(percentage / 5))]),
+            round(percentage, 2))
         tmp = progress_str + \
             "{0} of {1}\nETA: {2}".format(
                 humanbytes(current),
@@ -131,6 +105,32 @@ async def progress(current,total,event,start,type_of_ps):
             type_of_ps,
             tmp
         ))
+
+# async def progress(current,total,event,start,type_of_ps):
+# 	"""Faster progressbar
+# 	"""
+# 	now = time.time()
+# 	diff = now - start
+# 	if round(diff % 10.00) == 0 or current == total:
+# 		percentage = current * 100 / total
+#         speed = current / diff
+#         elapsed_time = round(diff) * 1000
+#         time_to_completion = round((total - current) / speed) * 1000
+#         estimated_total_time = elapsed_time + time_to_completion
+#         with alive_bar(100, bar='blocks') as bar:
+#         	for i in range(100):
+# 			await asyncio.sleep(5)
+# 			progress_str = bar()
+#         tmp = progress_str + \
+#             "{0} of {1}\nETA: {2}".format(
+#                 humanbytes(current),
+#                 humanbytes(total),
+#                 time_formatter(estimated_total_time)
+#             )
+#         await event.edit("{}\n {}".format(
+#             type_of_ps,
+#             tmp
+#         ))
 
 
 def humanbytes(size):
