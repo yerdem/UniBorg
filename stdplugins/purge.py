@@ -15,6 +15,7 @@ level=logging.INFO
 print(level)
 
 @borg.on(admin_cmd(pattern="purge ?(.*)"))
+@errors_handler
 async def _(event):
     if event.fwd_from:
         return
@@ -44,6 +45,7 @@ async def _(event):
             await event.edit("**PURGE** Failed!")
 
 @borg.on(admin_cmd(pattern="purgme ?(.*)"))
+@errors_handler
 async def purgeme(delme):
     """ For .purgeme, delete x count of your latest message."""
     message = delme.text
@@ -66,6 +68,7 @@ async def purgeme(delme):
 
 
 @borg.on(admin_cmd(pattern="sd ?(.*)"))
+@errors_handler
 async def selfdestruct(destroy):
     """ For .sd command, make seflf-destructable messages. """
     message = destroy.text

@@ -9,6 +9,7 @@ from telethon.tl import types
 
 
 @borg.on(events.NewMessage(pattern=r"\.resend", outgoing=True))
+@errors_handler
 async def _(event):
     await event.delete()
     m = await event.get_reply_message()

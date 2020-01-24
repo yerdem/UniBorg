@@ -23,6 +23,7 @@ langi = "en"
 
 #kanged from Blank-x ;---;
 @borg.on(admin_cmd(pattern="imdb (.*)")) 
+@errors_handler
 async def imdb(e):
  try:
     movie_name = e.pattern_match.group(1)

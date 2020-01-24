@@ -24,6 +24,7 @@ def bruh(name):
     
 
 @borg.on(admin_cmd(pattern="song ?(.*)"))
+@errors_handler
 async def _(event):
     if event.fwd_from:
         return

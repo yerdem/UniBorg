@@ -19,6 +19,7 @@ logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s'
                     level=logging.WARNING)
 
 @borg.on(events.ChatAction())
+@errors_handler
 async def _(cas):
     chat = await cas.get_chat()
     if (chat.admin_rights or chat.creator):

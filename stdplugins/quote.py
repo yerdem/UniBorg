@@ -58,6 +58,7 @@ if 1 == 1:
     client = borg
 
     @borg.on(admin_cmd(pattern="quote(.*)"))
+    @errors_handler
     async def quotecmd(message):  # noqa: C901
         """Quote a message.
         Usage: .quote [template]

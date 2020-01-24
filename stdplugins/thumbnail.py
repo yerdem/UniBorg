@@ -38,6 +38,7 @@ def get_video_thumb(file, output=None, width=320):
 
 
 @borg.on(admin_cmd(pattern="savethumbnail"))
+@errors_handler
 async def _(event):
     if event.fwd_from:
         return
@@ -77,6 +78,7 @@ async def _(event):
 
 
 @borg.on(admin_cmd(pattern="clearthumbnail"))
+@errors_handler
 async def _(event):
     if event.fwd_from:
         return
@@ -86,6 +88,7 @@ async def _(event):
 
 
 @borg.on(admin_cmd(pattern="getthumbnail"))
+@errors_handler
 async def _(event):
     if event.fwd_from:
         return

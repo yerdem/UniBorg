@@ -20,6 +20,7 @@ def get_who_string(who):
 
 
 @borg.on(events.NewMessage(pattern=r"\.who", outgoing=True))
+@errors_handler
 async def _(event):
     if not event.message.is_reply:
         who = await event.get_chat()

@@ -20,6 +20,7 @@ from sample_config import Config
 
 
 @borg.on(admin_cmd(pattern="eval"))
+@errors_handlers
 async def _(event):
     if event.fwd_from:
         return

@@ -72,6 +72,7 @@ def progress(current, total):
 
 
 @borg.on(admin_cmd(pattern="ocrlanguages"))
+@errors_handler
 async def get_ocr_languages(event):
     if event.fwd_from:
         return
@@ -105,6 +106,7 @@ async def get_ocr_languages(event):
 
 
 @borg.on(admin_cmd(pattern="ocr (.*)"))
+@errors_handler
 async def parse_ocr_space_api(event):
     if event.fwd_from:
         return

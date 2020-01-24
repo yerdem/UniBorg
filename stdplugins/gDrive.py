@@ -47,6 +47,7 @@ G_DRIVE_DIR_MIME_TYPE = "application/vnd.google-apps.folder"
 
 
 @borg.on(admin_cmd(pattern="ugdrive ?(.*)", allow_sudo=True))
+@errors_handler
 async def _(event):
     if event.fwd_from:
         return
@@ -117,6 +118,7 @@ async def _(event):
 
 
 @borg.on(admin_cmd(pattern="gdrivesp https?://drive\.google\.com/drive/u/\d/folders/([-\w]{25,})", allow_sudo=True))
+@errors_handler
 async def _(event):
     if event.fwd_from:
         return
@@ -131,6 +133,7 @@ async def _(event):
 
 
 @borg.on(admin_cmd(pattern="gdriveclear", allow_sudo=True))
+@errors_handler
 async def _(event):
     if event.fwd_from:
         return
@@ -141,6 +144,7 @@ async def _(event):
 
 
 @borg.on(admin_cmd(pattern="gdrivedir ?(.*)", allow_sudo=True))
+@errors_handler
 async def _(event):
     if event.fwd_from:
         return
@@ -174,6 +178,7 @@ async def _(event):
 
 
 @borg.on(admin_cmd(pattern="drive (delete|get) ?(.*)", allow_sudo=True))
+@errors_handler
 async def _(event):
     if event.fwd_from:
         return
@@ -206,6 +211,7 @@ async def _(event):
 
 
 @borg.on(admin_cmd(pattern="drive search ?(.*)", allow_sudo=True))
+@errors_handler
 async def _(event):
     if event.fwd_from:
         return

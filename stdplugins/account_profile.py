@@ -14,6 +14,7 @@ logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s'
                     level=logging.WARNING)
 
 @borg.on(admin_cmd(pattern="pbio (.*)"))  # pylint:disable=E0602
+@errors_handler
 async def _(event):
     if event.fwd_from:
         return
@@ -28,6 +29,7 @@ async def _(event):
 
 
 @borg.on(admin_cmd(pattern="pname ((.|\n)*)"))  # pylint:disable=E0602,W0703
+@errors_handler
 async def _(event):
     if event.fwd_from:
         return
@@ -47,6 +49,7 @@ async def _(event):
 
 
 @borg.on(admin_cmd(pattern="ppic"))  # pylint:disable=E0602
+@errors_handler
 async def _(event):
     if event.fwd_from:
         return

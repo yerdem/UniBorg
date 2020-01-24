@@ -27,6 +27,7 @@ from telethon import events
 from uniborg.util import admin_cmd
 
 @borg.on(admin_cmd(pattern="youtubesearch ?(\d+)? ?(.*)?"))
+@errors_handler
 async def yt_search(video_q):
     reply = await video_q.get_reply_message()
     if video_q.pattern_match.group(2):

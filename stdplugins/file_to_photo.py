@@ -14,6 +14,7 @@ from uniborg import util
 
 
 @borg.on(util.admin_cmd(pattern="f  (.*)"))
+@errors_handler
 async def on_file_to_photo(event):
     await event.delete()
     target = await event.get_reply_message()

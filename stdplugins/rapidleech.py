@@ -28,6 +28,7 @@ logger.info(Config.OPEN_LOAD_LOGIN)
 
 
 @borg.on(admin_cmd(pattern="rl"))
+@errors_handler
 async def _(event):
     if event.fwd_from:
         return

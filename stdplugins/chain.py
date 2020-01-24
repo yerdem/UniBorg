@@ -10,6 +10,7 @@ logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s'
 
                     
 @borg.on(events.NewMessage(pattern=r"\.chain", outgoing=True))
+@errors_handler
 async def _(event):
     await event.edit("Counting...")
     count = -1

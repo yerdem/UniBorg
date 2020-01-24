@@ -33,6 +33,7 @@ from sample_config import Config
 
 
 @borg.on(admin_cmd(pattern="kangsticker ?(.*)"))
+@errors_handler
 async def _(event):
     if event.fwd_from:
         return
@@ -123,6 +124,7 @@ async def _(event):
 
 
 @borg.on(admin_cmd(pattern="packinfo"))
+@errors_handler
 async def _(event):
     if event.fwd_from:
         return
@@ -159,6 +161,7 @@ async def _(event):
 
 
 @borg.on(admin_cmd(pattern="getsticker ?(.*)"))
+@errors_handler
 async def _(event):
     if event.fwd_from:
         return

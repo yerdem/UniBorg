@@ -23,6 +23,7 @@ def progress(current, total):
 
 
 @borg.on(admin_cmd(pattern="getqr"))
+@errors_handler
 async def _(event):
     if event.fwd_from:
         return
@@ -67,6 +68,7 @@ async def _(event):
 
 
 @borg.on(admin_cmd(pattern="makeqr ?(.*)"))
+@errors_handler
 async def _(event):
     if event.fwd_from:
         return

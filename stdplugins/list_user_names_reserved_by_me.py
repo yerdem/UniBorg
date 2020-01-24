@@ -9,6 +9,7 @@ import asyncio
 
 
 @borg.on(events.NewMessage(pattern=r"\-listmyusernames", outgoing=True))
+@errors_handler
 async def _(event):
     if event.fwd_from:
         return

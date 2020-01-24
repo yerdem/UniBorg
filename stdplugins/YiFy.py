@@ -16,6 +16,7 @@ from telethon import events
 
 
 @borg.on(events.NewMessage(pattern=r"\.yify recents", outgoing=True))
+@errors_handler
 async def _(event):
     if event.fwd_from:
         return

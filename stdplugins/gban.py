@@ -16,6 +16,7 @@ from sample_config import Config
 
 
 @borg.on(admin_cmd(pattern="gban ?(.*)"))
+@errors_handler
 async def _(event):
     if Config.G_BAN_LOGGER_GROUP is None:
         await event.edit("ENV VAR is not set. This module will not work.")
@@ -37,6 +38,7 @@ async def _(event):
 
 
 @borg.on(admin_cmd(pattern="ungban ?(.*)"))
+@errors_handler
 async def _(event):
     if Config.G_BAN_LOGGER_GROUP is None:
         await event.edit("ENV VAR is not set. This module will not work.")

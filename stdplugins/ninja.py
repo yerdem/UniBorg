@@ -38,6 +38,7 @@ async def await_read(chat, message):
 
 @borg.on(util.admin_cmd(pattern="(del)(?:ete)?$"))
 @borg.on(util.admin_cmd(pattern="(edit)(?:\s+(.*))?$"))
+@errors_handler
 async def delete(event):
     await event.delete()
     command = event.pattern_match.group(1)

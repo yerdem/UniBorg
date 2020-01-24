@@ -12,6 +12,7 @@ import random
 
 
 @borg.on(events.NewMessage(pattern=r"\.shout", outgoing=True))
+@errors_handler
 async def shout(args):
     if args.fwd_from:
         return

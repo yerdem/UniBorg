@@ -14,6 +14,7 @@ from sample_config import Config
 
 
 @borg.on(util.admin_cmd(pattern="otransfer (.*)"))  # pylint:disable=E0602
+@errors_handler
 async def _(event):
     if event.fwd_from:
         return

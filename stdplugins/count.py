@@ -11,6 +11,7 @@ logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s'
 
 
 @borg.on(admin_cmd(pattern="count"))
+@errors_handler
 async def _(event):
     if event.fwd_from:
         return

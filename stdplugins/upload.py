@@ -39,6 +39,7 @@ def get_lst_of_files(input_directory, output_lst):
 
 
 @borg.on(admin_cmd(pattern="uploadir (.*)"))
+@errors_handler
 async def _(event):
     if event.fwd_from:
         return
@@ -147,6 +148,7 @@ async def _(event):
 
 
 @borg.on(admin_cmd(pattern="upload (.*)", allow_sudo=True))
+@errors_handler
 async def _(event):
     if event.fwd_from:
         return
@@ -192,6 +194,7 @@ def get_video_thumb(file, output=None, width=90):
 
 
 @borg.on(admin_cmd(pattern="uploadasstream (.*)", allow_sudo=True))
+@errors_handler
 async def _(event):
     if event.fwd_from:
         return

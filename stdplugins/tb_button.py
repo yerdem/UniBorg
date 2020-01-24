@@ -13,6 +13,7 @@ BTN_URL_REGEX = re.compile(r"(\{([^\[]+?)\}\<button(url|text):(?:/{0,2})(.+?)(:s
 
 
 @borg.on(admin_cmd(pattern="cbutton"))  # pylint:disable=E0602
+@errors_handler
 async def _(event):
     if Config.TG_BOT_USER_NAME_BF_HER is None or tgbot is None:
         await event.edit("need to set up a @BotFather bot for this module to work")

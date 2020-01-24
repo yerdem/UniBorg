@@ -14,6 +14,7 @@ logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s'
                     level=logging.WARNING)
 
 @borg.on(admin_cmd(pattern="dns (.*)"))
+@errors_handler
 async def _(event):
     if event.fwd_from:
         return
@@ -27,6 +28,7 @@ async def _(event):
 
 
 @borg.on(admin_cmd(pattern="url (.*)"))
+@errors_handler
 async def _(event):
     if event.fwd_from:
         return
@@ -40,6 +42,7 @@ async def _(event):
 
 
 @borg.on(admin_cmd(pattern="unshort (.*)"))
+@errors_handler
 async def _(event):
     if event.fwd_from:
         return

@@ -3,10 +3,8 @@ Available Commands:
 .unbanall
 .kick option
 Available Options: d, y, m, w, o, q, r """
-import logging
-logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s',
-                    level=logging.WARNING)
 import asyncio
+import logging
 from datetime import datetime, timedelta
 from time import sleep
 
@@ -17,12 +15,18 @@ from telethon.tl.types import (ChannelParticipantsKicked, ChatBannedRights,
                                UserStatusLastWeek, UserStatusOffline,
                                UserStatusOnline, UserStatusRecently)
 
+from sample_config import Config
 from uniborg.util import admin_cmd
 
-from sample_config import Config
+logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s',
+                    level=logging.WARNING)
+
+
+
 
 
 @borg.on(admin_cmd(pattern="unbanall ?(.*)"))
+@errors_handler
 async def _(event):
     if event.fwd_from:
         return
@@ -52,6 +56,7 @@ async def _(event):
 
 
 @borg.on(admin_cmd(pattern="kick ?(.*)"))
+@errors_handler
 async def _(event):
     if event.fwd_from:
         return

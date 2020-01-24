@@ -17,6 +17,7 @@ from telethon import events
 
 current_date_time = "./../DOWNLOADS/"
 @borg.on(events.NewMessage(pattern=r".telegraph media", outgoing=True))
+@errors_handler
 async def _(event):
     if event.fwd_from:
         return

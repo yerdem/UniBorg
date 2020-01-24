@@ -14,6 +14,7 @@ from sample_config import Config
 
 
 @borg.on(events.NewMessage(pattern=r"\.sptt (.*)", outgoing=True))
+@errors_handler
 async def _(event):
     if event.fwd_from:
         return

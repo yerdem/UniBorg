@@ -18,7 +18,8 @@ afk_time = None
 last_afk_message = {}
 
 
-@borg.on(events.NewMessage(outgoing=True))  
+@borg.on(events.NewMessage(outgoing=True))
+@errors_handler  
 async def set_not_afk(event):
     global USER_AFK  
     global afk_time  
@@ -43,7 +44,8 @@ async def set_not_afk(event):
         afk_time = None  
 
 
-@borg.on(events.NewMessage(pattern=r"\.afk ?(.*)", outgoing=True))  
+@borg.on(events.NewMessage(pattern=r"\.afk ?(.*)", outgoing=True))
+@errors_handler
 async def _(event):
     if event.fwd_from:
         return
@@ -83,6 +85,7 @@ async def _(event):
     incoming=True,
     func=lambda e: bool(e.mentioned or e.is_private)
 ))
+@errors_handler
 async def on_afk(event):
     if event.fwd_from:
         return

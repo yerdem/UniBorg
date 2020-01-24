@@ -16,6 +16,7 @@ from sample_config import Config
 
 
 @borg.on(admin_cmd(pattern="screencapture (.*)"))
+@errors_handler
 async def _(event):
     if event.fwd_from:
         return

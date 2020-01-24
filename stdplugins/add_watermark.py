@@ -9,6 +9,7 @@ from sample_config import Config
 import shutil
 
 @borg.on(admin_cmd(pattern="watermark"))
+@errors_handler
 async def _(event):
     if event.fwd_from:
         return

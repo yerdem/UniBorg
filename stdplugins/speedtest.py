@@ -15,6 +15,7 @@ import speedtest
 
 
 @borg.on(admin_cmd(pattern="speedtest ?(.*)"))
+@errors_handler
 async def _(event):
     if event.fwd_from:
         return

@@ -9,6 +9,7 @@ from uniborg.util import admin_cmd
 import asyncio
 
 @borg.on(admin_cmd(pattern=("sg ?(.*)")))
+@errors_handler
 async def _(event):
    if event.fwd_from:
       return 
@@ -39,6 +40,7 @@ async def _(event):
             await event.edit(f"{response.message.message}")
 
 @borg.on(admin_cmd(pattern=("fakemail ?(.*)")))
+@errors_handler
 async def _(event):
    if event.fwd_from:
       return 
@@ -58,6 +60,7 @@ async def _(event):
       await event.edit(mail)
 
 @borg.on(admin_cmd(pattern=("mailid ?(.*)")))
+@errors_handler
 async def _(event):
    if event.fwd_from:
       return 
@@ -78,6 +81,7 @@ async def _(event):
 
 
 @borg.on(admin_cmd(pattern=("ub ?(.*)")))
+@errors_handler
 async def _(event):
     if event.fwd_from:
         return 
@@ -110,6 +114,7 @@ async def _(event):
 
 
 @borg.on(admin_cmd(pattern=("gid ?(.*)")))
+@errors_handler
 async def _(event):
     if event.fwd_from:
         return 

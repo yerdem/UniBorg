@@ -9,6 +9,7 @@ logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s'
                     level=logging.WARNING)
 
 @borg.on(events.NewMessage(pattern=r"\.kalp", outgoing=True))
+@errors_handler
 async def _(event):
 	if event.fwd_from:
 		return

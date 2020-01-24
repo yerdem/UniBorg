@@ -12,6 +12,7 @@ from telethon import events
 from sample_config import Config
 
 @borg.on(events.NewMessage(pattern=r"\.spam", outgoing=True))
+@errors_handler
 async def spammer(e):
     if not e.text[0].isalpha() and e.text[0] not in ("/", "#", "@", "!"):
         message = e.text
