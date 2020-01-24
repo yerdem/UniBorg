@@ -1,14 +1,19 @@
 """Get Administrators of any Chat*
 Syntax: .userlist"""
 import logging
+from os import remove
+
+from telethon import errors, events
+from telethon.errors.rpcerrorlist import (MessageTooLongError,
+                                          UserIdInvalidError)
+from telethon.tl.types import (ChannelParticipantAdmin,
+                               ChannelParticipantCreator,
+                               ChannelParticipantsAdmins)
+
+from uniborg.util import admin_cmd
+
 logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s',
                     level=logging.WARNING)
-from telethon import events
-from telethon import errors
-from telethon.tl.types import ChannelParticipantsAdmins, ChannelParticipantAdmin, ChannelParticipantCreator
-from uniborg.util import admin_cmd
-from telethon.errors.rpcerrorlist import (UserIdInvalidError,
-                                          MessageTooLongError)
                                           
 @borg.on(events.NewMessage(pattern=r"\.userlist ?(.*)", outgoing=True))
 async def get_users(show):
@@ -49,4 +54,4 @@ async def get_users(show):
                 caption='Users in {}'.format(title),
                 reply_to=show.id,
             )
-            remove("userslist.txt")
+            os.remove("userslist.txt")
