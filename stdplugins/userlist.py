@@ -4,7 +4,8 @@ import logging
 from os import remove
 
 from telethon import errors, events
-from telethon.errors.rpcerrorlist import (MessageTooLongError,
+from telethon.errors.rpcerrorlist import (ChatAdminRequiredError,
+                                          MessageTooLongError,
                                           UserIdInvalidError)
 from telethon.tl.types import (ChannelParticipantAdmin,
                                ChannelParticipantCreator,
