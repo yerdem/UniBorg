@@ -8,7 +8,6 @@ from collections import deque
 
 
 @borg.on(events.NewMessage(pattern=r"\.moon animation", outgoing=True))
-@errors_handler
 async def _(event):
 	if event.fwd_from:
 		return

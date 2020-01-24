@@ -25,7 +25,6 @@ logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s'
 # thumb_image_path = Config.TMP_DOWNLOAD_DIRECTORY + "thumb_image.jpg"
 
 @borg.on(admin_cmd(pattern="converttovideo ?(.*)"))
-@errors_handler
 async def _(event):
     if event.fwd_from:
         return

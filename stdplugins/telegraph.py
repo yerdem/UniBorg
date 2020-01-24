@@ -22,7 +22,6 @@ auth_url = r["auth_url"]
 
 
 @borg.on(admin_cmd(pattern="telegraph (media|text) ?(.*)"))
-@errors_handler
 async def _(event):
     if event.fwd_from:
         return

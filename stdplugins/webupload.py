@@ -11,7 +11,6 @@ import os
 
 
 @borg.on(admin_cmd(pattern="webupload ?(.+?|) --(anonfiles|transfer|filebin|anonymousfiles|megaupload|bayfiles)"))
-@errors_handler
 async def _(event):
 	await event.edit("processing ...")
 	PROCESS_RUN_TIME = 100

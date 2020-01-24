@@ -16,7 +16,6 @@ import time
 from sample_config import Config
 
 @borg.on(events.NewMessage(pattern=r"\.lslocal", outgoing=True))
-@errors_handler
 async def _(event):
     if event.fwd_from:
         return
@@ -58,7 +57,6 @@ async def _(event):
 
 
 @borg.on(events.NewMessage(pattern=r"\.lsroot", outgoing=True))
-@errors_handler
 async def _(event):
     if event.fwd_from:
         return

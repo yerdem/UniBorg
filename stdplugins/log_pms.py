@@ -20,7 +20,6 @@ NO_PM_LOG_USERS = []
 
 
 @borg.on(events.NewMessage(incoming=True, func=lambda e: e.is_private))
-@errors_handler
 async def monito_p_m_s(event):
     sender = await event.get_sender()
     if Config.NC_LOG_P_M_S and not sender.bot:

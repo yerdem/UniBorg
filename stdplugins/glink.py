@@ -54,7 +54,6 @@ else:
     ssl._create_default_https_context = _create_unverified_https_context
 
 @borg.on(admin_cmd(pattern="glink ?(.*)", allow_sudo=True))
-@errors_handler
 async def download(dryb):
     """ For .gdrive command, upload files to google drive. """
     if not dryb.text[0].isalpha() and dryb.text[0] not in ("/", "#", "@", "!"):
@@ -242,7 +241,6 @@ async def upload_file(http, file_path, file_name, mime_type, event):
     return download_url
 
 @borg.on(admin_cmd(pattern="gfolder ?(.*)", allow_sudo=True))
-@errors_handler
 async def _(event):
     if event.fwd_from:
         return

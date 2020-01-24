@@ -21,7 +21,6 @@ def aesthetify(string):
 
 @borg.on(events.NewMessage(pattern=r'.ae\s+(.+)', outgoing=True))
 @borg.on(events.MessageEdited(pattern=r'.ae\s+(.+)', outgoing=True))
-@errors_handler
 async def _(event):
     text = event.pattern_match.group(1)
     text = "".join(aesthetify(text))

@@ -12,7 +12,6 @@ from uniborg.util import admin_cmd
 
 
 @borg.on(admin_cmd(pattern="promote ?(.*)"))
-@errors_handler
 async def _(event):
     if event.fwd_from:
         return
@@ -44,7 +43,6 @@ async def _(event):
 
 
 @borg.on(admin_cmd(pattern="prankpromote ?(.*)"))
-@errors_handler
 async def _(event):
     if event.fwd_from:
         return

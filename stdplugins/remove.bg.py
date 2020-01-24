@@ -34,7 +34,6 @@ from sample_config import Config
 
 
 @borg.on(admin_cmd(pattern="remove\.bg ?(.*)"))
-@errors_handler
 async def _(event):
     HELP_STR = "`.remove.bg` as reply to a media, or give a link as an argument to this command"
     if event.fwd_from:

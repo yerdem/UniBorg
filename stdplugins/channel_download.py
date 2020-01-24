@@ -16,7 +16,6 @@ logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s'
                     
 
 @borg.on(events.NewMessage(pattern=r"\.getc", outgoing=True))
-@errors_handler
 async def get_media(event):
     if event.fwd_from:
         return
@@ -53,7 +52,6 @@ async def get_media(event):
              
              
 @borg.on(events.NewMessage(pattern=r"\.geta", outgoing=True))
-@errors_handler
 async def get_media(event):
     if event.fwd_from:
         return

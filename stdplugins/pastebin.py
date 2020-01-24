@@ -20,7 +20,6 @@ def progress(current, total):
 
 
 @borg.on(admin_cmd(pattern="paste ?(.*)"))
-@errors_handler
 async def _(event):
     if event.fwd_from:
         return

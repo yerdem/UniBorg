@@ -18,7 +18,6 @@ async def _(event):
 
 
 @borg.on(events.NewMessage(pattern=r"\.(fix)?reply", outgoing=True))
-@errors_handler
 async def _(event):
     if not event.is_reply or event.chat_id not in _last_messages:
         return

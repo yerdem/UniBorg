@@ -6,7 +6,6 @@ from sample_config import Config
 
 
 @borg.on(admin_cmd(pattern="unmutechat"))
-@errors_handler
 async def unmute_chat(unm_e):
     """ For .unmutechat command, unmute a muted chat. """
     try:
@@ -21,7 +20,6 @@ async def unmute_chat(unm_e):
 
 
 @borg.on(admin_cmd(pattern="mutechat"))
-@errors_handler
 async def mute_chat(mute_e):
     """ For .mutechat command, mute any chat. """
     try:

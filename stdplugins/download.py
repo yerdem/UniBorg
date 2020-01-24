@@ -22,7 +22,6 @@ from sample_config import Config
 
 
 @borg.on(admin_cmd(pattern="download ?(.*)", allow_sudo=True))
-@errors_handler
 async def _(event):
     if event.fwd_from:
         return

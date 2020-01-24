@@ -9,7 +9,6 @@ from uniborg.util import admin_cmd
 
 
 @borg.on(admin_cmd(pattern="get_poll"))
-@errors_handler
 async def _(event):
     reply_message = await event.get_reply_message()
     if reply_message.media is None:

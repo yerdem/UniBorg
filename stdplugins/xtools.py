@@ -11,7 +11,6 @@ from uniborg.util import admin_cmd
 
 
 @borg.on(admin_cmd(pattern="xtools (.*)"))
-@errors_handler
 async def _(event):
     if event.fwd_from:
         return

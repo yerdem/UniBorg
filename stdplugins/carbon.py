@@ -21,7 +21,6 @@ logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s'
 
                     
 @borg.on(events.NewMessage(pattern=r"\.carbon", outgoing=True))
-@errors_handler
 async def carbon_api(e):
  if not e.text[0].isalpha() and e.text[0] not in ("/", "#", "@", "!"):
    """ A Wrapper for carbon.now.sh """

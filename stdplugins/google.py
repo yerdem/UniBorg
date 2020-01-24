@@ -24,7 +24,6 @@ def progress(current, total):
 
 
 @borg.on(admin_cmd(pattern="google search (.*)"))
-@errors_handler
 async def _(event):
     if event.fwd_from:
         return
@@ -50,7 +49,6 @@ async def _(event):
 
 
 @borg.on(admin_cmd(pattern="google image (.*)"))
-@errors_handler
 async def _(event):
     if event.fwd_from:
         return
@@ -89,7 +87,6 @@ async def _(event):
 
 
 @borg.on(admin_cmd(pattern="google reverse search"))
-@errors_handler
 async def _(event):
     if event.fwd_from:
         return

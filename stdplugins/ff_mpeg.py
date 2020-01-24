@@ -20,7 +20,6 @@ FF_MPEG_DOWN_LOAD_MEDIA_PATH = "uniborg.media.ffmpeg"
 
 
 @borg.on(admin_cmd(pattern="ffmpegsave"))
-@errors_handler
 async def ff_mpeg_trim_cmd(event):
     if event.fwd_from:
         return
@@ -52,7 +51,6 @@ async def ff_mpeg_trim_cmd(event):
 
 
 @borg.on(admin_cmd(pattern="ffmpegtrim"))
-@errors_handler
 async def ff_mpeg_trim_cmd(event):
     if event.fwd_from:
         return

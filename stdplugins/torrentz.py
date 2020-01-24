@@ -11,7 +11,6 @@ from uniborg.util import admin_cmd, humanbytes
 @borg.on(admin_cmd(  # pylint:disable=E0602
     pattern="torrentz (torrentz2\.eu|idop\.se) (.*)"
 ))
-@errors_handler
 async def _(event):
     if event.fwd_from:
         return

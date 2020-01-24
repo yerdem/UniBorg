@@ -32,7 +32,6 @@ from uniborg.util import admin_cmd, humanbytes, progress, time_formatter
 
 
 @borg.on(admin_cmd(pattern=("tar ?(.*)")))
-@errors_handler
 async def _(event):
     if event.fwd_from:
         return

@@ -12,7 +12,6 @@ from uniborg.util import admin_cmd
 
 
 @borg.on(admin_cmd(pattern="wikipedia (.*)"))
-@errors_handler
 async def _(event):
     if event.fwd_from:
         return
