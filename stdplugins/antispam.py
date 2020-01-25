@@ -12,7 +12,7 @@ from telethon.tl.types import ChatBannedRights
 
 from sample_config import Config
 from uniborg.util import admin_cmd
-
+import aiohttp
 logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s',
                     level=logging.WARNING)
 
@@ -25,8 +25,10 @@ async def _(cas):
             id = user.id
             mid = "{}".format(chat.title)
             mention = "[{}](tg://user?id={})".format(user.first_name, user.id) 
-            from requests import get
-            r = get(f'https://combot.org/api/cas/check?user_id={id}') 
+            # from requests import get
+            # async with aiohttp.get()
+            # r = get(f'https://combot.org/api/cas/check?user_id={id}') 
+            r = await aiohttp.get(f'https://combot.org/api/cas/check?user_id={id}')
             r_dict = r.json() 
             if r_dict['ok']:
                 try: 
@@ -47,7 +49,7 @@ async def _(cas):
                     # entity = await borg.get_entity(chat)
                     async for g in client.iter_participants(chat):
                         entity = g.id
-                    await borg.edit_permissions(int('-100' + str(entity.id)), user.id, view_messages=False)
+                    await borg.edit_permissions(entity user.id, view_messages=False)
                     await borg.send_message(Config.PRIVATE_GROUP_BOT_API_ID, f"**antispam log** \n{who}\n{where}\n{how}\n**Action**: Banned",link_preview=False)
                 except (Exception) as exc:
                     await borg.send_message(Config.PRIVATE_GROUP_BOT_API_ID, str(exc))
