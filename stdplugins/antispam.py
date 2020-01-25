@@ -28,7 +28,7 @@ async def _(cas):
             # from requests import get
             # async with aiohttp.get()
             # r = get(f'https://combot.org/api/cas/check?user_id={id}') 
-            r = await aiohttp.get(f'https://combot.org/api/cas/check?user_id={id}')
+            r = async with aiohttp.get(f'https://combot.org/api/cas/check?user_id={id}')
             r_dict = r.json() 
             if r_dict['ok']:
                 try: 
