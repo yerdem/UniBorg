@@ -25,10 +25,10 @@ async def _(cas):
             id = user.id
             mid = "{}".format(chat.title)
             mention = "[{}](tg://user?id={})".format(user.first_name, user.id) 
-            # from requests import get
+            from requests import get
             # async with aiohttp.get()
-            # r = get(f'https://combot.org/api/cas/check?user_id={id}') 
-            r = async with aiohttp.get(f'https://combot.org/api/cas/check?user_id={id}')
+            r = get(f'https://combot.org/api/cas/check?user_id={id}') 
+            # r = await aiohttp.get(f'https://combot.org/api/cas/check?user_id={id}')
             r_dict = r.json() 
             if r_dict['ok']:
                 try: 
