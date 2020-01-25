@@ -1,7 +1,7 @@
 """Get Administrators of any Chat*
 Syntax: .userlist"""
 import logging
-from os import remove
+import os
 
 from telethon import errors, events
 from telethon.errors.rpcerrorlist import (ChatAdminRequiredError,
