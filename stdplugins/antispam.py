@@ -49,7 +49,7 @@ async def _(cas):
                     # entity = await borg.get_entity(chat)
                     async for g in client.iter_participants(chat):
                         entity = g.id
-                    await borg.edit_permissions(entity user.id, view_messages=False)
+                    await borg.edit_permissions(entity, user.id, view_messages=False)
                     await borg.send_message(Config.PRIVATE_GROUP_BOT_API_ID, f"**antispam log** \n{who}\n{where}\n{how}\n**Action**: Banned",link_preview=False)
                 except (Exception) as exc:
                     await borg.send_message(Config.PRIVATE_GROUP_BOT_API_ID, str(exc))
