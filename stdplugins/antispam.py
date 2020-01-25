@@ -8,8 +8,6 @@ import sys
 
 from telethon import events
 from telethon.tl.functions.channels import EditBannedRequest
-#COMBOT ANTI SPAM SYSTEM IS USED
-#created for @uniborg (unfinished)
 from telethon.tl.types import ChatBannedRights
 
 from sample_config import Config
@@ -48,7 +46,7 @@ async def _(cas):
                     # moree = "**More**: ```{}```".format(more)
                     # entity = await borg.get_entity(chat)
                     async for g in client.iter_participants(chat):
-                        entity = g
+                        entity = g.id
                     await borg.edit_permissions(int('-100' + str(entity.id)), user.id, view_messages=False)
                     await borg.send_message(Config.PRIVATE_GROUP_BOT_API_ID, f"**antispam log** \n{who}\n{where}\n{how}\n**Action**: Banned",link_preview=False)
                 except (Exception) as exc:
