@@ -93,7 +93,9 @@ async def _(event):
             end_two = datetime.now()
             os.remove(downloaded_file_name)
             ms_two = (end_two - end).seconds
-            await event.edit("Downloaded in {} seconds. Uploaded in {} seconds.".format(ms_dl, ms_two))
+            a = await event.edit("Downloaded in {} seconds. Uploaded in {} seconds.".format(ms_dl, ms_two))
+            await a.delete()
+            await asyncio.sleep(5)
         else:
             await event.edit("File Not Found {}".format(input_str))
             await asyncio.sleep(5)
