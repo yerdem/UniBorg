@@ -57,10 +57,6 @@ async def _(cas):
                     fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
                     print(exc_type, fname, exc_tb.tb_lineno)
                     print(exc)
-                    await borg.send_message(Config.PRIVATE_GROUP_BOT_API_ID,exc)
-                    await asyncio.sleep(5)
-                    await borg.send_message(Config.PRIVATE_GROUP_BOT_API_ID,fname)
-                    await asyncio.sleep(5)
-                    await borg.send_message(Config.PRIVATE_GROUP_BOT_API_ID,exc_tb.tb_lineno)
+                    
     else:
         return ""
