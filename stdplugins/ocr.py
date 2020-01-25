@@ -1,12 +1,9 @@
 """Optical Character Recognition by OCR.Space
 Syntax: .ocr <LangCode>
 Available Languages: .ocrlanguages"""
-import logging
-logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s',
-                    level=logging.WARNING)
 import json
 import os
-
+from PIL import Image
 import requests
 from telethon import events
 
@@ -117,7 +114,10 @@ async def parse_ocr_space_api(event):
         Config.TMP_DOWNLOAD_DIRECTORY,
         progress_callback=progress
     )
+    if downloaded_file_name.endswith((".webp")):
+        downloaded_file_name = conv_image(downloaded_file_name)
     test_file = ocr_space_file(filename=downloaded_file_name, language=lang_code)
+    ParsedText = "hmm"
     try:
         ParsedText = test_file["ParsedResults"][0]["ParsedText"]
         ProcessingTimeInMilliseconds = str(int(test_file["ProcessingTimeInMilliseconds"]) // 1000)
@@ -127,3 +127,13 @@ async def parse_ocr_space_api(event):
         await event.edit("Read Document in {} seconds. \n{}".format(ProcessingTimeInMilliseconds, ParsedText))
     os.remove(downloaded_file_name)
     await event.edit(ParsedText)
+
+
+def conv_image(image):
+    im = Image.open(image)
+    im.save(image, "PNG")
+    new_file_name = image + ".png"
+    os.rename(image, new_file_name)
+    return new_file_name
+
+
