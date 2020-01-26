@@ -24,10 +24,12 @@ aria2 = aria2p.API(
 async def magnet_download(event):
 	if event.fwd_from:
 		return
-	var = event.text[5:]
-	print(var)	
-	uris = ""
-	uris = [var]
+	# var = event.text[5:]
+	input_str = event.pattern_match.group(1)
+	uris = input_str
+	print(uris)	
+	# uris = ""
+	# uris = [var]
 
 	#Add URL Into Queue 
 	try:	
