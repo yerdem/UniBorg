@@ -11,6 +11,7 @@ import subprocess
 import sys
 from uniborg.util import admin_cmd, humanbytes, progress, time_formatter
 import logging
+from telethon.errors import FloodWaitError
 logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s',
                     level=logging.WARNING)
                     
@@ -71,9 +72,14 @@ async def get_media(event):
     with open('log.txt','w') as f:
     	f.write(str(msgs))
     for msg in msgs:
-       if msg.media is not None:
-	        await borg.download_media(
-                msg,dir)          
+        if msg.media is not None:
+            try:
+                await borg.download_media(
+                    msg,dir) 
+            except FloodWaitError as e:
+                await asyncio.sleep(20)
+	        # await borg.download_media(
+            #     msg,dir)          
     ps = subprocess.Popen(('ls', 'temp'), stdout=subprocess.PIPE)
     output = subprocess.check_output(('wc', '-l'), stdin=ps.stdout)
     ps.wait()
