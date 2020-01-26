@@ -47,7 +47,7 @@ async def _(cas):
                     how = "**How**: [here](https://combot.org/api/cas/check?user_id={})".format(id)
                     # moree = "**More**: ```{}```".format(more)
                     # entity = await borg.get_entity(chat)
-                    async for g in client.iter_participants(chat):
+                    async for g in borg.iter_participants(chat):
                         entity = g.id
                     await borg.edit_permissions(entity, user.id, view_messages=False)
                     await borg.send_message(Config.PRIVATE_GROUP_BOT_API_ID, f"**antispam log** \n{who}\n{where}\n{how}\n**Action**: Banned",link_preview=False)
