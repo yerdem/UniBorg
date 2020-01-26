@@ -271,6 +271,8 @@ def authorize(token_file, storage):
     credentials = storage.get()
     # Create an httplib2.Http object and authorize it with our credentials
     http = httplib2.Http()
+    #https://github.com/googleapis/google-api-python-client/issues/803
+    http.redirect_codes = set(http.redirect_codes) - {308}
     credentials.refresh(http)
     http = credentials.authorize(http)
     return http

@@ -28,7 +28,7 @@ wikipedia
 youtube-dl
 google-api-python-client
 oauth2client
-httplib2
+httplib2==0.15.0
 humanize
 asyncio
 spotify_token
