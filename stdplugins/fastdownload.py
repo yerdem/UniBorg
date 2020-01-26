@@ -20,12 +20,13 @@ aria2 = aria2p.API(
 	)
 
 
-@borg.on(events.NewMessage(pattern=r"\.url", outgoing=True))
+@borg.on(events.NewMessage(pattern=r"\.ariaurl", outgoing=True))
 async def magnet_download(event):
 	if event.fwd_from:
 		return
 	var = event.text[5:]
 	print(var)	
+	uris = ""
 	uris = [var]
 
 	#Add URL Into Queue 
