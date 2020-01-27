@@ -28,7 +28,7 @@ async def download_url(event):
 	# var = event.text[5:]
 	input_str = event.pattern_match.group(1)
 	uris = []
-	uris = uris.append[input_str]
+	uris.append[input_str]
 	print(uris[0])	
 	# uris = ""
 	# uris = [var]
