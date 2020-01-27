@@ -27,14 +27,15 @@ async def download_url(event):
 		return
 	# var = event.text[5:]
 	input_str = event.pattern_match.group(1)
-	uris = input_str
-	print(uris)	
+	uris = []
+	uris = uris.append[input_str]
+	print(uris[0])	
 	# uris = ""
 	# uris = [var]
 	await asyncio.sleep(5)
 	#Add URL Into Queue 
 	try:	
-		download = aria2.add_uris(uris, options=None, position=None)
+		download = aria2.add_uris(uris[0], options=None, position=None)
 	except Exception as e:
 		await event.edit("`Error:\n`"+str(e))
 		return
