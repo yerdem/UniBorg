@@ -20,7 +20,7 @@ aria2 = aria2p.API(
 	)
 
 
-@borg.on(events.NewMessage(pattern=r"\.ariaurl", outgoing=True))
+@borg.on(events.NewMessage(pattern="ariaurl ?(.*)", outgoing=True))
 async def magnet_download(event):
 	if event.fwd_from:
 		return
