@@ -59,7 +59,7 @@ async def download_url(event):
 			
 	await event.edit("**File Downloaded Successfully:** `{}`".format(file.name))
 
-@borg.on(events.NewMessage(pattern="fastdownload ?(.*)"))
+@borg.on(admin_cmd(pattern="fastdownload ?(.*)"))
 async def _download(event):
 	if event.fwd_from:
 		return
