@@ -68,7 +68,7 @@ async def _download(event):
 	print(uris)	
 	# uris = [var]
 	try: # Add URL Into Queue
-		download = aria2.add_uris(uris, options=None, position=None)
+		download = aria2.add_uris(uris[0], options=None, position=None)
 	except Exception as e:
 		logger.info(str(e))
 		await event.edit("Error :\n`{}`".format(str(e)))
