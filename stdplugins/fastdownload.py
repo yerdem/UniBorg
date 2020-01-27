@@ -22,18 +22,16 @@ aria2 = aria2p.API(
 
 
 @borg.on(admin_cmd(pattern="ariaurl ?(.*)"))
-async def magnet_download(event):
+async def download_url(event):
 	if event.fwd_from:
 		return
 	# var = event.text[5:]
-	a = await event.edit("progressing now wait!")
 	input_str = event.pattern_match.group(1)
 	uris = input_str
 	print(uris)	
 	# uris = ""
 	# uris = [var]
 	await asyncio.sleep(5)
-	await a.delete()
 	#Add URL Into Queue 
 	try:	
 		download = aria2.add_uris(uris, options=None, position=None)
