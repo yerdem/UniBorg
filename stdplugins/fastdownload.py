@@ -26,13 +26,14 @@ async def magnet_download(event):
 	if event.fwd_from:
 		return
 	# var = event.text[5:]
-	a = event.edit("progressing now wait!")
+	a = await event.edit("progressing now wait!")
 	input_str = event.pattern_match.group(1)
 	uris = input_str
 	print(uris)	
 	# uris = ""
 	# uris = [var]
-
+	await asyncio.sleep(5)
+	await a.delete()
 	#Add URL Into Queue 
 	try:	
 		download = aria2.add_uris(uris, options=None, position=None)
