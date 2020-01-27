@@ -20,11 +20,12 @@ aria2 = aria2p.API(
 	)
 
 
-@borg.on(events.NewMessage(pattern="ariaurl ?(.*)", outgoing=True))
+@borg.on(admin_cmd(pattern="ariaurl ?(.*)"))
 async def magnet_download(event):
 	if event.fwd_from:
 		return
 	# var = event.text[5:]
+	a = event.edit("progressing now wait!")
 	input_str = event.pattern_match.group(1)
 	uris = input_str
 	print(uris)	
