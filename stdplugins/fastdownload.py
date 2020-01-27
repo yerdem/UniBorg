@@ -24,7 +24,7 @@ aria2 = aria2p.API(
 async def magnet_download(event):
 	if event.fwd_from:
 		return
-	var = event.text[5:]
+	var = event.pattern_match.group(1)
 	print(var)	
 	uris = [var]
 
