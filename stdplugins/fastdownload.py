@@ -33,10 +33,17 @@ async def download_url(event):
 	print(uris[0])	
 	# uris = ""
 	# uris = [var]
+	
 	await asyncio.sleep(5)
 	#Add URL Into Queue 
 	try:	
-		download = aria2.addUri(uris[0], options=None, position=None)
+		download = aria2.add_uris(
+			uris[0], 
+			options=(
+				allow_overwrite=True,
+				always_resume=True,
+				), 
+			position=None)
 	except Exception as e:
 		await event.edit("`Error:\n`"+str(e))
 		return
