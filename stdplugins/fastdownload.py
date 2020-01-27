@@ -58,3 +58,40 @@ async def download_url(event):
 			pass	
 			
 	await event.edit("**File Downloaded Successfully:** `{}`".format(file.name))
+
+@borg.on(events.NewMessage(pattern="fastdownload ?(.*)"))
+async def _download(event):
+	if event.fwd_from:
+		return
+	input_str = event.pattern_match.group(1)
+	uris = [input_str]
+	print(uris)	
+	# uris = [var]
+	try: # Add URL Into Queue
+		download = aria2.add_uris(uris, options=None, position=None)
+	except Exception as e:
+		logger.info(str(e))
+		await event.edit("Error :\n`{}`".format(str(e)))
+		return
+	gid = download.gid
+	complete = None
+	await progress_status(gid=gid,event=event,previous=None)
+	file = aria2.get_download(gid)
+	if file.followed_by_ids:
+		new_gid = await check_metadata(gid)
+		await progress_status(gid=new_gid,event=event,previous=None)
+	while complete != True:
+		file = aria2.get_download(gid)
+		complete = file.is_complete
+		try:
+			msg = "**Downloading File:** "+str(file.name) +"\n + \
+				**Speed:** "+ str(file.download_speed_string())+"\n + \
+				**Progress:** "+str(file.progress_string())+"\n + \
+				**Total Size:** "+str(file.total_length_string())+"\n + \
+				**ETA:**  "+str(file.eta_string())+"\n +" 	
+			await event.edit(msg)
+			await asyncio.sleep(10)
+		except Exception as e:
+			print(str(e))
+			pass	
+	
