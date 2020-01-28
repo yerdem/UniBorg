@@ -3,7 +3,7 @@ usage: reply with file : .rar , .7z  create archived file
 
 unzip usage: reply with zipped file .unzipper
 
-Coded by @furki
+Coded by @By_Azade
 
 """
 
