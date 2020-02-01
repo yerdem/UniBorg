@@ -7,7 +7,7 @@ import json
 import re
 from telethon import events, custom
 from uniborg.util import admin_cmd, humanbytes
-
+from sample_config import Config
 
 @borg.on(admin_cmd(  # pylint:disable=E0602
     pattern="ib (.[^ ]*) (.*)"
