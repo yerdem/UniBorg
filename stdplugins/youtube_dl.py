@@ -23,7 +23,7 @@ if Config.TG_BOT_USER_NAME_BF_HER is not None and tgbot is not None:
         if event.query.user_id == borg.uid:  # pylint:disable=E0602
             ctc, tg_send_type, ytdl_format_code, ytdl_extension = event.query.data.decode("UTF-8").split("|")
             try:
-                with open(Config.TMP_DOWNLOAD_DIRECTORY +  "YouTubeDL.json", "r", encoding="utf8") as f:
+                with open(Config.TMP_DOWNLOAD_DIRECTORY + "/" + "YouTubeDL.json", "r", encoding="utf8") as f:
                     response_json = json.load(f)
             except FileNotFoundError as e:
                 await event.edit("Something Bad Happened")
@@ -31,7 +31,7 @@ if Config.TG_BOT_USER_NAME_BF_HER is not None and tgbot is not None:
             custom_file_name = str(response_json.get("title")) + \
                 "_" + ytdl_format_code + "." + ytdl_extension
             youtube_dl_url = response_json["webpage_url"]
-            download_directory = Config.TMP_DOWNLOAD_DIRECTORY +  custom_file_name
+            download_directory = Config.TMP_DOWNLOAD_DIRECTORY + "/" + custom_file_name
             command_to_exec = []
             if tg_send_type == "audio":
                 command_to_exec = [
@@ -79,7 +79,7 @@ if Config.TG_BOT_USER_NAME_BF_HER is not None and tgbot is not None:
                 return False
             if t_response:
                 # logger.info(t_response)
-                os.remove(Config.TMP_DOWNLOAD_DIRECTORY +  "YouTubeDL.json")
+                os.remove(Config.TMP_DOWNLOAD_DIRECTORY + "/" + "YouTubeDL.json")
                 end_one = datetime.now()
                 time_taken_for_download = (end_one -start).seconds
                 await event.edit(f"Downloaded to `{download_directory}` in {time_taken_for_download} seconds")
