@@ -114,8 +114,7 @@ if Config.TG_BOT_USER_NAME_BF_HER is not None and tgbot is not None:
                     if "\n" in x_reponse:
                         x_reponse, _ = x_reponse.split("\n")
                     response_json = json.loads(x_reponse)
-                    save_ytdl_json_path = Config.TMP_DOWNLOAD_DIRECTORY + \
-                        "/" + "YouTubeDL" + ".json"
+                    save_ytdl_json_path = "./DOWNLOADS/YouTubeDL.json"
                     with open(save_ytdl_json_path, "w", encoding="utf8") as outfile:
                         json.dump(response_json, outfile, ensure_ascii=False)
                     # logger.info(response_json)
