@@ -8,6 +8,9 @@ import re
 from telethon import events, custom
 from uniborg.util import admin_cmd, humanbytes
 
+from telethon import custom, events
+from uniborg.util import admin_cmd
+from math import ceil
 
 @borg.on(admin_cmd(  # pylint:disable=E0602
     pattern="ib (.[^ ]*) (.*)"
@@ -114,7 +117,8 @@ if Config.TG_BOT_USER_NAME_BF_HER is not None and tgbot is not None:
                     if "\n" in x_reponse:
                         x_reponse, _ = x_reponse.split("\n")
                     response_json = json.loads(x_reponse)
-                    save_ytdl_json_path = Config.TMP_DOWNLOAD_DIRECTORY + "/" + "YouTubeDL" + ".json"
+                    save_ytdl_json_path = Config.TMP_DOWNLOAD_DIRECTORY + \
+                        "/" + "YouTubeDL" + ".json"
                     with open(save_ytdl_json_path, "w", encoding="utf8") as outfile:
                         json.dump(response_json, outfile, ensure_ascii=False)
                     # logger.info(response_json)
@@ -262,7 +266,7 @@ def paginate_help(page_number, loaded_plugins, prefix):
             helpable_plugins.append(p)
     helpable_plugins = sorted(helpable_plugins)
     modules = [custom.Button.inline(
-        "{} {}".format("💎", x),
+        "{} {}".format("✅", x),
         data="ub_plugin_{}".format(x))
         for x in helpable_plugins]
     pairs = list(zip(modules[::number_of_cols], modules[1::number_of_cols]))
