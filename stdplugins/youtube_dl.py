@@ -12,7 +12,7 @@ import re
 import time
 from datetime import datetime
 from telethon import custom, events
-from sample_config import Config
+
 
 # pylint:disable=E0602
 if Config.TG_BOT_USER_NAME_BF_HER is not None and tgbot is not None:
@@ -23,15 +23,15 @@ if Config.TG_BOT_USER_NAME_BF_HER is not None and tgbot is not None:
         if event.query.user_id == borg.uid:  # pylint:disable=E0602
             ctc, tg_send_type, ytdl_format_code, ytdl_extension = event.query.data.decode("UTF-8").split("|")
             try:
-                with open("./DOWNLOADS/YouTubeDL.json", "r", encoding="utf-8") as f:
+                with open('./DOWNLOADS/YouTubeDL.json', 'r', encoding='utf-8') as f:
                     response_json = json.load(f)
             except FileNotFoundError as e:
                 await event.edit("Something Bad Happened")
                 return False
-            custom_file_name = response_json.get["title"] + \
+            custom_file_name = str(response_json.get("title")) + \
                 "_" + ytdl_format_code + "." + ytdl_extension
             youtube_dl_url = response_json["webpage_url"]
-            download_directory = "./DOWNLOADS/" + custom_file_name
+            download_directory = Config.TMP_DOWNLOAD_DIRECTORY + "/" + custom_file_name
             command_to_exec = []
             if tg_send_type == "audio":
                 command_to_exec = [
@@ -70,8 +70,8 @@ if Config.TG_BOT_USER_NAME_BF_HER is not None and tgbot is not None:
             stdout, stderr = await process.communicate()
             e_response = stderr.decode().strip()
             t_response = stdout.decode().strip()
-            logger.info(e_response)
-            logger.info(t_response)
+            # logger.info(e_response)
+            # logger.info(t_response)
             ad_string_to_replace = "please report this issue on https://yt-dl.org/bug . Make sure you are using the latest version; see  https://yt-dl.org/update  on how to update. Be sure to call youtube-dl with the --verbose flag and include its complete output."
             if e_response and ad_string_to_replace in e_response:
                 error_message = e_response.replace(ad_string_to_replace, "")
@@ -79,7 +79,7 @@ if Config.TG_BOT_USER_NAME_BF_HER is not None and tgbot is not None:
                 return False
             if t_response:
                 # logger.info(t_response)
-                os.remove("./DOWNLOADS/YouTubeDL.json")
+                os.remove(Config.TMP_DOWNLOAD_DIRECTORY + "/" + "YouTubeDL.json")
                 end_one = datetime.now()
                 time_taken_for_download = (end_one -start).seconds
                 await event.edit(f"Downloaded to `{download_directory}` in {time_taken_for_download} seconds")
