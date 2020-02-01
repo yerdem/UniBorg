@@ -113,8 +113,8 @@ if Config.TG_BOT_USER_NAME_BF_HER is not None and tgbot is not None:
                     )
                 elif t_response:
                     x_reponse = t_response
-                    if "\n" in x_reponse:
-                        x_reponse, _ = x_reponse.split("\n")
+                    # if "\n" in x_reponse:
+                    #     x_reponse, _ = x_reponse.split("\n")
                     response_json = json.loads(x_reponse)
                     # print(response_json)
                     dump = json.dumps(response_json)
