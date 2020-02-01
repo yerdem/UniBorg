@@ -28,7 +28,7 @@ if Config.TG_BOT_USER_NAME_BF_HER is not None and tgbot is not None:
             except FileNotFoundError as e:
                 await event.edit("Something Bad Happened")
                 return False
-            custom_file_name = response_json.get("title") + \
+            custom_file_name = response_json.get["title"] + \
                 "_" + ytdl_format_code + "." + ytdl_extension
             youtube_dl_url = response_json["webpage_url"]
             download_directory = "./DOWNLOADS/" + custom_file_name
