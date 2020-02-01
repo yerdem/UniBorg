@@ -70,8 +70,8 @@ if Config.TG_BOT_USER_NAME_BF_HER is not None and tgbot is not None:
             stdout, stderr = await process.communicate()
             e_response = stderr.decode().strip()
             t_response = stdout.decode().strip()
-            # logger.info(e_response)
-            # logger.info(t_response)
+            logger.info(e_response)
+            logger.info(t_response)
             ad_string_to_replace = "please report this issue on https://yt-dl.org/bug . Make sure you are using the latest version; see  https://yt-dl.org/update  on how to update. Be sure to call youtube-dl with the --verbose flag and include its complete output."
             if e_response and ad_string_to_replace in e_response:
                 error_message = e_response.replace(ad_string_to_replace, "")
