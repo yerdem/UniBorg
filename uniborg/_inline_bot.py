@@ -120,7 +120,7 @@ if Config.TG_BOT_USER_NAME_BF_HER is not None and tgbot is not None:
                     print(dump)
                     # save_ytdl_json_path = Config.TMP_DOWNLOAD_DIRECTORY + "YouTubeDL" + ".json"
                     with open('./DOWNLOADS/YouTubeDL.json', 'w', encoding='utf-8') as outfile:
-                        json.dump(response_json, outfile, ensure_ascii=False)
+                        json.dump(dump, outfile, ensure_ascii=False)
                         # json.dump(response_json, outfile, ensure_ascii=False)    
                     # logger.info(response_json)
                     inline_keyboard = []
