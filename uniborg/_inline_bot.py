@@ -5,7 +5,7 @@ from math import ceil
 import re
 from telethon import events, custom
 from uniborg.util import admin_cmd, humanbytes
-
+import asyncio
 
 @borg.on(admin_cmd(  # pylint:disable=E0602
     pattern="ib (.[^ ]*) (.*)"
