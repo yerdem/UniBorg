@@ -32,6 +32,7 @@ if Config.TG_BOT_USER_NAME_BF_HER is not None and tgbot is not None:
                 return False
             response_json = json.loads(json.dumps(response_my_json))
             print(response_json)
+            print(response_json["webpage_url"])
             custom_file_name = response_json[5] + \
                 "_" + ytdl_format_code + "." + ytdl_extension
             youtube_dl_url = response_json["webpage_url"]
