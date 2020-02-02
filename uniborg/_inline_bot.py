@@ -96,11 +96,10 @@ if Config.TG_BOT_USER_NAME_BF_HER is not None and tgbot is not None:
                 # ]
                 command_to_exec = {
                     'no_warnings': True,
-                    'youtube_include_dash_manifest',
+                    'youtube_include_dash_manifest':True,
                     'dumpjson': True,
                     'writeinfojson': True,
-                     ytdl_url,
-
+                    'outtmpl': ytdl_url
                 }
                 try:
                     with YoutubeDL(command_to_exec) as ytdl:
@@ -135,27 +134,6 @@ if Config.TG_BOT_USER_NAME_BF_HER is not None and tgbot is not None:
                 except Exception as e:
                     await event.edit(f"{str(type(e)): {str(e)}}")
                     return
-                
-                # process = await asyncio.create_subprocess_exec(
-                #     *command_to_exec,
-                #     # stdout must a pipe to be accessible as process.stdout
-                #     stdout=asyncio.subprocess.PIPE,
-                #     stderr=asyncio.subprocess.PIPE,
-                # )
-                # # Wait for the subprocess to finish
-                # stdout, stderr = await process.communicate()
-                # e_response = stderr.decode().strip()
-                # # logger.info(e_response)
-                # t_response = stdout.decode().strip()
-                # logger.info(command_to_exec)
-                # if e_response:
-                #     error_message = e_response.replace("please report this issue on https://yt-dl.org/bug . Make sure you are using the latest version; see  https://yt-dl.org/update  on how to update. Be sure to call youtube-dl with the --verbose flag and include its complete output.", "")
-                #     # throw error
-                #     result = builder.article(
-                #         "YTDL Errors © @UniBorg",
-                #         text=f"{error_message} Powered by @UniBorg",
-                #         link_preview=False
-                #     )
                 if ytdl_data:
                     x_reponse = ytdl_data
                     if "\n" in x_reponse:
@@ -175,10 +153,10 @@ if Config.TG_BOT_USER_NAME_BF_HER is not None and tgbot is not None:
                     # logger.info(response_json)
                     inline_keyboard = []
                     duration = None
-                    if "duration" in response_json:
-                        duration = response_json["duration"]
-                    if "formats" in response_json:
-                        for formats in response_json["formats"]:
+                    if "duration" in ytdl_data:
+                        duration = ytdl_data['duration']
+                    if "formats" in ytdl_data:
+                        for formats in ytdl_data['formats']:
                             format_id = formats.get("format_id")
                             format_string = formats.get("format_note")
                             if format_string is None:
@@ -186,7 +164,7 @@ if Config.TG_BOT_USER_NAME_BF_HER is not None and tgbot is not None:
                             format_ext = formats.get("ext")
                             approx_file_size = ""
                             if "filesize" in formats:
-                                approx_file_size = humanbytes(formats["filesize"])
+                                approx_file_size = humanbytes(formats['filesize'])
                             cb_string_video = "ytdl|{}|{}|{}".format(
                                 "video", format_id, format_ext)
                             if format_string is not None:
@@ -225,8 +203,8 @@ if Config.TG_BOT_USER_NAME_BF_HER is not None and tgbot is not None:
                                 )
                             ])
                     else:
-                        format_id = response_json["format_id"]
-                        format_ext = response_json["ext"]
+                        format_id = ytdl_data['format_id']
+                        format_ext = ytdl_data["ext"]
                         cb_string_video = "ytdl|{}|{}|{}".format(
                             "video", format_id, format_ext)
                         inline_keyboard.append([
