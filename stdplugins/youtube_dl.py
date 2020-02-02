@@ -26,10 +26,11 @@ if Config.TG_BOT_USER_NAME_BF_HER is not None and tgbot is not None:
             ytdl_format_code = event.query.data.decode("UTF-8").split("|")
             try:
                 with open("./DOWNLOADS/YouTubeDL.json", "r", encoding="UTF-8") as f:
-                    response_json = json.load(f)
+                    response_my_json = f.read()
             except FileNotFoundError as e:
                 await event.edit(f"Something Bad Happened\n{str(e)}")
                 return False
+            response_json = json.loads(response_my_json)
             custom_file_name = str(response_json.get("title")) + \
                 "_" + ytdl_format_code + "." + ytdl_extension
             youtube_dl_url = response_json["webpage_url"]
