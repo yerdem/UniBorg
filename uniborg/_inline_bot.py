@@ -106,33 +106,33 @@ if Config.TG_BOT_USER_NAME_BF_HER is not None and tgbot is not None:
                         ytdl_data = ytdl.extract_info(url)
                     logger.info(command_to_exec)
                 except DownloadError as DE:
-                    await event.edit(f"`{str(DE)}`")
+                    logger.info(f"`{str(DE)}`")
                     return
                 except ContentTooShortError:
-                    await event.edit("`The download content was too short.`")
+                    logger.info("`The download content was too short.`")
                     return
                 except GeoRestrictedError:
-                    await event.edit(
+                    logger.info(
                         "`Video is not available from your geographic location due to geographic restrictions imposed by a website.`"
                     )
                     return
                 except MaxDownloadsReached:
-                    await event.edit("`Max-downloads limit has been reached.`")
+                    logger.info("`Max-downloads limit has been reached.`")
                     return
                 except PostProcessingError:
-                    await event.edit("`There was an error during post processing.`")
+                    logger.info("`There was an error during post processing.`")
                     return
                 except UnavailableVideoError:
-                    await event.edit("`Media is not available in the requested format.`")
+                    logger.info("`Media is not available in the requested format.`")
                     return
                 except XAttrMetadataError as XAME:
-                    await event.edit(f"`{XAME.code}: {XAME.msg}\n{XAME.reason}`")
+                    logger.info(f"`{XAME.code}: {XAME.msg}\n{XAME.reason}`")
                     return
                 except ExtractorError:
-                    await event.edit("`There was an error during info extraction.`")
+                    logger.info("`There was an error during info extraction.`")
                     return
                 except Exception as e:
-                    await event.edit(f"{str(type(e)): {str(e)}}")
+                    logger.info(f"{str(type(e)): {str(e)}}")
                     return
                 if ytdl_data:
                     x_reponse = ytdl_data
