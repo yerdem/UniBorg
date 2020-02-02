@@ -132,7 +132,7 @@ if Config.TG_BOT_USER_NAME_BF_HER is not None and tgbot is not None:
                     print("`There was an error during info extraction.`")
                     return
                 except Exception as e:
-                    print(f"{str(type(e)): {str(e)}}")
+                    # print(f"{str(type(e)): {str(e)}}")
                     return
                 if ytdl_data:
                     x_reponse = ytdl_data
