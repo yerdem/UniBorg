@@ -97,7 +97,7 @@ if Config.TG_BOT_USER_NAME_BF_HER is not None and tgbot is not None:
                 with YoutubeDL(command_to_exec) as ytdl:
                     ytdl_data = ytdl.extract_info(url)
                 ytdl_data = t_response
-                if t_response:
+                if ytdl_data:
                     x_reponse = t_response
                     if "\n" in x_reponse:
                         x_reponse, _ = x_reponse.split("\n")
