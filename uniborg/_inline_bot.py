@@ -106,33 +106,33 @@ if Config.TG_BOT_USER_NAME_BF_HER is not None and tgbot is not None:
                         ytdl_data = ytdl.extract_info(url)
                     logger.info(command_to_exec)
                 except DownloadError as DE:
-                    logger.info(f"`{str(DE)}`")
+                    print(f"`{str(DE)}`")
                     return
                 except ContentTooShortError:
-                    logger.info("`The download content was too short.`")
+                    print("`The download content was too short.`")
                     return
                 except GeoRestrictedError:
-                    logger.info(
+                    print(
                         "`Video is not available from your geographic location due to geographic restrictions imposed by a website.`"
                     )
                     return
                 except MaxDownloadsReached:
-                    logger.info("`Max-downloads limit has been reached.`")
+                    print("`Max-downloads limit has been reached.`")
                     return
                 except PostProcessingError:
-                    logger.info("`There was an error during post processing.`")
+                    print("`There was an error during post processing.`")
                     return
                 except UnavailableVideoError:
-                    logger.info("`Media is not available in the requested format.`")
+                    print("`Media is not available in the requested format.`")
                     return
                 except XAttrMetadataError as XAME:
-                    logger.info(f"`{XAME.code}: {XAME.msg}\n{XAME.reason}`")
+                    print(f"`{XAME.code}: {XAME.msg}\n{XAME.reason}`")
                     return
                 except ExtractorError:
-                    logger.info("`There was an error during info extraction.`")
+                    print("`There was an error during info extraction.`")
                     return
                 except Exception as e:
-                    logger.info(f"{str(type(e)): {str(e)}}")
+                    print(f"{str(type(e)): {str(e)}}")
                     return
                 if ytdl_data:
                     x_reponse = ytdl_data
