@@ -94,7 +94,7 @@ if Config.TG_BOT_USER_NAME_BF_HER is not None and tgbot is not None:
                     "-j",
                     ytdl_url
                 ]
-                with YoutubeDL(opts) as ytdl:
+                with YoutubeDL(command_to_exec) as ytdl:
                     ytdl_data = ytdl.extract_info(url)
                 ytdl_data = t_response
                 if t_response:
