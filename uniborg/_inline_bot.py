@@ -104,6 +104,7 @@ if Config.TG_BOT_USER_NAME_BF_HER is not None and tgbot is not None:
                     response_json = json.loads(x_reponse)
                     # print(response_json)
                     dump = json.dumps(response_json)
+                    print(dump)
                 # logger.info(command_to_exec)
                 # process = await asyncio.create_subprocess_exec(
                 #     *command_to_exec,
