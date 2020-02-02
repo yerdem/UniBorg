@@ -24,8 +24,10 @@ if Config.TG_BOT_USER_NAME_BF_HER is not None and tgbot is not None:
             ytdl_extension = event.query.data.decode("UTF-8").split("|")
             tg_send_type = event.query.data.decode("UTF-8").split("|")
             ytdl_format_code = event.query.data.decode("UTF-8").split("|")
+            user_working_dir = os.path.join(Config.TMP_DOWNLOAD_DIRECTORY)
             try:
-                with open("./DOWNLOADS/YouTubeDL.json", "r", encoding="UTF-8") as f:
+                ytdl_json_path = user_working_dir + str("YouTubeDL") + ".json"
+                with open(ytdl_json_path, "r", encoding="UTF-8") as f:
                     response_json = json.load(f)
                     f.close()
             except FileNotFoundError as e:

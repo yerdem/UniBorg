@@ -121,7 +121,9 @@ if Config.TG_BOT_USER_NAME_BF_HER is not None and tgbot is not None:
                     if not os.path.isdir(Config.TMP_DOWNLOAD_DIRECTORY):
                         os.makedirs(Config.TMP_DOWNLOAD_DIRECTORY)
                     # save_ytdl_json_path = Config.TMP_DOWNLOAD_DIRECTORY + "YouTubeDL" + ".json"
-                    with open('./DOWNLOADS/YouTubeDL.json', 'w', encoding='utf-8') as outfile:
+                    user_working_dir = os.path.join(Config.TMP_DOWNLOAD_DIRECTORY)
+                    ytdl_json_path = user_working_dir + str("YouTubeDL") + ".json"
+                    with open(ytdl_json_path, 'w', encoding='utf-8') as outfile:
                         json.dump(dump, outfile, ensure_ascii=False)
                         # json.dump(response_json, outfile, ensure_ascii=False)    
                     # logger.info(response_json)
