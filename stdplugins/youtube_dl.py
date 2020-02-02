@@ -39,7 +39,6 @@ if Config.TG_BOT_USER_NAME_BF_HER is not None and tgbot is not None:
                     "-c",
                     "--prefer-ffmpeg",
                     "--extract-audio",
-                    "--write-thumbnail",
                     "--audio-format", ytdl_extension,
                     "--audio-quality", ytdl_format_code,
                     youtube_dl_url,
