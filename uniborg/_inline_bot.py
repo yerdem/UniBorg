@@ -9,6 +9,11 @@ from telethon import events, custom
 from uniborg.util import admin_cmd, humanbytes
 from sample_config import Config
 import os
+from youtube_dl import YoutubeDL
+from youtube_dl.utils import (DownloadError, ContentTooShortError,
+                              ExtractorError, GeoRestrictedError,
+                              MaxDownloadsReached, PostProcessingError,
+                              UnavailableVideoError, XAttrMetadataError)
 
 @borg.on(admin_cmd(  # pylint:disable=E0602
     pattern="ib (.[^ ]*) (.*)"
@@ -82,36 +87,77 @@ if Config.TG_BOT_USER_NAME_BF_HER is not None and tgbot is not None:
             r = p.search(query)
             ytdl_url = r.group(1)
             if ytdl_url.startswith("http"):
-                command_to_exec = [
-                    "youtube-dl",
-                    "--no-warnings",
-                    "--youtube-skip-dash-manifest",
-                    "-j",
-                    ytdl_url
-                ]
-                logger.info(command_to_exec)
-                process = await asyncio.create_subprocess_exec(
-                    *command_to_exec,
-                    # stdout must a pipe to be accessible as process.stdout
-                    stdout=asyncio.subprocess.PIPE,
-                    stderr=asyncio.subprocess.PIPE,
-                )
-                # Wait for the subprocess to finish
-                stdout, stderr = await process.communicate()
-                e_response = stderr.decode().strip()
-                # logger.info(e_response)
-                t_response = stdout.decode().strip()
-                logger.info(command_to_exec)
-                if e_response:
-                    error_message = e_response.replace("please report this issue on https://yt-dl.org/bug . Make sure you are using the latest version; see  https://yt-dl.org/update  on how to update. Be sure to call youtube-dl with the --verbose flag and include its complete output.", "")
-                    # throw error
-                    result = builder.article(
-                        "YTDL Errors © @UniBorg",
-                        text=f"{error_message} Powered by @UniBorg",
-                        link_preview=False
+                # command_to_exec = [
+                #     "youtube-dl",
+                #     "--no-warnings",
+                #     "--youtube-skip-dash-manifest",
+                #     "-j",
+                #     ytdl_url
+                # ]
+                command_to_exec = {
+                    'no_warnings': True,
+                    'youtube_include_dash_manifest',
+                    'dumpjson': True,
+                    'writeinfojson': True,
+                     ytdl_url,
+
+                }
+                try:
+                    with YoutubeDL(command_to_exec) as ytdl:
+                        ytdl_data = ytdl.extract_info(url)
+                    logger.info(command_to_exec)
+                except DownloadError as DE:
+                    await event.edit(f"`{str(DE)}`")
+                    return
+                except ContentTooShortError:
+                    await event.edit("`The download content was too short.`")
+                    return
+                except GeoRestrictedError:
+                    await event.edit(
+                        "`Video is not available from your geographic location due to geographic restrictions imposed by a website.`"
                     )
-                elif t_response:
-                    x_reponse = t_response
+                    return
+                except MaxDownloadsReached:
+                    await event.edit("`Max-downloads limit has been reached.`")
+                    return
+                except PostProcessingError:
+                    await event.edit("`There was an error during post processing.`")
+                    return
+                except UnavailableVideoError:
+                    await event.edit("`Media is not available in the requested format.`")
+                    return
+                except XAttrMetadataError as XAME:
+                    await event.edit(f"`{XAME.code}: {XAME.msg}\n{XAME.reason}`")
+                    return
+                except ExtractorError:
+                    await event.edit("`There was an error during info extraction.`")
+                    return
+                except Exception as e:
+                    await event.edit(f"{str(type(e)): {str(e)}}")
+                    return
+                
+                # process = await asyncio.create_subprocess_exec(
+                #     *command_to_exec,
+                #     # stdout must a pipe to be accessible as process.stdout
+                #     stdout=asyncio.subprocess.PIPE,
+                #     stderr=asyncio.subprocess.PIPE,
+                # )
+                # # Wait for the subprocess to finish
+                # stdout, stderr = await process.communicate()
+                # e_response = stderr.decode().strip()
+                # # logger.info(e_response)
+                # t_response = stdout.decode().strip()
+                # logger.info(command_to_exec)
+                # if e_response:
+                #     error_message = e_response.replace("please report this issue on https://yt-dl.org/bug . Make sure you are using the latest version; see  https://yt-dl.org/update  on how to update. Be sure to call youtube-dl with the --verbose flag and include its complete output.", "")
+                #     # throw error
+                #     result = builder.article(
+                #         "YTDL Errors © @UniBorg",
+                #         text=f"{error_message} Powered by @UniBorg",
+                #         link_preview=False
+                #     )
+                if ytdl_data:
+                    x_reponse = ytdl_data
                     if "\n" in x_reponse:
                         x_reponse, _ = x_reponse.split("\n")
                     response_json = json.loads(x_reponse)

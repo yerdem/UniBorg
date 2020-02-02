@@ -13,6 +13,11 @@ import time
 from datetime import datetime
 from telethon import custom, events
 from sample_config import Config
+from youtube_dl import YoutubeDL
+from youtube_dl.utils import (DownloadError, ContentTooShortError,
+                              ExtractorError, GeoRestrictedError,
+                              MaxDownloadsReached, PostProcessingError,
+                              UnavailableVideoError, XAttrMetadataError)
 
 # pylint:disable=E0602
 if Config.TG_BOT_USER_NAME_BF_HER is not None and tgbot is not None:
