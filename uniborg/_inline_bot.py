@@ -7,13 +7,7 @@ import json
 import re
 from telethon import events, custom
 from uniborg.util import admin_cmd, humanbytes
-from sample_config import Config
-import os
-from youtube_dl import YoutubeDL
-from youtube_dl.utils import (DownloadError, ContentTooShortError,
-                              ExtractorError, GeoRestrictedError,
-                              MaxDownloadsReached, PostProcessingError,
-                              UnavailableVideoError, XAttrMetadataError)
+
 
 @borg.on(admin_cmd(  # pylint:disable=E0602
     pattern="ib (.[^ ]*) (.*)"
@@ -85,78 +79,52 @@ if Config.TG_BOT_USER_NAME_BF_HER is not None and tgbot is not None:
             # input format should be ytdl URL
             p = re.compile("ytdl (.*)")
             r = p.search(query)
-            ytdl_url = r.group(1)
+            ytdl_url = r.group(1).strip()
             if ytdl_url.startswith("http"):
-                # command_to_exec = [
-                #     "youtube-dl",
-                #     "--no-warnings",
-                #     "--youtube-skip-dash-manifest",
-                #     "-j",
-                #     ytdl_url
-                # ]
-                command_to_exec = {
-                    'no_warnings': True,
-                    'youtube_include_dash_manifest':True,
-                    'dumpjson': True,
-                    'writeinfojson': True,
-                    'outtmpl': ytdl_url
-                }
-                try:
-                    with YoutubeDL(command_to_exec) as ytdl:
-                        ytdl_data = ytdl.extract_info(url)
-                    logger.info(command_to_exec)
-                except DownloadError as DE:
-                    print(f"`{str(DE)}`")
-                    return
-                except ContentTooShortError:
-                    print("`The download content was too short.`")
-                    return
-                except GeoRestrictedError:
-                    print(
-                        "`Video is not available from your geographic location due to geographic restrictions imposed by a website.`"
+                command_to_exec = [
+                    "youtube-dl",
+                    "--no-warnings",
+                    "--youtube-skip-dash-manifest",
+                    "-j",
+                    ytdl_url
+                ]
+                logger.info(command_to_exec)
+                process = await asyncio.create_subprocess_exec(
+                    *command_to_exec,
+                    # stdout must a pipe to be accessible as process.stdout
+                    stdout=asyncio.subprocess.PIPE,
+                    stderr=asyncio.subprocess.PIPE,
+                )
+                # Wait for the subprocess to finish
+                stdout, stderr = await process.communicate()
+                e_response = stderr.decode().strip()
+                # logger.info(e_response)
+                t_response = stdout.decode().strip()
+                logger.info(command_to_exec)
+                if e_response:
+                    error_message = e_response.replace("please report this issue on https://yt-dl.org/bug . Make sure you are using the latest version; see  https://yt-dl.org/update  on how to update. Be sure to call youtube-dl with the --verbose flag and include its complete output.", "")
+                    # throw error
+                    result = builder.article(
+                        "YTDL Errors © @UniBorg",
+                        text=f"{error_message} Powered by @UniBorg",
+                        link_preview=False
                     )
-                    return
-                except MaxDownloadsReached:
-                    print("`Max-downloads limit has been reached.`")
-                    return
-                except PostProcessingError:
-                    print("`There was an error during post processing.`")
-                    return
-                except UnavailableVideoError:
-                    print("`Media is not available in the requested format.`")
-                    return
-                except XAttrMetadataError as XAME:
-                    print(f"`{XAME.code}: {XAME.msg}\n{XAME.reason}`")
-                    return
-                except ExtractorError:
-                    print("`There was an error during info extraction.`")
-                    return
-                except Exception as e:
-                    # print(f"{str(type(e)): {str(e)}}")
-                    return
-                if ytdl_data:
-                    x_reponse = ytdl_data
+                elif t_response:
+                    x_reponse = t_response
                     if "\n" in x_reponse:
                         x_reponse, _ = x_reponse.split("\n")
                     response_json = json.loads(x_reponse)
-                    # print(response_json)
-                    dump = json.dumps(response_json)
-                    # print(dump)
-                    if not os.path.isdir(Config.TMP_DOWNLOAD_DIRECTORY):
-                        os.makedirs(Config.TMP_DOWNLOAD_DIRECTORY)
-                    # save_ytdl_json_path = Config.TMP_DOWNLOAD_DIRECTORY + "YouTubeDL" + ".json"
-                    user_working_dir = os.path.join(Config.TMP_DOWNLOAD_DIRECTORY)
-                    ytdl_json_path = user_working_dir + str("YouTubeDL") + ".json"
-                    with open(ytdl_json_path, 'w', encoding='utf-8') as outfile:
-                        json.dump(dump, outfile, ensure_ascii=False)
-                        # json.dump(response_json, outfile, ensure_ascii=False)    
+                    save_ytdl_json_path = Config.TMP_DOWNLOAD_DIRECTORY + \
+                        "/" + "YouTubeDL" + ".json"
+                    with open(save_ytdl_json_path, "w", encoding="utf8") as outfile:
+                        json.dump(response_json, outfile, ensure_ascii=False)
                     # logger.info(response_json)
                     inline_keyboard = []
                     duration = None
-                    if "duration" in ytdl_data:
-                        duration = ytdl_data['duration']
-                    if "formats" in ytdl_data:
-                        for formats in ytdl_data['formats']:
+                    if "duration" in response_json:
+                        duration = response_json["duration"]
+                    if "formats" in response_json:
+                        for formats in response_json["formats"]:
                             format_id = formats.get("format_id")
                             format_string = formats.get("format_note")
                             if format_string is None:
@@ -164,7 +132,7 @@ if Config.TG_BOT_USER_NAME_BF_HER is not None and tgbot is not None:
                             format_ext = formats.get("ext")
                             approx_file_size = ""
                             if "filesize" in formats:
-                                approx_file_size = humanbytes(formats['filesize'])
+                                approx_file_size = humanbytes(formats["filesize"])
                             cb_string_video = "ytdl|{}|{}|{}".format(
                                 "video", format_id, format_ext)
                             if format_string is not None:
@@ -203,8 +171,8 @@ if Config.TG_BOT_USER_NAME_BF_HER is not None and tgbot is not None:
                                 )
                             ])
                     else:
-                        format_id = ytdl_data['format_id']
-                        format_ext = ytdl_data["ext"]
+                        format_id = response_json["format_id"]
+                        format_ext = response_json["ext"]
                         cb_string_video = "ytdl|{}|{}|{}".format(
                             "video", format_id, format_ext)
                         inline_keyboard.append([

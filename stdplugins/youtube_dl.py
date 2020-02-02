@@ -12,12 +12,7 @@ import re
 import time
 from datetime import datetime
 from telethon import custom, events
-from sample_config import Config
-from youtube_dl import YoutubeDL
-from youtube_dl.utils import (DownloadError, ContentTooShortError,
-                              ExtractorError, GeoRestrictedError,
-                              MaxDownloadsReached, PostProcessingError,
-                              UnavailableVideoError, XAttrMetadataError)
+
 
 # pylint:disable=E0602
 if Config.TG_BOT_USER_NAME_BF_HER is not None and tgbot is not None:
@@ -26,24 +21,17 @@ if Config.TG_BOT_USER_NAME_BF_HER is not None and tgbot is not None:
     ))
     async def on_plug_in_callback_query_handler(event):
         if event.query.user_id == borg.uid:  # pylint:disable=E0602
-            ytdl_extension = event.query.data.decode("UTF-8").split("|")
-            tg_send_type = event.query.data.decode("UTF-8").split("|")
-            ytdl_format_code = event.query.data.decode("UTF-8").split("|")
-            user_working_dir = os.path.join(Config.TMP_DOWNLOAD_DIRECTORY)
+            ctc, tg_send_type, ytdl_format_code, ytdl_extension = event.query.data.decode("UTF-8").split("|")
             try:
-                ytdl_json_path = user_working_dir + str("YouTubeDL") + ".json"
-                with open(ytdl_json_path, "r", encoding="UTF-8") as f:
+                with open(Config.TMP_DOWNLOAD_DIRECTORY + "/" + "YouTubeDL.json", "r", encoding="utf8") as f:
                     response_json = json.load(f)
-                    f.close()
             except FileNotFoundError as e:
-                await event.edit(f"Something Bad Happened\n{str(e)}")
+                await event.edit("Something Bad Happened")
                 return False
-            print(response_json)
-            print("****")
-            custom_file_name = response_json["title"] + \
+            custom_file_name = str(response_json.get("title")) + \
                 "_" + ytdl_format_code + "." + ytdl_extension
             youtube_dl_url = response_json["webpage_url"]
-            download_directory = "./DOWNLOADS/" + custom_file_name
+            download_directory = Config.TMP_DOWNLOAD_DIRECTORY + "/" + custom_file_name
             command_to_exec = []
             if tg_send_type == "audio":
                 command_to_exec = [
@@ -91,7 +79,7 @@ if Config.TG_BOT_USER_NAME_BF_HER is not None and tgbot is not None:
                 return False
             if t_response:
                 # logger.info(t_response)
-                os.remove("./DOWNLOADS/YouTubeDL.json")
+                os.remove(Config.TMP_DOWNLOAD_DIRECTORY + "/" + "YouTubeDL.json")
                 end_one = datetime.now()
                 time_taken_for_download = (end_one -start).seconds
                 await event.edit(f"Downloaded to `{download_directory}` in {time_taken_for_download} seconds")
