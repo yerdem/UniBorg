@@ -743,7 +743,7 @@ async def _(event):
         a = await borg.get_admin_log(event.chat_id,limit=5, edit=False, delete=True)
         print(a[0].old.message)
         for i in a:
-            deleted_msg = "\n".format(i.old.message)
+            deleted_msg = "\n{}".format(i.old.message)
         #   await event.edit(i.old.message)
         await event.edit(deleted_msg)
     else:
