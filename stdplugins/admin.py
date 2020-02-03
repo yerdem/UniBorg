@@ -734,7 +734,7 @@ async def list_users(eventListUsers):
             )
             remove("userslist.txt")
 
-@borg.on(admin_cmd(pattern="undlt$"))
+@borg.on(admin_cmd(pattern="undlt ?(.*)"))
 async def _(event):
     if event.fwd_from:
         return
