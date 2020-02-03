@@ -742,10 +742,9 @@ async def _(event):
     if c.admin_rights or c.creator:
         a = await borg.get_admin_log(event.chat_id,limit=5, edit=False, delete=True)
         print(a[0].old.message)
-        deleted_msg = ""
+        deleted_msg = "Deleted message in this group:"
         for i in a:
-            deleted_msg += "\n{}".format(i.old.message)
-        #   await event.edit(i.old.message)
+            deleted_msg += "\n`{}`".format(i.old.message)
         await event.edit(deleted_msg)
     else:
         await event.edit("`You need administrative permissions in order to do this command`")
