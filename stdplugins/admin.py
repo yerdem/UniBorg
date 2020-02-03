@@ -741,7 +741,7 @@ async def _(event):
     c = await event.get_chat()
     if c.admin_rights or c.creator:
         a = await borg.get_admin_log(event.chat_id,limit=1, edit=False, delete=True)
-        print(a[0].old)
+        print(a[0].old.message)
         for i in a:
           await event.edit(i.original.action.message)
     else:
