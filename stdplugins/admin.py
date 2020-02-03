@@ -743,7 +743,7 @@ async def _(event):
         a = await borg.get_admin_log(event.chat_id,limit=1, edit=False, delete=True)
         print(a[0].old.message)
         for i in a:
-          await event.edit(i.original.action.message)
+          await event.edit(i[a].old.message)
     else:
         await event.edit("`You need administrative permissions in order to do this command`")
         await asyncio.sleep(3)
