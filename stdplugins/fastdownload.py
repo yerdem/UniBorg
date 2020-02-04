@@ -28,7 +28,6 @@ async def magnet_download(event):
 	var = event.pattern_match.group(1)
 	print(var)	
 	uris = [var]
-	print(uris)
 	#Add URL Into Queue 
 	try:	
 		download = aria2.add_uris(uris, options=None, position=None)
