@@ -651,7 +651,7 @@ async def pinmessage(eventPinMessage):
             )
 
 
-@borg.on(events.NewMessage(outgoing=True, pattern="^.kick(?: |$)(.*)"))
+@borg.on(events.NewMessage(outgoing=True, pattern="^.ikick(?: |$)(.*)"))
 async def kick(eventKickUser):
     if not eventKickUser.text[0].isalpha() and eventKickUser.text[0] not in ("/", "#", "@", "!"):
         chat = await eventKickUser.get_chat()
@@ -664,7 +664,7 @@ async def kick(eventKickUser):
         if not user:
             await eventKickUser.edit("`Couldn't fetch user.`")
             return
-        await eventKickUser.edit("`Kicking this nibba...`")
+        await eventKickUser.edit("`Kicking this users...`")
         try:
             await eventKickUser.client(
                 EditBannedRequest(
