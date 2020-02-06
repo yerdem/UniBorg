@@ -82,15 +82,21 @@ async def _(event):
 
 @borg.on(admin_cmd(pattern="profilephoto (.*)"))  # pylint:disable=E0602
 async def _(event):
+    """getting user profile photo last changed time"""
     if event.fwd_from:
         return
+    
     p_number = event.pattern_match.group(1)
+    print(p_number)
     chat = await event.get_chat()
-    await event.edit("getting profile pic changed or added date")
+    entity = await borg.get_entity(event.chat_id)
     try:
-        photos = await borg.get_profile_photos(chat)
-        await event.edit(photos[p_number].date)
-        # print(photos[0].date) 
+        a = await event.edit("getting profile pic changed or added date")
+        photos = await borg.get_profile_photos(entity)
+        print(photos[int(p_number)].date)
+        msg = photos[int(p_number)].date
+        msg = "Last profile photo changed: \n👉 `{}` UTC+3".format(str(msg))
+        await a.edit(msg)
     except :
         pass
 
