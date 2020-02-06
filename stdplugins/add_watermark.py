@@ -7,10 +7,6 @@ from telethon import events
 from uniborg.util import admin_cmd, humanbytes, progress
 from sample_config import Config
 import shutil
-import logging
-
-logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s',
-                    level=logging.DEBUG)
 
 @borg.on(admin_cmd(pattern="watermark"))
 async def _(event):
