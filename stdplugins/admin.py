@@ -25,7 +25,8 @@
 
 Userbot module to help you manage a group.
 """
-
+import logging
+logging.basicConfig(level=logging.DEBUG)
 from asyncio import sleep
 from os import remove
 

@@ -13,8 +13,10 @@ from telethon.tl.types import ChatBannedRights
 from sample_config import Config
 from uniborg.util import admin_cmd
 import aiohttp
+import logging
+
 logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s',
-                    level=logging.WARNING)
+                    level=logging.DEBUG)
 
 @borg.on(events.ChatAction())
 async def _(cas):

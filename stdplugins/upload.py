@@ -8,7 +8,7 @@ Available Commands:
 .uploadasstream <Path To File>"""
 import logging
 logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s',
-                    level=logging.WARNING)
+                    level=logging.DEBUG)
 import asyncio
 import os
 import subprocess
