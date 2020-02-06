@@ -32,9 +32,8 @@ async def magnet_download(event):
 	try:	
 		download = aria2.add_uris(uris, options=None, position=None)
 	except Exception as e:
-		await event.edit("`Error:\n`"+str(e))
+		# await event.edit("`Error:\n`"+str(e))
 		return
-
 	gid = download.gid
 	complete = None
 	await progress_status(gid=gid,event=event,previous=None)
