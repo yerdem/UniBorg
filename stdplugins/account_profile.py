@@ -79,3 +79,18 @@ async def _(event):
         os.remove(photo)
     except Exception as e:  # pylint:disable=C0103,W0703
         logger.warn(str(e))  # pylint:disable=E0602
+
+@borg.on(admin_cmd(pattern="profilephoto (.*)"))  # pylint:disable=E0602
+async def _(event):
+    if event.fwd_from:
+        return
+    p_number = event.pattern_match.group(1)
+    chat = await event.get_chat()
+    await event.edit("getting profile pic changed or added date")
+    try:
+        photos = await borg.get_profile_photos(chat)
+        await event.edit(photos[p_number].date)
+        # print(photos[0].date) 
+    except :
+        pass
+
