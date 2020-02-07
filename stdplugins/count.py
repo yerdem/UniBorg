@@ -1,11 +1,17 @@
 """Count the Number of Dialogs you have in your Telegram Account
 Syntax: .count"""
-from telethon import events
 import asyncio
-from datetime import datetime
-from telethon.tl.types import User, Chat, Channel
-from uniborg.util import admin_cmd
 import logging
+import time
+from datetime import datetime
+
+from telethon import events
+from telethon.events import NewMessage
+from telethon.tl.custom import Dialog
+from telethon.tl.types import Channel, Chat, User
+
+from uniborg.util import admin_cmd
+
 logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s',
                     level=logging.WARNING)
 
@@ -46,12 +52,7 @@ logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s'
 # Bots:\t{}""".format(ms, u, g, c, bc, b))
 
 
-import time
-from telethon.events import NewMessage
-from telethon.tl.custom import Dialog
-from telethon.tl.types import Channel, User, Chat
 
-from uniborg.util import admin_cmd
 
 """Type `.count` and see Magic."""
 
