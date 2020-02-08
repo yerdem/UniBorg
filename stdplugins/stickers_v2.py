@@ -68,7 +68,7 @@ async def getsticker(event) :
         pilImg.close()
         sticker.name = "sticcer.png"
         sticker.seek(0)
-        if event.matches[0].group(1):
+        if event.pattern_match.group(1):
             await reply.reply(file=sticker, force_document=True)
         else:
             await reply.reply(file=sticker)
@@ -85,7 +85,7 @@ async def getsticker(event) :
 @borg.on(admin_cmd(pattern="stikerpack(?: |$)(.*)$",outgoing=True))
 async def stickerpack(event) :
     """Get your default kang's sticker packs or update them."""
-    match = event.matches[0].group(1).strip()
+    match = event.pattern_match.group(1).strip()
     if not match:
         basic, animated = await _get_default_packs()
         basic = f"[{basic}](https://t.me/addstickers/{basic})"
