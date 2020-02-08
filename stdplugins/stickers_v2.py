@@ -747,7 +747,7 @@ async def _update_stickers_notif(notif: types.PeerNotifySettings) :
 
 
 async def get_chat_link(
-    arg: Union[types.User, types.Chat, types.Channel, events],
+    arg: Union[types.User, types.Chat, types.Channel, events.NewMessage],
     reply=None
 ) -> str:
     if isinstance(arg, (types.User, types.Chat, types.Channel)):
