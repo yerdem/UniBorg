@@ -6,9 +6,9 @@ import PIL
 from typing import BinaryIO, List, Sequence, Tuple, Union
 import logging
 from telethon.tl import functions, types
+from telethon.utils import get_display_name
 
-
-from uniborg.util import admin_cmd
+from uniborg.util import admin_cmd,events
 
 logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s',
                     level=logging.WARNING)
@@ -747,7 +747,7 @@ async def _update_stickers_notif(notif: types.PeerNotifySettings) :
 
 
 async def get_chat_link(
-    arg: Union[types.User, types.Chat, types.Channel, NewMessage.Event],
+    arg: Union[types.User, types.Chat, types.Channel, events],
     reply=None
 ) -> str:
     if isinstance(arg, (types.User, types.Chat, types.Channel)):
