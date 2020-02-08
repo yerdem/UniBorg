@@ -43,17 +43,17 @@ or use {}stickerpack reset for deafult packs.`"""
 async def getsticker(event) :
     """Convert a sticker to a png and also send it as a file if specified."""
     if not event.reply_to_msg_id:
-        await event.answer("`Reply to a sticker first.`")
+        await event.edit("`Reply to a sticker first.`")
         return
 
     reply = await event.get_reply_message()
     sticker = reply.sticker
     if not sticker:
-        await event.answer("`This isn't a sticker, smh.`")
+        await event.edit("`This isn't a sticker, smh.`")
         return
 
     if sticker.mime_type == "application/x-tgsticker":
-        await event.answer("`No point in uploading animated stickers.`")
+        await event.edit("`No point in uploading animated stickers.`")
         return
     else:
         sticker_bytes = io.BytesIO()
@@ -62,7 +62,7 @@ async def getsticker(event) :
         try:
             pilImg = PIL.Image.open(sticker_bytes)
         except OSError as e:
-            await event.answer(f'`OSError: {e}`')
+            await event.edit(f'`OSError: {e}`')
             return
         pilImg.save(sticker, format="PNG")
         pilImg.close()
@@ -91,7 +91,7 @@ async def stickerpack(event) :
         basic = f"[{basic}](https://t.me/addstickers/{basic})"
         animated = f"[{animated}](https://t.me/addstickers/{animated})"
         text = "`Default kang packs:`\n**Basic:** {}\n**Animated:** {}"
-        await event.answer(text.format(basic, animated))
+        await event.edit(text.format(basic, animated))
         return
 
     if ':' in match:
@@ -104,7 +104,7 @@ async def stickerpack(event) :
         text = "`Successfully reset both of your packs.`"
     else:
         text = await _set_default_packs(f"basic:{match}", ':')
-    await event.answer(text, log=("stickerpack", text))
+    await event.edit(text, log=("stickerpack", text))
 
 
 # @borg.on(
@@ -115,12 +115,12 @@ async def stickerpack(event) :
 async def delsticker(event) :
     """Remove a sticker from your existing pack."""
     if not event.reply_to_msg_id:
-        await event.answer("`Reply to a sticker to delete it.`")
+        await event.edit("`Reply to a sticker to delete it.`")
         return
 
     reply = await event.get_reply_message()
     if not reply.sticker:
-        await event.answer("`Replied to message isn't a sticker.`")
+        await event.edit("`Replied to message isn't a sticker.`")
         return
 
     stickerset = None
@@ -130,7 +130,7 @@ async def delsticker(event) :
             break
 
     if not stickerset:
-        await event.answer("`Couldn't find the sticker set.`")
+        await event.edit("`Couldn't find the sticker set.`")
         return
 
     result = await borg(functions.messages.GetStickerSetRequest(
@@ -141,7 +141,7 @@ async def delsticker(event) :
         peer="Stickers"
     ))
     await _update_stickers_notif(DEFAULT_MUTE)
-    await event.answer("`Fetching all your sticker packs.`")
+    await event.edit("`Fetching all your sticker packs.`")
     packs, first_msg = await _list_packs()
     target_pack = None
     for pack in packs:
@@ -150,12 +150,12 @@ async def delsticker(event) :
             break
 
     if not target_pack:
-        await event.answer("`Couldn't find the specified set in your packs.`")
+        await event.edit("`Couldn't find the specified set in your packs.`")
         await _delete_sticker_messages(first_msg)
         await _update_stickers_notif(notif)
         return
 
-    await event.answer("`Deleting the sticker from your pack.`")
+    await event.edit("`Deleting the sticker from your pack.`")
     async with borg.conversation(**conversation_args) as conv:
         await conv.send_message('/delsticker')
         await conv.get_response()
@@ -172,12 +172,12 @@ async def delsticker(event) :
 
     if status is True:
         pack = f"[{short_name}](https://t.me/addstickers/{short_name})"
-        await event.answer(
+        await event.edit(
             f"`Successfully removed the sticker from` {pack}"
         )
         await _delete_sticker_messages(first_msg)
     else:
-        await event.answer(
+        await event.edit(
             f"**Couldn't delete the sticker. Perhaps it's not in your pack.**"
             "\n`Check the chat with @Stickers for more information.`"
         )
@@ -195,7 +195,7 @@ async def kang(event) :
     if event.reply_to_msg_id:
         sticker_event = await event.get_reply_message()
         if not await _is_sticker_event(sticker_event):
-            await event.answer("`Invalid message type!`")
+            await event.edit("`Invalid message type!`")
             return
     else:
         sticker_event = None
@@ -208,7 +208,7 @@ async def kang(event) :
                 sticker_event = msg
                 break
         if not sticker_event:
-            await event.answer(
+            await event.edit(
                 "`Couldn't find any acceptable media in the recent messages.`"
             )
             return
@@ -233,7 +233,7 @@ async def kang(event) :
                 text, is_animated
             )
             if not pack and not packnick:
-                await event.answer(
+                await event.edit(
                     "`Are you sure you're using the correct syntax?`\n"
                     f"`{prefix}kang <packName>=<packsShortName>`\n"
                     "`You can also choose emojis whilst making a new pack.`"
@@ -261,7 +261,7 @@ async def kang(event) :
             if "_kang_pack" in pack:
                 new_pack = True
             elif not is_pack:
-                await event.answer(
+                await event.edit(
                     NO_PACK.format(
                         pack,
                         prefix,
@@ -281,7 +281,7 @@ async def kang(event) :
             pack = await _verify_cs_name(animated, packs)
             if not pack:
                 if "_kang_pack" in animated:
-                    await event.answer("`Making a custom TG-UserBot pack!`")
+                    await event.edit("`Making a custom TG-UserBot pack!`")
                     user = await borg.get_me()
                     tag = '@' + user.username if user.username else user.id
                     new_pack = True
@@ -289,7 +289,7 @@ async def kang(event) :
                     packnick = f"{tag}'s animated kang pack"
                 else:
                     pack = animated or "a default animated pack"
-                    await event.answer(FALSE_DEFAULT.format(pack, prefix))
+                    await event.edit(FALSE_DEFAULT.format(pack, prefix))
                     await _delete_sticker_messages(first_msg)
                     await _update_stickers_notif(notif)
                     return
@@ -297,7 +297,7 @@ async def kang(event) :
             pack = await _verify_cs_name(basic, packs)
             if not pack:
                 if "_kang_pack" in basic:
-                    await event.answer("`Making a custom TG-UserBot pack!`")
+                    await event.edit("`Making a custom TG-UserBot pack!`")
                     user = await borg.get_me()
                     tag = '@' + user.username if user.username else user.id
                     new_pack = True
@@ -305,12 +305,12 @@ async def kang(event) :
                     packnick = f"{tag}'s kang pack"
                 else:
                     pack = basic or "a default pack"
-                    await event.answer(FALSE_DEFAULT.format(pack, prefix))
+                    await event.edit(FALSE_DEFAULT.format(pack, prefix))
                     await _delete_sticker_messages(first_msg)
                     await _update_stickers_notif(notif)
                     return
 
-    await event.answer(
+    await event.edit(
         "`Turning on the kang machine... Your sticker? My sticker!`"
     )
     async with borg.conversation(**conversation_args) as conv:
@@ -335,7 +335,7 @@ async def kang(event) :
             await borg.send_read_acknowledge(conv.chat_id)
             if "120 stickers" in r2.text:
                 if "_kang_pack" in pack:
-                    await event.answer(
+                    await event.edit(
                         "`Current userbot pack is full, making a new one!`"
                     )
                     await conv.send_message('/cancel')
@@ -356,12 +356,12 @@ async def kang(event) :
                     await borg.send_read_acknowledge(conv.chat_id)
                     new_pack = True
                 else:
-                    await event.answer(f"`{pack} has reached it's limit!`")
+                    await event.edit(f"`{pack} has reached it's limit!`")
                     await _delete_sticker_messages(first_msg or new_first_msg)
                     await _update_stickers_notif(notif)
                     return
             elif ".TGS" in r2.text and not is_animated:
-                await event.answer(
+                await event.edit(
                     "`You're trying to kang a normal sticker "
                     "to an animated pack. Choose the correct pack!`"
                 )
@@ -369,7 +369,7 @@ async def kang(event) :
                 await _update_stickers_notif(notif)
                 return
             elif ".PSD" in r2.text and is_animated:
-                await event.answer(
+                await event.edit(
                     "`You're trying to kang an animated sticker "
                     "to a normal pack. Choose the correct pack!`"
                 )
@@ -397,7 +397,7 @@ async def kang(event) :
             else:
                 resized_sticker = await _resize_image(sticker, new_sticker)
             if isinstance(resized_sticker, str):
-                await event.answer(resized_sticker)
+                await event.edit(resized_sticker)
                 await _update_stickers_notif(notif)
                 return
             await conv.send_message(
@@ -425,7 +425,7 @@ async def kang(event) :
                 await borg.send_read_acknowledge(conv.chat_id)
 
                 if r41.text == "Invalid pack selected.":
-                    await event.answer(
+                    await event.edit(
                         "`You tried to kang to an invalid pack.`"
                     )
                     await conv.send_message('/cancel')
@@ -448,7 +448,7 @@ async def kang(event) :
                 r61 = await conv.get_response()
                 # LOGGER.debug("Stickers:" + r61.text)
                 await borg.send_read_acknowledge(conv.chat_id)
-                await event.answer(
+                await event.edit(
                     "`Pack's short name is unacceptable or already taken. "
                     "Try thinking of a better short name.`"
                 )
@@ -463,7 +463,7 @@ async def kang(event) :
 
     pack = f"[{pack}](https://t.me/addstickers/{pack})"
     extra = await get_chat_link(event, sticker_event.id)
-    await event.answer(
+    await event.edit(
         f"`Successfully added the sticker to` {pack} `!`",
         log=("kang", f"Successfully kanged a sticker from {extra} to {pack}")
     )
