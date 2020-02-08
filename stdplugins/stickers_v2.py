@@ -4,13 +4,14 @@ import io
 import itertools
 import PIL
 from typing import BinaryIO, List, Sequence, Tuple, Union
-
+import logging
 from telethon.tl import functions, types
 
 
 from uniborg.util import admin_cmd
 
-
+logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s',
+                    level=logging.WARNING)
 
 plugin_category = "stickers"
 acceptable = []
@@ -34,12 +35,12 @@ packs! Check your packs and update it in the config \
 or use {}stickerpack reset for deafult packs.`"""
 
 
-@borg.on(
-    command=("getstik", plugin_category),
-    outgoing=True, regex="getstik(?: |$)(file|document)?$"
-)
-# @borg.on(admin_cmd(pattern="kang(?: |$)(file|document)?$",outgoing=True))
-async def getsticker(event: NewMessage.Event) -> None:
+# @borg.on(
+#     command=("getstik", plugin_category),
+#     outgoing=True, regex="getstik(?: |$)(file|document)?$"
+# )
+@borg.on(admin_cmd(pattern="kang(?: |$)(file|document)?$",outgoing=True))
+async def getsticker(event) :
     """Convert a sticker to a png and also send it as a file if specified."""
     if not event.reply_to_msg_id:
         await event.answer("`Reply to a sticker first.`")
@@ -77,11 +78,12 @@ async def getsticker(event: NewMessage.Event) -> None:
     await event.delete()
 
 
-@borg.on(
-    command=("stikerpack", plugin_category),
-    outgoing=True, regex="stikerpack(?: |$)(.*)$"
-)
-async def stickerpack(event: NewMessage.Event) -> None:
+# @borg.on(
+#     command=("stikerpack", plugin_category),
+#     outgoing=True, regex="stikerpack(?: |$)(.*)$"
+# )
+@borg.on(admin_cmd(pattern="stikerpack(?: |$)(.*)$",outgoing=True))
+async def stickerpack(event) :
     """Get your default kang's sticker packs or update them."""
     match = event.matches[0].group(1).strip()
     if not match:
@@ -105,11 +107,12 @@ async def stickerpack(event: NewMessage.Event) -> None:
     await event.answer(text, log=("stickerpack", text))
 
 
-@borg.on(
-    command=("delstiker", plugin_category),
-    outgoing=True, regex="delstiker$"
-)
-async def delsticker(event: NewMessage.Event) -> None:
+# @borg.on(
+#     command=("delstiker", plugin_category),
+#     outgoing=True, regex="delstiker$"
+# )
+@borg.on(admin_cmd(pattern="delstiker$",outgoing=True))
+async def delsticker(event) :
     """Remove a sticker from your existing pack."""
     if not event.reply_to_msg_id:
         await event.answer("`Reply to a sticker to delete it.`")
@@ -182,11 +185,12 @@ async def delsticker(event: NewMessage.Event) -> None:
     await _update_stickers_notif(notif)
 
 
-@borg.on(
-    command=("kang", plugin_category),
-    outgoing=True, regex="kang(?: |$)(.*)$"
-)
-async def kang(event: NewMessage.Event) -> None:
+# @borg.on(
+#     command=("kang", plugin_category),
+#     outgoing=True, regex="kang(?: |$)(.*)$"
+# )
+@borg.on(admin_cmd(pattern="kang(?: |$)(.*)$",outgoing=True))
+async def kang(event) :
     """Steal (AKA kang) stickers and images to your Sticker packs."""
     if event.reply_to_msg_id:
         sticker_event = await event.get_reply_message()
@@ -673,7 +677,7 @@ async def _extract_pack_name(string: str) -> Union[str, None]:
 
 
 async def _resolve_messages(
-    event: NewMessage.Event, sticker_event: types.Message
+    event, sticker_event: types.Message
 ) -> Tuple[Union[str, None], str, str, bool]:
     sticker_name = "sticker.png"
     text = event.matches[0].group(1).strip()
@@ -726,7 +730,7 @@ async def _get_default_packs() -> Tuple[str, str]:
     return basic, animated
 
 
-async def _is_sticker_event(event: NewMessage.Event) -> bool:
+async def _is_sticker_event(event) -> bool:
     if event.sticker or event.photo:
         return True
     if event.document and "image" in event.document.mime_type:
@@ -735,7 +739,7 @@ async def _is_sticker_event(event: NewMessage.Event) -> bool:
     return False
 
 
-async def _update_stickers_notif(notif: types.PeerNotifySettings) -> None:
+async def _update_stickers_notif(notif: types.PeerNotifySettings) :
     await borg(functions.account.UpdateNotifySettingsRequest(
         peer="Stickers",
         settings=types.InputPeerNotifySettings(**vars(notif))
