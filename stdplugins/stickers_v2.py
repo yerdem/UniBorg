@@ -125,6 +125,7 @@ async def kang(args):
 
             if "  A <strong>Telegram</strong> user has created the <strong>Sticker&nbsp;Set</strong>." not in htmlstr:
                 async with borg.conversation('Stickers') as conv:
+                    emoji = "🤔"
                     await conv.send_message('/addsticker')
                     await conv.get_response()
                     # Ensure user doesn't get spamming notifications
