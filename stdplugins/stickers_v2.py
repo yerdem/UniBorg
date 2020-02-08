@@ -680,7 +680,7 @@ async def _resolve_messages(
     event, sticker_event: types.Message
 ) -> Tuple[Union[str, None], str, str, bool]:
     sticker_name = "sticker.png"
-    text = event.matches[0].group(1).strip()
+    text = event.pattern_match.group(1).strip()
     is_animated = False
     attribute_emoji = None
 
