@@ -7,6 +7,7 @@ from uniborg.util import admin_cmd
 async def get(event):
     name = event.text[5:]
     m = await event.get_reply_message()
+    print(m)
     with open(name, "w") as f:
         f.write(m.text)
     await event.delete()
