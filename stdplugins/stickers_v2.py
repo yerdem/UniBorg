@@ -58,7 +58,7 @@ async def kang(args):
             if isinstance(message.media, MessageMediaPhoto):
                 await args.edit(f"`{random.choice(KANGING_STR)}`")
                 photo = io.BytesIO()
-                photo = await bot.download_media(message.photo, photo)
+                photo = await borg.download_media(message.photo, photo)
             elif "image" in message.media.document.mime_type.split('/'):
                 await args.edit(f"`{random.choice(KANGING_STR)}`")
                 photo = io.BytesIO()
