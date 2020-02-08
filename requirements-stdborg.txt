@@ -45,3 +45,4 @@ urllib3
 pysocks
 instantmusic
 alive_progress
+typing
