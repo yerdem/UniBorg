@@ -130,11 +130,11 @@ async def delsticker(event: NewMessage.Event) -> None:
         await event.answer("`Couldn't find the sticker set.`")
         return
 
-    result = await client(functions.messages.GetStickerSetRequest(
+    result = await borg(functions.messages.GetStickerSetRequest(
         stickerset=stickerset
     ))
     short_name = result.set.short_name
-    notif = await client(functions.account.GetNotifySettingsRequest(
+    notif = await borg(functions.account.GetNotifySettingsRequest(
         peer="Stickers"
     ))
     await _update_stickers_notif(DEFAULT_MUTE)
@@ -153,7 +153,7 @@ async def delsticker(event: NewMessage.Event) -> None:
         return
 
     await event.answer("`Deleting the sticker from your pack.`")
-    async with client.conversation(**conversation_args) as conv:
+    async with borg.conversation(**conversation_args) as conv:
         await conv.send_message('/delsticker')
         await conv.get_response()
         await conv.send_message(target_pack)
@@ -178,7 +178,7 @@ async def delsticker(event: NewMessage.Event) -> None:
             f"**Couldn't delete the sticker. Perhaps it's not in your pack.**"
             "\n`Check the chat with @Stickers for more information.`"
         )
-        await client.send_read_acknowledge("@Stickers")
+        await borg.send_read_acknowledge("@Stickers")
     await _update_stickers_notif(notif)
 
 
@@ -195,7 +195,7 @@ async def kang(event: NewMessage.Event) -> None:
             return
     else:
         sticker_event = None
-        async for msg in client.iter_messages(
+        async for msg in borg.iter_messages(
             event.chat_id,
             offset_id=event.message.id,
             limit=10
@@ -215,8 +215,8 @@ async def kang(event: NewMessage.Event) -> None:
     pack, emojis, name, is_animated = await _resolve_messages(
         event, sticker_event
     )
-    prefix = client.prefix if client.prefix is not None else '.'
-    notif = await client(functions.account.GetNotifySettingsRequest(
+    prefix = borg.prefix if borg.prefix is not None else '.'
+    notif = await borg(functions.account.GetNotifySettingsRequest(
         peer="Stickers"
     ))
     await _update_stickers_notif(DEFAULT_MUTE)
@@ -277,7 +277,7 @@ async def kang(event: NewMessage.Event) -> None:
             if not pack:
                 if "_kang_pack" in animated:
                     await event.answer("`Making a custom TG-UserBot pack!`")
-                    user = await client.get_me()
+                    user = await borg.get_me()
                     tag = '@' + user.username if user.username else user.id
                     new_pack = True
                     pack = animated
@@ -293,7 +293,7 @@ async def kang(event: NewMessage.Event) -> None:
             if not pack:
                 if "_kang_pack" in basic:
                     await event.answer("`Making a custom TG-UserBot pack!`")
-                    user = await client.get_me()
+                    user = await borg.get_me()
                     tag = '@' + user.username if user.username else user.id
                     new_pack = True
                     pack = basic
@@ -308,26 +308,26 @@ async def kang(event: NewMessage.Event) -> None:
     await event.answer(
         "`Turning on the kang machine... Your sticker? My sticker!`"
     )
-    async with client.conversation(**conversation_args) as conv:
+    async with borg.conversation(**conversation_args) as conv:
         if new_pack:
             packtype = "/newanimated" if is_animated else "/newpack"
             new_first_msg = await conv.send_message(packtype)
             r1 = await conv.get_response()
             LOGGER.debug("Stickers:" + r1.text)
-            await client.send_read_acknowledge(conv.chat_id)
+            await borg.send_read_acknowledge(conv.chat_id)
             await conv.send_message(packnick)
             r2 = await conv.get_response()
             LOGGER.debug("Stickers:" + r2.text)
-            await client.send_read_acknowledge(conv.chat_id)
+            await borg.send_read_acknowledge(conv.chat_id)
         else:
             await conv.send_message('/addsticker')
             r1 = await conv.get_response()
             LOGGER.debug("Stickers:" + r1.text)
-            await client.send_read_acknowledge(conv.chat_id)
+            await borg.send_read_acknowledge(conv.chat_id)
             await conv.send_message(pack)
             r2 = await conv.get_response()
             LOGGER.debug("Stickers:" + r2.text)
-            await client.send_read_acknowledge(conv.chat_id)
+            await borg.send_read_acknowledge(conv.chat_id)
             if "120 stickers" in r2.text:
                 if "_kang_pack" in pack:
                     await event.answer(
@@ -336,7 +336,7 @@ async def kang(event: NewMessage.Event) -> None:
                     await conv.send_message('/cancel')
                     r11 = await conv.get_response()
                     LOGGER.debug("Stickers:" + r11.text)
-                    await client.send_read_acknowledge(conv.chat_id)
+                    await borg.send_read_acknowledge(conv.chat_id)
 
                     pack, packnick = await _get_new_ub_pack(packs, is_animated)
 
@@ -344,11 +344,11 @@ async def kang(event: NewMessage.Event) -> None:
                     await conv.send_message(packtype)
                     r12 = await conv.get_response()
                     LOGGER.debug("Stickers:" + r12.text)
-                    await client.send_read_acknowledge(conv.chat_id)
+                    await borg.send_read_acknowledge(conv.chat_id)
                     await conv.send_message(packnick)
                     r13 = await conv.get_response()
                     LOGGER.debug("Stickers:" + r13.text)
-                    await client.send_read_acknowledge(conv.chat_id)
+                    await borg.send_read_acknowledge(conv.chat_id)
                     new_pack = True
                 else:
                     await event.answer(f"`{pack} has reached it's limit!`")
@@ -402,22 +402,22 @@ async def kang(event: NewMessage.Event) -> None:
         sticker.close()
         r3 = await conv.get_response()
         LOGGER.debug("Stickers:" + r3.text)
-        await client.send_read_acknowledge(conv.chat_id)
+        await borg.send_read_acknowledge(conv.chat_id)
 
         await conv.send_message(emojis)
         r4 = await conv.get_response()
         LOGGER.debug("Stickers:" + r4.text)
-        await client.send_read_acknowledge(conv.chat_id)
+        await borg.send_read_acknowledge(conv.chat_id)
         if new_pack:
             await conv.send_message('/publish')
             r5 = await conv.get_response()
             LOGGER.debug("Stickers:" + r5.text)
-            await client.send_read_acknowledge(conv.chat_id)
+            await borg.send_read_acknowledge(conv.chat_id)
             if is_animated:
                 await conv.send_message('<' + packnick + '>')
                 r41 = await conv.get_response()
                 LOGGER.debug("Stickers:" + r41.text)
-                await client.send_read_acknowledge(conv.chat_id)
+                await borg.send_read_acknowledge(conv.chat_id)
 
                 if r41.text == "Invalid pack selected.":
                     await event.answer(
@@ -425,24 +425,24 @@ async def kang(event: NewMessage.Event) -> None:
                     )
                     await conv.send_message('/cancel')
                     await conv.get_response()
-                    await client.send_read_acknowledge(conv.chat_id)
+                    await borg.send_read_acknowledge(conv.chat_id)
                     await _update_stickers_notif(notif)
                     return
 
             await conv.send_message('/skip')
             r6 = await conv.get_response()
             LOGGER.debug("Stickers:" + r6.text)
-            await client.send_read_acknowledge(conv.chat_id)
+            await borg.send_read_acknowledge(conv.chat_id)
 
             await conv.send_message(pack)
             r7 = await conv.get_response()
             LOGGER.debug("Stickers:" + r7.text)
-            await client.send_read_acknowledge(conv.chat_id)
+            await borg.send_read_acknowledge(conv.chat_id)
             if "Sorry" in r7.text:
                 await conv.send_message('/cancel')
                 r61 = await conv.get_response()
                 LOGGER.debug("Stickers:" + r61.text)
-                await client.send_read_acknowledge(conv.chat_id)
+                await borg.send_read_acknowledge(conv.chat_id)
                 await event.answer(
                     "`Pack's short name is unacceptable or already taken. "
                     "Try thinking of a better short name.`"
@@ -454,7 +454,7 @@ async def kang(event: NewMessage.Event) -> None:
             await conv.send_message('/done')
             r5 = await conv.get_response()
             LOGGER.debug("Stickers:" + r5.text)
-            await client.send_read_acknowledge(conv.chat_id)
+            await borg.send_read_acknowledge(conv.chat_id)
 
     pack = f"[{pack}](https://t.me/addstickers/{pack})"
     extra = await get_chat_link(event, sticker_event.id)
@@ -472,35 +472,35 @@ async def _set_default_packs(string: str, delimiter: str) -> str:
     name = ''.join(splits[1:]).strip()
     if pack_type.lower() == "animated":
         if name.lower() in ['reset', 'none']:
-            is_pack = client.config['userbot'].get(
+            is_pack = borg.config['userbot'].get(
                 'default_animated_sticker_pack', None
             )
             if is_pack:
                 text = f"`Successfully reset your default animated pack!`"
-                del client.config['userbot']['default_animated_sticker_pack']
+                del borg.config['userbot']['default_animated_sticker_pack']
             else:
                 text = "`You had no default animated pack to reset!`"
         else:
-            client.config['userbot']['default_animated_sticker_pack'] = name
+            borg.config['userbot']['default_animated_sticker_pack'] = name
             text = (
                 f"`Successfully changed your default animated pack to {name}!`"
             )
     elif pack_type.lower() == "basic":
         if name.lower() in ['reset', 'none']:
-            is_pack = client.config['userbot'].get(
+            is_pack = borg.config['userbot'].get(
                 'default_sticker_pack', None
             )
             if is_pack:
                 text = f"`Successfully reset your default pack!`"
-                del client.config['userbot']['default_sticker_pack']
+                del borg.config['userbot']['default_sticker_pack']
             else:
                 text = "`You had no default pack to reset!`"
         else:
-            client.config['userbot']['default_sticker_pack'] = name
+            borg.config['userbot']['default_sticker_pack'] = name
             text = f"`Successfully changed your default pack to {name}!`"
     else:
         text = "`Invalid pack type. Make sure it's animated or basic!`"
-    client._updateconfig()
+    borg._updateconfig()
     return text
 
 
@@ -508,14 +508,14 @@ async def _delete_sticker_messages(
     message: types.Message
 ) -> Sequence[types.messages.AffectedMessages]:
     messages = [message]
-    async for msg in client.iter_messages(
+    async for msg in borg.iter_messages(
         entity="@Stickers",
         offset_id=message.id,
         reverse=True
     ):
         messages.append(msg)
 
-    return await client.delete_messages('@Stickers', messages)
+    return await borg.delete_messages('@Stickers', messages)
 
 
 async def _get_new_ub_pack(packs: list, is_animated: bool) -> Tuple[str, str]:
@@ -534,7 +534,7 @@ async def _get_new_ub_pack(packs: list, is_animated: bool) -> Tuple[str, str]:
     else:
         pack = pack + "_1"
 
-    user = await client.get_me()
+    user = await borg.get_me()
     tag = '@' + user.username if user.username else user.id
     if is_animated:
         packnick = f"{tag}'s animated kang pack {pack[-1:]}"
@@ -592,7 +592,7 @@ async def _resolve_pack_name(
             emojis = None
 
     if packname == "auto":
-        user = (await client.get_me()).id
+        user = (await borg.get_me()).id
         if is_animated:
             packname = f"u{user}s_animated_kang_pack"
         else:
@@ -636,22 +636,22 @@ async def _resize_image(
 
 
 async def _list_packs() -> Tuple[List[str], types.Message]:
-    async with client.conversation(**conversation_args) as conv:
+    async with borg.conversation(**conversation_args) as conv:
         first = await conv.send_message('/cancel')
         r1 = await conv.get_response()
         LOGGER.debug("Stickers:" + r1.text)
-        await client.send_read_acknowledge(conv.chat_id)
+        await borg.send_read_acknowledge(conv.chat_id)
         await conv.send_message('/packstats')
         r2 = await conv.get_response()
         LOGGER.debug("Stickers:" + r2.text)
         if r2.text.startswith("You don't have any sticker packs yet."):
             return [], first
-        await client.send_read_acknowledge(conv.chat_id)
+        await borg.send_read_acknowledge(conv.chat_id)
         buttons = list(itertools.chain.from_iterable(r2.buttons))
         await conv.send_message('/cancel')
         r3 = await conv.get_response()
         LOGGER.debug("Stickers:" + r3.text)
-        await client.send_read_acknowledge(conv.chat_id)
+        await borg.send_read_acknowledge(conv.chat_id)
 
         return [button.text for button in buttons], first
 
@@ -708,10 +708,10 @@ async def _resolve_messages(
 
 
 async def _get_default_packs() -> Tuple[str, str]:
-    user = await client.get_me()
+    user = await borg.get_me()
     basic_default = f"u{user.id}s_kang_pack"
     animated_default = f"u{user.id}s_animated_kang_pack"
-    config = client.config['userbot']
+    config = borg.config['userbot']
     basic = config.get('default_sticker_pack', basic_default)
     animated = config.get('default_animated_sticker_pack', animated_default)
 
@@ -736,7 +736,7 @@ async def _is_sticker_event(event: NewMessage.Event) -> bool:
 
 
 async def _update_stickers_notif(notif: types.PeerNotifySettings) -> None:
-    await client(functions.account.UpdateNotifySettingsRequest(
+    await borg(functions.account.UpdateNotifySettingsRequest(
         peer="Stickers",
         settings=types.InputPeerNotifySettings(**vars(notif))
     ))
