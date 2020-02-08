@@ -39,7 +39,7 @@ or use {}stickerpack reset for deafult packs.`"""
 #     command=("getstik", plugin_category),
 #     outgoing=True, regex="getstik(?: |$)(file|document)?$"
 # )
-@borg.on(admin_cmd(pattern="kang(?: |$)(file|document)?$",outgoing=True))
+@borg.on(admin_cmd(pattern="getstik(?: |$)(file|document)?$",outgoing=True))
 async def getsticker(event) :
     """Convert a sticker to a png and also send it as a file if specified."""
     if not event.reply_to_msg_id:
