@@ -714,7 +714,7 @@ async def _resolve_messages(
 
 async def _get_default_packs() -> Tuple[str, str]:
     user = await borg.get_me()
-    basic_default = f"@By_Azade Pack"
+    basic_default = f"@By_Azade"
     animated_default = f"@By_Azade Animated Pack"
     # config = borg.config['userbot']
     # basic = config.get('default_sticker_pack', basic_default)
