@@ -161,10 +161,10 @@ async def delsticker(event) :
         await conv.get_response()
         await conv.send_message(target_pack)
         r1 = await conv.get_response()
-        LOGGER.debug("Stickers:" + r1.text)
+        # LOGGER.debug("Stickers:" + r1.text)
         await reply.forward_to("@Stickers")
         r2 = await conv.get_response()
-        LOGGER.debug("Stickers:" + r2.text)
+        # LOGGER.debug("Stickers:" + r2.text)
         if "I have deleted that sticker for you" in r2.text:
             status = True
         else:
@@ -318,20 +318,20 @@ async def kang(event) :
             packtype = "/newanimated" if is_animated else "/newpack"
             new_first_msg = await conv.send_message(packtype)
             r1 = await conv.get_response()
-            LOGGER.debug("Stickers:" + r1.text)
+            # LOGGER.debug("Stickers:" + r1.text)
             await borg.send_read_acknowledge(conv.chat_id)
             await conv.send_message(packnick)
             r2 = await conv.get_response()
-            LOGGER.debug("Stickers:" + r2.text)
+            # LOGGER.debug("Stickers:" + r2.text)
             await borg.send_read_acknowledge(conv.chat_id)
         else:
             await conv.send_message('/addsticker')
             r1 = await conv.get_response()
-            LOGGER.debug("Stickers:" + r1.text)
+            # LOGGER.debug("Stickers:" + r1.text)
             await borg.send_read_acknowledge(conv.chat_id)
             await conv.send_message(pack)
             r2 = await conv.get_response()
-            LOGGER.debug("Stickers:" + r2.text)
+            # LOGGER.debug("Stickers:" + r2.text)
             await borg.send_read_acknowledge(conv.chat_id)
             if "120 stickers" in r2.text:
                 if "_kang_pack" in pack:
@@ -340,7 +340,7 @@ async def kang(event) :
                     )
                     await conv.send_message('/cancel')
                     r11 = await conv.get_response()
-                    LOGGER.debug("Stickers:" + r11.text)
+                    # LOGGER.debug("Stickers:" + r11.text)
                     await borg.send_read_acknowledge(conv.chat_id)
 
                     pack, packnick = await _get_new_ub_pack(packs, is_animated)
@@ -348,11 +348,11 @@ async def kang(event) :
                     packtype = "/newanimated" if is_animated else "/newpack"
                     await conv.send_message(packtype)
                     r12 = await conv.get_response()
-                    LOGGER.debug("Stickers:" + r12.text)
+                    # LOGGER.debug("Stickers:" + r12.text)
                     await borg.send_read_acknowledge(conv.chat_id)
                     await conv.send_message(packnick)
                     r13 = await conv.get_response()
-                    LOGGER.debug("Stickers:" + r13.text)
+                    # LOGGER.debug("Stickers:" + r13.text)
                     await borg.send_read_acknowledge(conv.chat_id)
                     new_pack = True
                 else:
@@ -406,22 +406,22 @@ async def kang(event) :
             new_sticker.close()
         sticker.close()
         r3 = await conv.get_response()
-        LOGGER.debug("Stickers:" + r3.text)
+        # LOGGER.debug("Stickers:" + r3.text)
         await borg.send_read_acknowledge(conv.chat_id)
 
         await conv.send_message(emojis)
         r4 = await conv.get_response()
-        LOGGER.debug("Stickers:" + r4.text)
+        # LOGGER.debug("Stickers:" + r4.text)
         await borg.send_read_acknowledge(conv.chat_id)
         if new_pack:
             await conv.send_message('/publish')
             r5 = await conv.get_response()
-            LOGGER.debug("Stickers:" + r5.text)
+            # LOGGER.debug("Stickers:" + r5.text)
             await borg.send_read_acknowledge(conv.chat_id)
             if is_animated:
                 await conv.send_message('<' + packnick + '>')
                 r41 = await conv.get_response()
-                LOGGER.debug("Stickers:" + r41.text)
+                # LOGGER.debug("Stickers:" + r41.text)
                 await borg.send_read_acknowledge(conv.chat_id)
 
                 if r41.text == "Invalid pack selected.":
@@ -436,17 +436,17 @@ async def kang(event) :
 
             await conv.send_message('/skip')
             r6 = await conv.get_response()
-            LOGGER.debug("Stickers:" + r6.text)
+            # LOGGER.debug("Stickers:" + r6.text)
             await borg.send_read_acknowledge(conv.chat_id)
 
             await conv.send_message(pack)
             r7 = await conv.get_response()
-            LOGGER.debug("Stickers:" + r7.text)
+            # LOGGER.debug("Stickers:" + r7.text)
             await borg.send_read_acknowledge(conv.chat_id)
             if "Sorry" in r7.text:
                 await conv.send_message('/cancel')
                 r61 = await conv.get_response()
-                LOGGER.debug("Stickers:" + r61.text)
+                # LOGGER.debug("Stickers:" + r61.text)
                 await borg.send_read_acknowledge(conv.chat_id)
                 await event.answer(
                     "`Pack's short name is unacceptable or already taken. "
@@ -458,7 +458,7 @@ async def kang(event) :
         else:
             await conv.send_message('/done')
             r5 = await conv.get_response()
-            LOGGER.debug("Stickers:" + r5.text)
+            # LOGGER.debug("Stickers:" + r5.text)
             await borg.send_read_acknowledge(conv.chat_id)
 
     pack = f"[{pack}](https://t.me/addstickers/{pack})"
@@ -644,18 +644,18 @@ async def _list_packs() -> Tuple[List[str], types.Message]:
     async with borg.conversation(**conversation_args) as conv:
         first = await conv.send_message('/cancel')
         r1 = await conv.get_response()
-        LOGGER.debug("Stickers:" + r1.text)
+        # LOGGER.debug("Stickers:" + r1.text)
         await borg.send_read_acknowledge(conv.chat_id)
         await conv.send_message('/packstats')
         r2 = await conv.get_response()
-        LOGGER.debug("Stickers:" + r2.text)
+        # LOGGER.debug("Stickers:" + r2.text)
         if r2.text.startswith("You don't have any sticker packs yet."):
             return [], first
         await borg.send_read_acknowledge(conv.chat_id)
         buttons = list(itertools.chain.from_iterable(r2.buttons))
         await conv.send_message('/cancel')
         r3 = await conv.get_response()
-        LOGGER.debug("Stickers:" + r3.text)
+        # LOGGER.debug("Stickers:" + r3.text)
         await borg.send_read_acknowledge(conv.chat_id)
 
         return [button.text for button in buttons], first
