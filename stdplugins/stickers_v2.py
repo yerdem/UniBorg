@@ -3,20 +3,30 @@
 # Licensed under the Raphielscape Public License, Version 1.c (the "License");
 # you may not use this file except in compliance with the License.
 #
-""" Userbot module for kanging stickers or making new ones. Thanks @rupansh"""
 
+import asyncio
+import datetime
 import io
 import math
-import urllib.request
-from os import remove
+import os
+import zipfile
+from collections import defaultdict
+from io import BytesIO
+
+import requests
 from PIL import Image
-import random
-from telethon.tl.types import DocumentAttributeFilename, MessageMediaPhoto
-from userbot import bot, CMD_HELP
-from userbot.events import register, errors_handler
+from telethon import events
+from telethon.errors import MessageNotModifiedError
+from telethon.errors.rpcerrorlist import StickersetInvalidError
+from telethon.tl.functions.account import UpdateNotifySettingsRequest
 from telethon.tl.functions.messages import GetStickerSetRequest
-from telethon.tl.types import InputStickerSetID
-from telethon.tl.types import DocumentAttributeSticker
+from telethon.tl.types import (DocumentAttributeFilename,
+                               DocumentAttributeSticker,
+                               InputMediaUploadedDocument,
+                               InputPeerNotifySettings, InputStickerSetID,
+                               InputStickerSetShortName, MessageMediaPhoto)
+
+from uniborg.util import admin_cmd
 
 KANGING_STR = [
     "Using Witchery to kang this sticker...",
@@ -308,4 +318,3 @@ async def get_pack_info(event):
             f"**Emojis In Pack:**\n{' '.join(pack_emojis)}"
 
         await event.edit(OUTPUT)
-
