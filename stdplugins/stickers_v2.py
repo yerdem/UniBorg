@@ -226,7 +226,7 @@ async def kang(event) :
     await _update_stickers_notif(DEFAULT_MUTE)
     if pack:
         if (':' in pack) or ('=' in pack):
-            text = event.matches[0].group(1)
+            text = event.pattern_match.group(1)
 
             pack, packnick, new_emojis = await _resolve_pack_name(
                 text, is_animated
