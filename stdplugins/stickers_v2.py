@@ -199,7 +199,7 @@ async def kang(args):
                     await conv.send_message('/done')
                     await conv.get_response()
                     # Ensure user doesn't get spamming notifications
-                    await bot.send_read_acknowledge(conv.chat_id)
+                    await borg.send_read_acknowledge(conv.chat_id)
             else:
                 await args.edit("Brewing a new Pack...")
                 async with borg.conversation('Stickers') as conv:
