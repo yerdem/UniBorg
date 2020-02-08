@@ -219,7 +219,8 @@ async def kang(event) :
     pack, emojis, name, is_animated = await _resolve_messages(
         event, sticker_event
     )
-    prefix = borg.prefix if borg.prefix is not None else '.'
+    # prefix = borg.prefix if borg.prefix is not None else '.'
+    prefix = '.'
     notif = await borg(functions.account.GetNotifySettingsRequest(
         peer="Stickers"
     ))
