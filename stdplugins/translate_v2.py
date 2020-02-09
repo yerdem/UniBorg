@@ -26,7 +26,7 @@ async def trtxxx(message):
         if reply and not reply.text:
             await message.edit("<i>Babe..Are you okay? You can not translate files you know.</i>")
             return
-        await message.edit("<i>Translating...</i>")
+        await message.edit("__Translating...__")
         result = translate(text, target, 'auto')
         await message.edit(
                            "**Text:** __{}__\n"
