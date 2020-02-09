@@ -49,3 +49,4 @@ typing
 tgcrypto
 mtranslate
 langdetect
+emoji
