@@ -9,7 +9,7 @@ import emoji
 from googletrans import Translator
 from uniborg.util import admin_cmd
 import json
-from langdetect import detect
+from polyglot.detect import Detector
 
 @borg.on(admin_cmd(pattern="tr ?(.*)"))
 async def _(event):
@@ -35,8 +35,8 @@ async def _(event):
         # either here, or before translation
         database = "./bin/language.json"
         data = json.loads(open(database).read())
-        lang_detect = detect(previous_message.message)
-        print(lang_detect)
+        lang_detect = Detector(previous_message.message)
+        # print(lang_detect)
         for a in range(len(data)):
             if lang_detect in data[a]["code"]:
                 full_lang = data[a]["name"]
