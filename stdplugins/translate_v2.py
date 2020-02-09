@@ -29,9 +29,9 @@ async def trtxxx(message):
         await message.edit("<i>Translating...</i>")
         result = translate(text, target, 'auto')
         await message.edit(
-                           "<b>Text:</b> <i>{}</i>\n"
-                           "<b>Detected Language:</b> <i>{}</i>\n\n"
-                           "<b>Translated to:</b>\n<i>{}</i>"
+                           "**Text:** __{}__\n"
+                           "**Detected Language:** __{}__\n\n"
+                           "**Translated to:**\n__{}__"
                            .format(text, detect(text), result))
 
 
