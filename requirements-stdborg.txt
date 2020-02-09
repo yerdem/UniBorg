@@ -50,4 +50,4 @@ tgcrypto
 mtranslate
 langdetect
 emoji
-cld2-cffi
+google-cloud
