@@ -5,45 +5,37 @@ Available Commands:
 import logging
 logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s',
                     level=logging.WARNING)
-from telethon import events
-
+import emoji
+from googletrans import Translator
 from uniborg.util import admin_cmd
-
-from mtranslate import translate
-from sample_config import Config
 
 
 @borg.on(admin_cmd(pattern="tr ?(.*)"))
 async def _(event):
     if event.fwd_from:
         return
-    if "trim" in event.raw_text:
-        # https://t.me/c/1220993104/192075
-        return
     input_str = event.pattern_match.group(1)
     if event.reply_to_msg_id:
         previous_message = await event.get_reply_message()
         text = previous_message.message
-        lan = input_str
+        lan = input_str or "ml"
     elif "|" in input_str:
         lan, text = input_str.split("|")
     else:
-        await event.edit("Invalid Syntax. Module stopping.")
+        await event.edit("`.tr LanguageCode` as reply to a message")
         return
-    text = text.strip()
+    text = emoji.demojize(text.strip())
     lan = lan.strip()
+    translator = Translator()
     try:
-        translated_text = translate(text, lan)
-        output_str = """**SOURCE**
-        
-`{}`
-
-**TRANSLATED** to {}
-
-`{}`""".format(
-            text,
-            lan,
-            translated_text
+        translated = translator.translate(text, dest=lan)
+        after_tr_text = translated.text
+        # TODO: emojify the :
+        # either here, or before translation
+        output_str = """**Text:** {}\n**Detected Language:** {}\n\n**Translated to:** {}""".format(
+            after_tr_textlan,
+            translated.src,
+            lan
         )
         await event.edit(output_str)
     except Exception as exc:
