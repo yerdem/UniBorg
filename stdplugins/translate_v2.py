@@ -42,3 +42,11 @@ def arg_split_with(message, char):
         if space.strip() == "":
             args.remove(space)
     return args
+
+def get_arg(message):
+    msg = message.raw_text
+    msg = msg.replace(" ", "", 1) if msg[1] == " " else msg
+    split = msg[1:].replace("\n", " \n").split(" ")
+    if " ".join(split[1:]).strip() == "":
+        return ""
+    return " ".join(split[1:])
