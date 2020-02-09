@@ -47,3 +47,5 @@ instantmusic
 alive_progress
 typing
 tgcrypto
+mtranslate
+langdetect
