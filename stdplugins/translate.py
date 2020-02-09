@@ -33,9 +33,9 @@ async def _(event):
         # TODO: emojify the :
         # either here, or before translation
         output_str = """**Text:** {}\n**Detected Language:** {}\n\n**Translated to:** {}""".format(
-            after_tr_textlan,
-            translated.src,
-            lan
+            after_tr_text,
+            lan,
+            translated.src
         )
         await event.edit(output_str)
     except Exception as exc:
