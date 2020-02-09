@@ -50,6 +50,4 @@ tgcrypto
 mtranslate
 langdetect
 emoji
-pycld2
-polyglot
-PyICU
+langid
