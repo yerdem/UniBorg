@@ -33,7 +33,8 @@ async def _(event):
         # TODO: emojify the :
         # either here, or before translation
         output_str = """**Text:** {}\n**Detected Language:** {}\n\n**Translated to:** {}""".format(
-            after_tr_text,
+            # after_tr_text,
+            previous_message
             lan,
             translated.src
         )
