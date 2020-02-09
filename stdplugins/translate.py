@@ -8,7 +8,7 @@ logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s'
 import emoji
 from googletrans import Translator
 from uniborg.util import admin_cmd
-import json
+
 
 @borg.on(admin_cmd(pattern="tr ?(.*)"))
 async def _(event):
@@ -32,19 +32,14 @@ async def _(event):
         after_tr_text = translated.text
         # TODO: emojify the :
         # either here, or before translation
-        database = "./bin/language.json"
-        data = json.loads(open(database).read())
-        for a in range(len(data)):
-            if text in data[a]["code"]:
-                full_lang = data[a]["name"]
-                # print(full_lang)
-                output_str = """**Text:** __{}__\n**Detected Language:** __{}__\n\n**Translated to:**\n__{}__""".format(
-                    # after_tr_text,
-                    previous_message.message,
-                    full_lang,
-                    after_tr_text
-                    # translated.src
-                )
+        
+        output_str = """**Text:** {}\n**Detected Language:** {}\n\n**Translated to:**\n{}""".format(
+            # after_tr_text,
+            previous_message.message,
+            lan,
+            after_tr_text
+            # translated.src
+        )
         await event.edit(output_str)
     except Exception as exc:
         await event.edit(str(exc))
