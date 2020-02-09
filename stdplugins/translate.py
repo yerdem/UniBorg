@@ -37,8 +37,8 @@ async def _(event):
         for a in range(len(data)):
             if lan in data[a]["code"]:
                 full_lang = data[a]["name"]
-                print(full_lang)
-                output_str = """**Text:** {}\n**Detected Language:** {}\n\n**Translated to:**\n{}""".format(
+                # print(full_lang)
+                output_str = """**Text:** __{}__\n**Detected Language:** __{}__\n\n**Translated to:**\n__{}__""".format(
                     # after_tr_text,
                     previous_message.message,
                     full_lang,
