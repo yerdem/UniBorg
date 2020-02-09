@@ -9,7 +9,7 @@ import emoji
 from googletrans import Translator
 from uniborg.util import admin_cmd
 import json
-import cld2
+
 
 @borg.on(admin_cmd(pattern="tr ?(.*)"))
 async def _(event):
