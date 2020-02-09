@@ -13,10 +13,10 @@ async def trtxxx(message):
         Example usage:\n.trt <lang> with a replied message"""
         target = (arg_split_with(message, " "))
         if not target:
-            await message.edit("<i>Specify the target language.</i>")
+            await message.edit("__Specify the target language.__")
             return
         if target and len(target) < 2 and not message.is_reply:
-            await message.edit("<i>Specify the text to be translated.</i>")
+            await message.edit("__Specify the text to be translated.__")
             return
         reply = await message.get_reply_message()
         text = (
@@ -24,7 +24,7 @@ async def trtxxx(message):
             reply.text)
         target = target[0]
         if reply and not reply.text:
-            await message.edit("<i>Babe..Are you okay? You can not translate files you know.</i>")
+            await message.edit("__Babe..Are you okay? You can not translate files you know.__")
             return
         await message.edit("__Translating...__")
         result = translate(text, target, 'auto')
