@@ -50,4 +50,4 @@ tgcrypto
 mtranslate
 langdetect
 emoji
-guess_language-spirit
+cld2-cffi
