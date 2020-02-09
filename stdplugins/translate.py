@@ -36,19 +36,25 @@ async def _(event):
         # either here, or before translation
         database = "./bin/language.json"
         data = json.loads(open(database).read())
-        lang_detect = TextBlob(previous_message.message).detect_language()
-        print(lang_detect)
+        lang_detect_1 = TextBlob(previous_message.message).detect_language()
+        lang_detect_2 = TextBlob(after_tr_text).detect_language()
+        print(lang_detect_1)
+        print(lang_detect_2)
         for a in range(len(data)):
-            if lang_detect in data[a]["code"]:
-                full_lang = data[a]["name"]
-                # print(full_lang)
-                output_str = """**Text:** __{}__\n**Detected Language:** __{}__\n\n**Translated to:**\n__{}__""".format(
-                    # after_tr_text,
-                    previous_message.message,
-                    full_lang,
-                    after_tr_text
-                    # translated.src
-                )
+            if lang_detect_2 in data[a]["code"]:
+                full_lang_2 = data[a]["name"]
+        for a in range(len(data)):
+            if lang_detect_1 in data[a]["code"]:
+                full_lang_1 = data[a]["name"]
+                print(full_lang_1)
+        output_str = """**Text:** __{}__\n**Detected Language:** __{}__\n\n**Translated to:**__{}__\n__{}__""".format(
+            # after_tr_text,
+            previous_message.message,
+            full_lang_1,
+            full_lang_2,
+            after_tr_text
+            # translated.src
+        )
         await event.edit(output_str)
     except Exception as exc:
         await event.edit(str(exc))
