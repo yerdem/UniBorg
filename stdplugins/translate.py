@@ -36,6 +36,7 @@ async def _(event):
         database = "./bin/language.json"
         data = json.loads(open(database).read())
         lang_detect = detect(previous_message.message)
+        print(lang_detect)
         for a in range(len(data)):
             if lang_detect in data[a]["code"]:
                 full_lang = data[a]["name"]
