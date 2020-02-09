@@ -50,5 +50,4 @@ tgcrypto
 mtranslate
 langdetect
 emoji
-google-cloud
-google-cloud-translate
+textblob
