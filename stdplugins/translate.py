@@ -1,16 +1,12 @@
-""" Google Google Translate
+""" Google Translate
 Available Commands:
 .tr LanguageCode as reply to a message
-.tr LangaugeCode | text to sepak"""
-import logging
-logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s',
-                    level=logging.WARNING)
+.tr LangaugeCode | text to translate"""
+
 import emoji
-from googletrans import Translator
+from googletrans import LANGUAGES, Translator
 from uniborg.util import admin_cmd
-import json
-import langdetect
-from textblob import TextBlob
+
 
 @borg.on(admin_cmd(pattern="tr ?(.*)"))
 async def _(event):
@@ -20,7 +16,7 @@ async def _(event):
     if event.reply_to_msg_id:
         previous_message = await event.get_reply_message()
         text = previous_message.message
-        lan = input_str or "ml"
+        lan = input_str or "en"
     elif "|" in input_str:
         lan, text = input_str.split("|")
     else:
@@ -34,28 +30,15 @@ async def _(event):
         after_tr_text = translated.text
         # TODO: emojify the :
         # either here, or before translation
-        database = "./bin/language.json"
-        data = json.loads(open(database).read())
-        lang_detect_1 = TextBlob(previous_message.message).detect_language()
-        lang_detect_2 = TextBlob(after_tr_text).detect_language()
-        print(lang_detect_1)
-        print(lang_detect_2)
-        for a in range(len(data)):
-            if lang_detect_2 in data[a]["code"]:
-                full_lang_2 = data[a]["name"]
-        for a in range(len(data)):
-            if lang_detect_1 in data[a]["code"]:
-                full_lang_1 = data[a]["name"]
-                print(full_lang_1)
-        output_str = """**Text:** __{}__\n**Detected Language:** __{}__\n\n**Translated to:**__{}__\n__{}__""".format(
-            # after_tr_text,
-            previous_message.message,
-            full_lang_1,
-            full_lang_2,
+        source_lan = LANGUAGES[f'{translated.src.lower()}']
+        transl_lan = LANGUAGES[f'{translated.dest.lower()}']
+        output_str = """Detected Language: **{}**\nTRANSLATED To: **{}**\n\n{}
+""".format(
+            #previous_message.message,
+            source_lan.title(),
+            transl_lan.title(),
             after_tr_text
-            # translated.src
         )
         await event.edit(output_str)
     except Exception as exc:
         await event.edit(str(exc))
-
