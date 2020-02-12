@@ -200,9 +200,9 @@ class namazvakti():
                 with open(cacheDosyasi, "w") as yaz:
                     json.dump(sonuc, yaz)
 
-        if sonuc["durum"] == "basarili":
-            sonuc["veri"]["vakit"] = sonuc["veri"]["vakitler"][bugun]
-            del sonuc["veri"]["vakitler"]
+        # if sonuc["durum"] == "basarili":
+        #     sonuc["veri"]["vakit"] = sonuc["veri"]["vakitler"][str(bugun)]
+        #     del sonuc["veri"]["vakitler"]
 
         return sonuc
 

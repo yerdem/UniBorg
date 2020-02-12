@@ -8,9 +8,10 @@ from telethon import events
 
 # from ..bin.namaz_vakti import namazvakti
 from uniborg.util import admin_cmd
+from datetime import datetime
+import pytz
 # from bin.namaz_vakti import namazvakti
 from bin.namaz_vakti.namazvakti import namazvakti
-
 logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s',
                     level=logging.WARNING)
 
@@ -18,7 +19,7 @@ TEMP = ''
 
 
 @borg.on(admin_cmd(pattern=("ezanv ?(.*)")))
-async def vakit_n(event):
+async def namaz_(event):
     if not event.text.startswith("."):
         return ""
 
@@ -34,16 +35,43 @@ async def vakit_n(event):
     sehirler_sonuc = namaz.sehirler(2)
     sonuc_sehirler = {v: k for k, v in sehirler_sonuc['veri'].items()}
     sonuc_sehirler_1 = sonuc_sehirler[LOKASYON]
-    yer = './bin/namaz_vakti/db/yerler.ndb'
+    yer = '/workspace/UniBorg/bin/namaz_vakti/db/yerler.ndb'
     with open(yer, "r", encoding="utf8") as f:
         yerler_json = json.load(f)
-    print(yerler_json['2']['sehirler'][f"{sonuc_sehirler_1}"]['ilceler'].items())
+    # print(yerler_json['2']['sehirler'][f"{sonuc_sehirler_1}"]['ilceler'].items())
     inverse_yerler = {v: k for k, v in yerler_json['2']['sehirler'][f"{sonuc_sehirler_1}"]['ilceler'].items()}
-    print(inverse_yerler[LOKASYON])
-    sonuc = namaz.vakit(inverse_yerler[LOKASYON])
+    # print(inverse_yerler[LOKASYON])
+    sonuc_str = str(inverse_yerler[LOKASYON])
+    # print(sonuc_str)
+    sonuc = namaz.vakit(sonuc_str)
+    tz = pytz.timezone('Europe/Istanbul')
+    istanbul_now = datetime.now(tz)
+    bugun = istanbul_now.strftime("%d.%m.%Y")
+    # print(sonuc['veri'])
+    yer = sonuc['veri']['yer_adi']
+    tarih = sonuc['veri']['vakitler'][bugun]['uzun_tarih']
+    hicri_tarih = sonuc['veri']['vakitler'][bugun]['hicri_uzun']
+    imsak = sonuc['veri']['vakitler'][bugun]['imsak']
+    gunes = sonuc['veri']['vakitler'][bugun]['gunes']
+    ogle = sonuc['veri']['vakitler'][bugun]['ogle']
+    ikindi = sonuc['veri']['vakitler'][bugun]['ikindi']
+    aksam = sonuc['veri']['vakitler'][bugun]['aksam']
+    yatsi = sonuc['veri']['vakitler'][bugun]['yatsi']
+    out = (f"**Namaz Vakitleri**\n\n" +
+                f"**Yer: ** `{yer}`\n" +
+                f"**Tarih ** `{tarih}`:\n" +
+                f"**Hicri Tarih :** `{hicri_tarih}`"
+                f"**Güneş :** `{gunes}`\n" +
+                f"**İmsak :** `{imsak}`\n" +
+                f"**Öğle :** `{ogle}`\n" +
+                f"**İkindi :** `{ikindi}`\n" +
+                f"**Akşam :** `{aksam}`\n" +
+                f"**Yatsı :** `{yatsi}`\n"
+    )
+    await event.edit(out)
     # print(inverse_yerler)
     # yerlerim = inverse_yerler[LOKASYON]
-    await event.edit(sonuc)
+    # await event.edit(sonuc)
 
 #    print(sonuc_sehirler[LOKASYON])
 #     print(LOKASYON)
