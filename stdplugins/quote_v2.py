@@ -45,7 +45,7 @@ async def _(event):
             await event.client.send_message(
                 entity=event.chat_id,
                 message=response.reply_message,
-                reply_to=event.user_id,
+                reply_to=event,
                 # # parse_mode="html",
                 # link_preview=False,
                 # # file=message_media,
