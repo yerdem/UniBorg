@@ -178,6 +178,7 @@ class namazvakti():
             # cache dosyasıdan okuma işlemleri yapak!
             with open(cacheDosyasi) as v:
                 jsonVeri = json.load(v)
+                v.close()
 
             if bugun in jsonVeri["veri"]["vakitler"]:
                 # bugün vakitlerin içinde var
@@ -194,6 +195,8 @@ class namazvakti():
                         os.mknod(cacheDosyasi)
                     with open(cacheDosyasi, "w") as yaz:
                         json.dump(sonuc, yaz)
+                        yaz.close()
+
         else:
             # cache dosyası yok! o zaman sunucudan çek ver!
             veri = self.__sunucudanVeriCek(yer)
@@ -204,6 +207,8 @@ class namazvakti():
                 #cache belleğe ana işte burada yaz!
                 with open(cacheDosyasi, "w") as yaz:
                     json.dump(sonuc, yaz)
+                    yaz.close()
+
 
         # if sonuc["durum"] == "basarili":
         #     sonuc["veri"]["vakit"] = sonuc["veri"]["vakitler"][str(bugun)]
@@ -225,6 +230,7 @@ class namazvakti():
             sonuc["veri"] = veri["veri"]
             with open(cacheDosyasi, "w") as yaz:
                 json.dump(sonuc, yaz)
+                yaz.close()
 
         return sonuc
 
@@ -235,6 +241,7 @@ class namazvakti():
         adresDosyasi = os.path.join(os.getcwd(),  "./bin/namaz_vakti/db/adresler.ndb")
         with open(adresDosyasi) as adres:
             adresler = json.load(adres)
+            adres.close()
 
         veri = {}
         if str(sehir_id) in adresler:
