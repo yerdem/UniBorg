@@ -167,11 +167,12 @@ class namazvakti():
         sonuc = { "durum" : "hata", "veri" : {}}
         yer = self.__yerBilgisi(sehir_id)
         cacheDosyaAdi = "./bin/namaz_vakti/db/cache/cache_" + str(yer["sehir_id"]) + ".ndb"
-        cacheDosyasi = os.path.join(os.getcwd(), cacheDosyaAdi)
+        cacheDosyasi = os.path.join(os.chdir(cacheDosyasi), cacheDosyaAdi)
         bugun = datetime.strftime(datetime.now(), "%d.%m.%Y")
 
         # cache dosyası var mı ve okunabiliyor mu?
         if os.path.isfile(cacheDosyasi) and os.access(cacheDosyasi, os.R_OK):
+            os.chdir(cacheDosyasi)
             # cache dosyasıdan okuma işlemleri yapak!
             with open(cacheDosyasi) as v:
                 jsonVeri = json.load(v)
@@ -197,9 +198,9 @@ class namazvakti():
                 sonuc["durum"] = "basarili"
                 sonuc["veri"] = veri["veri"]
                 #cache belleğe ana işte burada yaz!
-                for filename in os.listdir(cacheDosyasi):
-                    with open(os.path.join(cacheDosyasi,filename) "w+") as yaz:
-                        json.dump(sonuc, yaz)
+                os.chdir(cacheDosyasi)
+                with open(cacheDosyasi, "w+") as yaz:
+                    json.dump(sonuc, yaz)
 
         # if sonuc["durum"] == "basarili":
         #     sonuc["veri"]["vakit"] = sonuc["veri"]["vakitler"][str(bugun)]
