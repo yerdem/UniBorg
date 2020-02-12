@@ -167,7 +167,10 @@ class namazvakti():
         sonuc = { "durum" : "hata", "veri" : {}}
         yer = self.__yerBilgisi(sehir_id)
         cacheDosyaAdi = "./bin/namaz_vakti/db/cache/cache_" + str(yer["sehir_id"]) + ".ndb"
-        cacheDosyasi = os.path.join(os.chdir(cacheDosyaAdi), cacheDosyaAdi)
+        with open(os.path.join(cacheDosyaAdi)) as v:
+            jsonVeri = json.load(v)
+            v.close()
+        cacheDosyasi = os.path.join(cacheDosyaAdi)
         bugun = datetime.strftime(datetime.now(), "%d.%m.%Y")
 
         # cache dosyası var mı ve okunabiliyor mu?
