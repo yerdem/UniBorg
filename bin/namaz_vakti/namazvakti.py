@@ -19,9 +19,7 @@ class namazvakti():
     ilceIsimleri = {}
     __veritabani = None
     __cache = ""
-    __cacheKlasorYolu = "./bin/namaz_vakti/cache"
-    if not os.path.isdir(__cacheKlasorYolu):
-        os.makedirs(__cacheKlasorYolu)
+    __cacheKlasorYolu = "./bin/namaz_vakti/db/cache"
     __miladiAylar = {
         1 : "Ocak",
         2 : "Şubat",
@@ -64,7 +62,6 @@ class namazvakti():
         # Dosya yolumuzu belirtelim
         dosyaYolu = os.getcwd()
 
-        
         # Önce cache bellek işlemleri
         if cacheklasoru != None:
             self.__cache = cacheklasoru;
@@ -77,7 +74,7 @@ class namazvakti():
             self.__veritabani = json.load(yer)
 
     # cache klasörünü değiştirir
-    def cacheKlasoru(self,cacheklasoru):
+    def cacheKlasoru(cacheklasoru):
         self.__cache = cacheklasoru;
         return self
 
@@ -169,7 +166,7 @@ class namazvakti():
 
         sonuc = { "durum" : "hata", "veri" : {}}
         yer = self.__yerBilgisi(sehir_id)
-        cacheDosyaAdi = "./bin/namaz_vakti/cache/cache_" + str(yer["sehir_id"]) + ".ndb"
+        cacheDosyaAdi = "./bin/namaz_vakti/db/cache/cache_" + str(yer["sehir_id"]) + ".ndb"
         cacheDosyasi = os.path.join(self.__cache, cacheDosyaAdi)
         bugun = datetime.strftime(datetime.now(), "%d.%m.%Y")
 
@@ -178,7 +175,6 @@ class namazvakti():
             # cache dosyasıdan okuma işlemleri yapak!
             with open(cacheDosyasi) as v:
                 jsonVeri = json.load(v)
-                v.close()
 
             if bugun in jsonVeri["veri"]["vakitler"]:
                 # bugün vakitlerin içinde var
@@ -191,12 +187,8 @@ class namazvakti():
                     sonuc["durum"] = "basarili"
                     sonuc["veri"] = veri["veri"]
                     #cache belleğe ana işte burada yaz!
-                    if not os.path.exists(cacheDosyasi):
-                        os.mknod(cacheDosyasi)
                     with open(cacheDosyasi, "w") as yaz:
                         json.dump(sonuc, yaz)
-                        yaz.close()
-
         else:
             # cache dosyası yok! o zaman sunucudan çek ver!
             veri = self.__sunucudanVeriCek(yer)
@@ -207,8 +199,6 @@ class namazvakti():
                 #cache belleğe ana işte burada yaz!
                 with open(cacheDosyasi, "w") as yaz:
                     json.dump(sonuc, yaz)
-                    yaz.close()
-
 
         # if sonuc["durum"] == "basarili":
         #     sonuc["veri"]["vakit"] = sonuc["veri"]["vakitler"][str(bugun)]
@@ -221,7 +211,7 @@ class namazvakti():
 
         sonuc = { "durum" : "hata", "veri" : {}}
         yer = self.__yerBilgisi(sehir_id)
-        cacheDosyaAdi = "./bin/namaz_vakti/cache/cache_" + str(yer["sehir_id"]) + ".ndb"
+        cacheDosyaAdi = "./bin/namaz_vakti/db/cache_" + str(yer["sehir_id"]) + ".ndb"
         cacheDosyasi = os.path.join(self.__cache, cacheDosyaAdi)
         veri = self.__sunucudanVeriCek(yer)
 
@@ -230,7 +220,6 @@ class namazvakti():
             sonuc["veri"] = veri["veri"]
             with open(cacheDosyasi, "w") as yaz:
                 json.dump(sonuc, yaz)
-                yaz.close()
 
         return sonuc
 
@@ -238,10 +227,9 @@ class namazvakti():
     def __yerBilgisi(self, sehir_id):
 
         # adres dosyası
-        adresDosyasi = os.path.join(os.getcwd(),  "./bin/namaz_vakti/db/adresler.ndb")
+        adresDosyasi = os.path.join(os.getcwd(), "./bin/namaz_vakti/db/adresler.ndb")
         with open(adresDosyasi) as adres:
             adresler = json.load(adres)
-            adres.close()
 
         veri = {}
         if str(sehir_id) in adresler:
