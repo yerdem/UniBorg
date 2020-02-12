@@ -10,6 +10,7 @@ from telethon import events
 from uniborg.util import admin_cmd
 # from bin.namaz_vakti import namazvakti
 from bin.namaz_vakti.namazvakti import namazvakti
+
 logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s',
                     level=logging.WARNING)
 
@@ -17,7 +18,7 @@ TEMP = ''
 
 
 @borg.on(admin_cmd(pattern=("ezanv ?(.*)")))
-async def namaz_(event):
+async def vakit_n(event):
     if not event.text.startswith("."):
         return ""
 
