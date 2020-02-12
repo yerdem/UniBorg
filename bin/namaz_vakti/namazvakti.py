@@ -19,7 +19,7 @@ class namazvakti():
     ilceIsimleri = {}
     __veritabani = None
     __cache = ""
-    __cacheKlasorYolu = "cache"
+    __cacheKlasorYolu = "./bin/namaz_vakti/db/cache"
     __miladiAylar = {
         1 : "Ocak",
         2 : "Şubat",
@@ -69,12 +69,12 @@ class namazvakti():
             self.__cache = os.path.join(dosyaYolu, self.__cacheKlasorYolu)
 
         # veritabanını oluştur!
-        yerler = os.path.join(dosyaYolu, "db", "yerler.ndb")
+        yerler = os.path.join(dosyaYolu, "db", "./bin/namaz_vakti/db/yerler.ndb")
         with open(yerler) as yer:
             self.__veritabani = json.load(yer)
 
     # cache klasörünü değiştirir
-    def cacheKlasoru(cacheklasoru):
+    def cacheKlasoru(self,cacheklasoru):
         self.__cache = cacheklasoru;
         return self
 
@@ -166,7 +166,7 @@ class namazvakti():
 
         sonuc = { "durum" : "hata", "veri" : {}}
         yer = self.__yerBilgisi(sehir_id)
-        cacheDosyaAdi = "cache_" + str(yer["sehir_id"]) + ".ndb"
+        cacheDosyaAdi = "./bin/namaz_vakti/db/cache_" + str(yer["sehir_id"]) + ".ndb"
         cacheDosyasi = os.path.join(self.__cache, cacheDosyaAdi)
         bugun = datetime.strftime(datetime.now(), "%d.%m.%Y")
 
@@ -211,7 +211,7 @@ class namazvakti():
 
         sonuc = { "durum" : "hata", "veri" : {}}
         yer = self.__yerBilgisi(sehir_id)
-        cacheDosyaAdi = "cache_" + str(yer["sehir_id"]) + ".ndb"
+        cacheDosyaAdi = "./bin/namaz_vakti/db/cache_" + str(yer["sehir_id"]) + ".ndb"
         cacheDosyasi = os.path.join(self.__cache, cacheDosyaAdi)
         veri = self.__sunucudanVeriCek(yer)
 
@@ -227,7 +227,7 @@ class namazvakti():
     def __yerBilgisi(self, sehir_id):
 
         # adres dosyası
-        adresDosyasi = os.path.join(os.getcwd(), "db", "adresler.ndb")
+        adresDosyasi = os.path.join(os.getcwd(), "db", "./bin/namaz_vakti/db/adresler.ndb")
         with open(adresDosyasi) as adres:
             adresler = json.load(adres)
 

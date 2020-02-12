@@ -2,14 +2,14 @@ import asyncio
 import datetime
 import json
 import logging
-
+import os
 import requests
 from telethon import events
 
-from uniborg.util import admin_cmd
 # from ..bin.namaz_vakti import namazvakti
-from bin.namaz_vakti import namazvakti
-
+from uniborg.util import admin_cmd
+# from bin.namaz_vakti import namazvakti
+from bin.namaz_vakti.namazvakti import namazvakti
 logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s',
                     level=logging.WARNING)
 
@@ -32,15 +32,20 @@ async def namaz_(event):
     namaz = namazvakti()
     sehirler_sonuc = namaz.sehirler(2)
     sonuc_sehirler = {v: k for k, v in sehirler_sonuc['veri'].items()}
-    sonuc_sehirler = sonuc_sehirler[LOKASYON]
-    yer = './bin/db/yerler.ndb'
+    sonuc_sehirler_1 = sonuc_sehirler[LOKASYON]
+    yer = './bin/namaz_vakti/db/yerler.ndb'
     with open(yer, "r", encoding="utf8") as f:
         yerler_json = json.load(f)
-    inverse_yerler = {v: k for k, v in yerler_json['2']['sehirler'][sonuc_sehirler]['ilceler'].items()}
-    yerlerim = inverse_yerler[LOKASYON]
-    await event.edit(yerlerim)
+    print(yerler_json['2']['sehirler'][f"{sonuc_sehirler_1}"]['ilceler'].items())
+    inverse_yerler = {v: k for k, v in yerler_json['2']['sehirler'][f"{sonuc_sehirler_1}"]['ilceler'].items()}
+    print(inverse_yerler[LOKASYON])
+    sonuc = namaz.vakit(inverse_yerler[LOKASYON])
+    # print(inverse_yerler)
+    # yerlerim = inverse_yerler[LOKASYON]
+    await event.edit(sonuc)
 
-
+#    print(sonuc_sehirler[LOKASYON])
+#     print(LOKASYON)
 
 
 
