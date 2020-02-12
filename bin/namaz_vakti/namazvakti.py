@@ -74,7 +74,7 @@ class namazvakti():
             self.__veritabani = json.load(yer)
 
     # cache klasörünü değiştirir
-    def cacheKlasoru(cacheklasoru):
+    def cacheKlasoru(self,cacheklasoru):
         self.__cache = cacheklasoru;
         return self
 
@@ -167,7 +167,7 @@ class namazvakti():
         sonuc = { "durum" : "hata", "veri" : {}}
         yer = self.__yerBilgisi(sehir_id)
         cacheDosyaAdi = "./bin/namaz_vakti/db/cache/cache_" + str(yer["sehir_id"]) + ".ndb"
-        cacheDosyasi = os.path.join(self.__cache, cacheDosyaAdi)
+        cacheDosyasi = os.path.join(os.getcwd(), cacheDosyaAdi)
         bugun = datetime.strftime(datetime.now(), "%d.%m.%Y")
 
         # cache dosyası var mı ve okunabiliyor mu?
@@ -212,7 +212,7 @@ class namazvakti():
         sonuc = { "durum" : "hata", "veri" : {}}
         yer = self.__yerBilgisi(sehir_id)
         cacheDosyaAdi = "./bin/namaz_vakti/db/cache_" + str(yer["sehir_id"]) + ".ndb"
-        cacheDosyasi = os.path.join(self.__cache, cacheDosyaAdi)
+        cacheDosyasi = os.path.join(os.getcwd(), cacheDosyaAdi)
         veri = self.__sunucudanVeriCek(yer)
 
         if veri["durum"] == "basarili":
