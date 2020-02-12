@@ -23,6 +23,7 @@ import io
 from sql_helpers.lydia_ai_sql import get_s, get_all_s, add_s, remove_s
 from time import time
 from uniborg.util import admin_cmd
+from sample_config import Config
 
 if Config.LYDIA_API is not None:
     api_key = Config.LYDIA_API
