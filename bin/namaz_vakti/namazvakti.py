@@ -200,6 +200,8 @@ class namazvakti():
                 sonuc["durum"] = "basarili"
                 sonuc["veri"] = veri["veri"]
                 #cache belleğe ana işte burada yaz!
+                if not os.path.exists(cacheDosyasi):
+                    os.mknod(cacheDosyasi)
                 with open(cacheDosyasi, "w") as yaz:
                     json.dump(sonuc, yaz)
 
