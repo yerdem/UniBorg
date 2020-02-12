@@ -35,7 +35,7 @@ async def namaz_(event):
     sehirler_sonuc = namaz.sehirler(2)
     sonuc_sehirler = {v: k for k, v in sehirler_sonuc['veri'].items()}
     sonuc_sehirler_1 = sonuc_sehirler[LOKASYON]
-    yer = '/workspace/UniBorg/bin/namaz_vakti/db/yerler.ndb'
+    yer = './bin/namaz_vakti/db/yerler.ndb'
     with open(yer, "r", encoding="utf8") as f:
         yerler_json = json.load(f)
     # print(yerler_json['2']['sehirler'][f"{sonuc_sehirler_1}"]['ilceler'].items())
