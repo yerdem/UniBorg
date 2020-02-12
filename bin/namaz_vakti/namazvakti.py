@@ -19,7 +19,7 @@ class namazvakti():
     ilceIsimleri = {}
     __veritabani = None
     __cache = ""
-    __cacheKlasorYolu = "./bin/namaz_vakti/db/cache"
+    __cacheKlasorYolu = "./bin/namaz_vakti/cache"
     if not os.path.isdir(__cacheKlasorYolu):
         os.makedirs(__cacheKlasorYolu)
     __miladiAylar = {
@@ -169,7 +169,7 @@ class namazvakti():
 
         sonuc = { "durum" : "hata", "veri" : {}}
         yer = self.__yerBilgisi(sehir_id)
-        cacheDosyaAdi = "./bin/namaz_vakti/db/cache_" + str(yer["sehir_id"]) + ".ndb"
+        cacheDosyaAdi = "./bin/namaz_vakti/cache_" + str(yer["sehir_id"]) + ".ndb"
         cacheDosyasi = os.path.join(self.__cache, cacheDosyaAdi)
         bugun = datetime.strftime(datetime.now(), "%d.%m.%Y")
 
