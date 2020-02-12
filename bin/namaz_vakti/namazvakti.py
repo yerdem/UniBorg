@@ -20,6 +20,8 @@ class namazvakti():
     __veritabani = None
     __cache = ""
     __cacheKlasorYolu = "./bin/namaz_vakti/db/cache"
+    if not os.path.isdir(__cacheKlasorYolu):
+        os.makedirs(__cacheKlasorYolu)
     __miladiAylar = {
         1 : "Ocak",
         2 : "Şubat",
@@ -62,6 +64,7 @@ class namazvakti():
         # Dosya yolumuzu belirtelim
         dosyaYolu = os.getcwd()
 
+        
         # Önce cache bellek işlemleri
         if cacheklasoru != None:
             self.__cache = cacheklasoru;
