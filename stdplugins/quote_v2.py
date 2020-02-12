@@ -44,7 +44,7 @@ async def _(event):
             # await borg.forward_messages(event.chat_id, response.message)
             await event.client.send_message(
                 entity=event.chat_id,
-                message=response.reply_message,
+                message=response.message,
                 reply_to=event,
                 # # parse_mode="html",
                 # link_preview=False,
