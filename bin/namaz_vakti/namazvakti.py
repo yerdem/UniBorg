@@ -197,8 +197,9 @@ class namazvakti():
                 sonuc["durum"] = "basarili"
                 sonuc["veri"] = veri["veri"]
                 #cache belleğe ana işte burada yaz!
-                with open(cacheDosyasi, "w+") as yaz:
-                    json.dump(sonuc, yaz)
+                for filename in os.listdir(cacheDosyasi):
+                    with open(os.path.join(cacheDosyasi,filename) "w+") as yaz:
+                        json.dump(sonuc, yaz)
 
         # if sonuc["durum"] == "basarili":
         #     sonuc["veri"]["vakit"] = sonuc["veri"]["vakitler"][str(bugun)]
