@@ -60,7 +60,7 @@ async def namaz_(event):
     out = (f"**Namaz Vakitleri**\n\n" +
                 f"**Yer: ** `{yer}`\n" +
                 f"**Tarih ** `{tarih}`:\n" +
-                f"**Hicri Tarih :** `{hicri_tarih}`"
+                f"**Hicri Tarih :** `{hicri_tarih}`"+
                 f"**Güneş :** `{gunes}`\n" +
                 f"**İmsak :** `{imsak}`\n" +
                 f"**Öğle :** `{ogle}`\n" +
@@ -75,10 +75,6 @@ async def namaz_(event):
 
 #    print(sonuc_sehirler[LOKASYON])
 #     print(LOKASYON)
-
-
-
-
 
 
     # url = f'http://muslimsalat.com/{LOKASI}.json?key=bd099c5825cbedb9aa934e255a81a5fc'
