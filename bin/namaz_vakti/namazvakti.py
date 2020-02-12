@@ -69,7 +69,7 @@ class namazvakti():
             self.__cache = os.path.join(dosyaYolu, self.__cacheKlasorYolu)
 
         # veritabanını oluştur!
-        yerler = os.path.join(dosyaYolu, "db", "./bin/namaz_vakti/db/yerler.ndb")
+        yerler = os.path.join(dosyaYolu,  "./bin/namaz_vakti/db/yerler.ndb")
         with open(yerler) as yer:
             self.__veritabani = json.load(yer)
 
