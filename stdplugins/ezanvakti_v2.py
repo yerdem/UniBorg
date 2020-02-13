@@ -47,6 +47,7 @@ async def namaz_(event):
     tz = pytz.timezone('Europe/Istanbul')
     istanbul_now = datetime.now(tz)
     bugun = istanbul_now.strftime("%d.%m.%Y")
+    bugun = int(bugun)
     print(sonuc['veri'])
     yer = sonuc['veri']['yer_adi']
     tarih = sonuc['veri']['vakit']['tarih'][bugun]['uzun_tarih']
