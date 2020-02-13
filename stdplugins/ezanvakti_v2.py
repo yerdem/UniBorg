@@ -56,7 +56,7 @@ async def namaz_(event):
     # print(yerler_json['2']['sehirler'][f"{sonuc_sehirler_1}"]['ilceler'].items())
     # inverse_yerler = {v: k for k, v in yerler_json['2']['sehirler'][f"{sonuc_sehirler_1}"]['ilceler'].items()}
     # print(inverse_yerler[LOKASYON])
-    sonuc_str = sonuc_ilceler[event.pattern_match.group(2).upper()]
+    sonuc_str = sonuc_ilceler[LOKASYON_2]
     # print(sonuc_str)
     # print(sonuc_str)
     sonuc = namaz.vakit(sonuc_str)
