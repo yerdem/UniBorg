@@ -74,16 +74,16 @@ async def namaz_(event):
     # tam_gun = int(tam_gun)
     # print(sonuc)
     yer = sonuc['veri']['yer_adi']
-    if sonuc['veri']['tarih'][tam_gun]:
+    if sonuc['veri']['tarih']:
         # print("tru")
-        tarih = sonuc['veri']['vakit'][tam_gun]['uzun_tarih']
-        hicri_tarih = sonuc['veri']['vakit'][tam_gun]['hicri_uzun']
-        imsak = sonuc['veri']['vakit'][tam_gun]['imsak']
-        gunes = sonuc['veri']['vakit'][tam_gun]['gunes']
-        ogle = sonuc['veri']['vakit'][tam_gun]['ogle']
-        ikindi = sonuc['veri']['vakit'][tam_gun]['ikindi']
-        aksam = sonuc['veri']['vakit'][tam_gun]['aksam']
-        yatsi = sonuc['veri']['vakit'][tam_gun]['yatsi']
+        tarih = sonuc['veri']['vakit']['uzun_tarih']
+        hicri_tarih = sonuc['veri']['vakit']['hicri_uzun']
+        imsak = sonuc['veri']['vakit']['imsak']
+        gunes = sonuc['veri']['vakit']['gunes']
+        ogle = sonuc['veri']['vakit']['ogle']
+        ikindi = sonuc['veri']['vakit']['ikindi']
+        aksam = sonuc['veri']['vakit']['aksam']
+        yatsi = sonuc['veri']['vakit']['yatsi']
     out = (f"**Diyanet Namaz Vakitleri**\n\n" +
                 f"**Yer: ** `{yer}`\n" +
                 f"**Tarih ** `{tarih}`\n" +
