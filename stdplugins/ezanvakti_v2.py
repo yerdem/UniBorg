@@ -57,14 +57,14 @@ async def namaz_(event):
     yer = sonuc['veri']['yer_adi']
     if sonuc['veri']['vakit']['tarih'] in tam_gun:
         print("tru")
-    tarih = sonuc['veri']['vakit']['tarih'][bugun]['uzun_tarih']
-    hicri_tarih = sonuc['veri']['vakit']['tarih'][bugun]['hicri_uzun']
-    imsak = sonuc['veri']['vakit']['tarih'][bugun]['imsak']
-    gunes = sonuc['veri']['vakit']['tarih'][bugun]['gunes']
-    ogle = sonuc['veri']['vakit']['tarih'][bugun]['ogle']
-    ikindi = sonuc['veri']['vakit']['tarih'][bugun]['ikindi']
-    aksam = sonuc['veri']['vakit']['tarih'][bugun]['aksam']
-    yatsi = sonuc['veri']['vakit']['tarih'][bugun]['yatsi']
+        tarih = sonuc['veri']['vakit']['tarih'][bugun]['uzun_tarih']
+        hicri_tarih = sonuc['veri']['vakit']['tarih'][bugun]['hicri_uzun']
+        imsak = sonuc['veri']['vakit']['tarih'][bugun]['imsak']
+        gunes = sonuc['veri']['vakit']['tarih'][bugun]['gunes']
+        ogle = sonuc['veri']['vakit']['tarih'][bugun]['ogle']
+        ikindi = sonuc['veri']['vakit']['tarih'][bugun]['ikindi']
+        aksam = sonuc['veri']['vakit']['tarih'][bugun]['aksam']
+        yatsi = sonuc['veri']['vakit']['tarih'][bugun]['yatsi']
     out = (f"**Namaz Vakitleri**\n\n" +
                 f"**Yer: ** `{yer}`\n" +
                 f"**Tarih ** `{tarih}`:\n" +
@@ -83,7 +83,6 @@ async def namaz_(event):
 
 #    print(sonuc_sehirler[LOKASYON])
 #     print(LOKASYON)
-
 
     # url = f'http://muslimsalat.com/{LOKASI}.json?key=bd099c5825cbedb9aa934e255a81a5fc'
     # request = requests.get(url)
