@@ -192,14 +192,14 @@ class namazvakti():
             if veri["durum"] == "basarili":
                 sonuc["durum"] = "basarili"
                 sonuc["veri"] = veri["veri"]
-                son_veri = ''
                 try:
                     f = open("./bin/namaz_vakti/db/cache/"+"cache_" + str(yer["sehir_id"]) + ".ndb",'x',encoding='utf-8')
                     f.close()
                 except FileExistsError as error:
+                    error = None
                     pass
                 with open("./bin/namaz_vakti/db/cache/"+"cache_" + str(yer["sehir_id"]) + ".ndb", 'wt', encoding='utf-8') as ver:
-                    json.dump(sonuc,ver)
+                    json.dumps(sonuc,ver)
                 # f.write(son_veri)
                 # json.dump(son_veri)
                 # f.close()
