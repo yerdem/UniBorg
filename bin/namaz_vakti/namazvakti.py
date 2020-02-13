@@ -167,7 +167,7 @@ class namazvakti():
         sonuc = { "durum" : "hata", "veri" : {}}
         yer = self.__yerBilgisi(sehir_id)
         cacheDosyaAdi = "./bin/namaz_vakti/db/cache/cache_" + str(yer["sehir_id"]) + ".ndb"
-        with open(os.path.join(cacheDosyaAdi),mode='w+') as v:
+        with open(os.path.join(cacheDosyaAdi),mode='w+',encoding='utf-8') as v:
             jsonVeri = json.load(v)
             v.close()
         cacheDosyasi = os.path.join(cacheDosyaAdi)
