@@ -6,11 +6,7 @@ import requests
 from bs4 import BeautifulSoup
 from convertdate import islamic
 
-# Namazvakti Sınıfı
-# Erdem Arslan
-# www.erdemarslan.com
-# erdemsaid[@t]gmail[d0T]c0
-# version 0.1
+
 
 
 class namazvakti():
@@ -69,8 +65,8 @@ class namazvakti():
             self.__cache = os.path.join(dosyaYolu, self.__cacheKlasorYolu)
 
         # veritabanını oluştur!
-        yerler = os.path.join(dosyaYolu,  "./bin/namaz_vakti/db/yerler.ndb")
-        with open(yerler,mode='w+',encoding='utf-8') as yer:
+        yerler = os.path.join(dosyaYolu, "db", "./bin/namaz_vakti/db/yerler.ndb")
+        with open(yerler) as yer:
             self.__veritabani = json.load(yer)
 
     # cache klasörünü değiştirir
@@ -167,17 +163,13 @@ class namazvakti():
         sonuc = { "durum" : "hata", "veri" : {}}
         yer = self.__yerBilgisi(sehir_id)
         cacheDosyaAdi = "./bin/namaz_vakti/db/cache/cache_" + str(yer["sehir_id"]) + ".ndb"
-        with open(os.path.join(cacheDosyaAdi),mode='w+',encoding='utf-8') as v:
-            json.dump(sonuc, v)
-
-        cacheDosyasi = os.path.join(cacheDosyaAdi)
+        cacheDosyasi = os.path.join(self.__cache, cacheDosyaAdi)
         bugun = datetime.strftime(datetime.now(), "%d.%m.%Y")
 
         # cache dosyası var mı ve okunabiliyor mu?
         if os.path.isfile(cacheDosyasi) and os.access(cacheDosyasi, os.R_OK):
-            os.chdir(cacheDosyasi)
             # cache dosyasıdan okuma işlemleri yapak!
-            with open(cacheDosyasi,mode='r',encoding='utf-8') as v:
+            with open(cacheDosyasi) as v:
                 jsonVeri = json.load(v)
 
             if bugun in jsonVeri["veri"]["vakitler"]:
@@ -191,7 +183,7 @@ class namazvakti():
                     sonuc["durum"] = "basarili"
                     sonuc["veri"] = veri["veri"]
                     #cache belleğe ana işte burada yaz!
-                    with open(cacheDosyasi, "w+") as yaz:
+                    with open(cacheDosyasi, "w") as yaz:
                         json.dump(sonuc, yaz)
         else:
             # cache dosyası yok! o zaman sunucudan çek ver!
@@ -201,13 +193,12 @@ class namazvakti():
                 sonuc["durum"] = "basarili"
                 sonuc["veri"] = veri["veri"]
                 #cache belleğe ana işte burada yaz!
-                os.chdir(cacheDosyasi)
-                with open(cacheDosyasi, "w+",encoding='utf-8') as yaz:
+                with open(cacheDosyasi, "w") as yaz:
                     json.dump(sonuc, yaz)
 
-        # if sonuc["durum"] == "basarili":
-        #     sonuc["veri"]["vakit"] = sonuc["veri"]["vakitler"][str(bugun)]
-        #     del sonuc["veri"]["vakitler"]
+        if sonuc["durum"] == "basarili":
+            sonuc["veri"]["vakit"] = sonuc["veri"]["vakitler"][bugun]
+            del sonuc["veri"]["vakitler"]
 
         return sonuc
 
@@ -216,14 +207,14 @@ class namazvakti():
 
         sonuc = { "durum" : "hata", "veri" : {}}
         yer = self.__yerBilgisi(sehir_id)
-        cacheDosyaAdi = "./bin/namaz_vakti/db/cache_" + str(yer["sehir_id"]) + ".ndb"
-        cacheDosyasi = os.path.join(os.getcwd(), cacheDosyaAdi)
+        cacheDosyaAdi = "./bin/namaz_vakti/db/cache/cache_" + str(yer["sehir_id"]) + ".ndb"
+        cacheDosyasi = os.path.join(self.__cache, cacheDosyaAdi)
         veri = self.__sunucudanVeriCek(yer)
 
         if veri["durum"] == "basarili":
             sonuc["durum"] = "basarili"
             sonuc["veri"] = veri["veri"]
-            with open(cacheDosyasi, "w+",encoding='utf-8') as yaz:
+            with open(cacheDosyasi, "w") as yaz:
                 json.dump(sonuc, yaz)
 
         return sonuc
@@ -232,10 +223,9 @@ class namazvakti():
     def __yerBilgisi(self, sehir_id):
 
         # adres dosyası
-        adresDosyasi = os.path.join(os.getcwd(), "./bin/namaz_vakti/db/adresler.ndb")
-        with open(adresDosyasi,mode='w+',encoding='utf-8') as adres:
-            # adresler = json.load(adres)
-            json.dump(adres)
+        adresDosyasi = os.path.join(os.getcwd(), "db", "./bin/namaz_vakti/db/adresler.ndb")
+        with open(adresDosyasi) as adres:
+            adresler = json.load(adres)
 
         veri = {}
         if str(sehir_id) in adresler:
