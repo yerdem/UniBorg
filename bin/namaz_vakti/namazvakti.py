@@ -193,6 +193,8 @@ class namazvakti():
                 sonuc["durum"] = "basarili"
                 sonuc["veri"] = veri["veri"]
                 #cache belleğe ana işte burada yaz!
+                f = open(cacheDosyasi,'x',encoding=='utf-8')
+                f.close()
                 f = open(cacheDosyasi, 'wt', encoding='utf-8')
                 f.write(sonuc)
                 f.close()
