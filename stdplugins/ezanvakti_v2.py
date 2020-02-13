@@ -31,6 +31,7 @@ async def namaz_(event):
     else:
         LOKASYON = event.pattern_match.group(1)
         LOKASYON = LOKASYON.encode().decode('UTF-8').upper()
+    await event.edit("ezan vakti diyanetten alınıyor.")
     namaz = namazvakti()
     sehirler_sonuc = namaz.sehirler(2)
     sonuc_sehirler = {v: k for k, v in sehirler_sonuc['veri'].items()}
@@ -53,10 +54,10 @@ async def namaz_(event):
     yil = bugun[4:]
     tam_gun = gun + "." + ay + "." + yil
     # tam_gun = int(tam_gun)
-    print(sonuc)
+    # print(sonuc)
     yer = sonuc['veri']['yer_adi']
     if sonuc['veri']['vakit']['tarih'] in tam_gun:
-        print("tru")
+        # print("tru")
         tarih = sonuc['veri']['vakit']['uzun_tarih']
         hicri_tarih = sonuc['veri']['vakit']['hicri_uzun']
         imsak = sonuc['veri']['vakit']['imsak']
