@@ -5,7 +5,7 @@ import logging
 import os
 import requests
 from telethon import events
-import locale
+from unicode_tr import unicode_tr
 # from ..bin.namaz_vakti import namazvakti
 from uniborg.util import admin_cmd
 from datetime import datetime
@@ -16,7 +16,7 @@ logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s'
                     level=logging.WARNING)
 
 TEMP = ''
-locale.setlocale(locale.LC_ALL, 'tr_TR.utf8')
+
 
 @borg.on(admin_cmd(pattern=("ezanv ?(.*)")))
 async def namaz_(event):
