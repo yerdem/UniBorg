@@ -193,9 +193,12 @@ class namazvakti():
                 sonuc["durum"] = "basarili"
                 sonuc["veri"] = veri["veri"]
                 #cache belleğe ana işte burada yaz!
-                dosya = str(open(os.path.join("./bin/namaz_vakti/db/cache/"+cacheDosyaAdi)))
-                dosya_son = pathlib.Path(dosya).write_text(sonuc)
-                json.dump(sonuc,dosya_son)
+                f = open(cacheDosyasi, 'wt', encoding='utf-8')
+                f.write(sonuc)
+                f.close()
+                # dosya = str(open(os.path.join("./bin/namaz_vakti/db/cache/"+cacheDosyaAdi)))
+                # dosya_son = pathlib.Path(dosya).write_text(sonuc)
+                # json.dump(sonuc,dosya_son)
                 # with open(os.path.join(dosya), "wt") as yaz:
                 #     json.dump(sonuc, yaz)
 
