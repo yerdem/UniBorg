@@ -65,10 +65,10 @@ async def namaz_(event):
         ikindi = sonuc['veri']['vakit']['ikindi']
         aksam = sonuc['veri']['vakit']['aksam']
         yatsi = sonuc['veri']['vakit']['yatsi']
-    out = (f"**Namaz Vakitleri**\n\n" +
+    out = (f"**Diyanet Namaz Vakitleri**\n\n" +
                 f"**Yer: ** `{yer}`\n" +
                 f"**Tarih ** `{tarih}`:\n" +
-                f"**Hicri Tarih :** `{hicri_tarih}`"+
+                f"**Hicri Tarih :** `{hicri_tarih}`\n"+
                 f"**Güneş :** `{gunes}`\n" +
                 f"**İmsak :** `{imsak}`\n" +
                 f"**Öğle :** `{ogle}`\n" +
