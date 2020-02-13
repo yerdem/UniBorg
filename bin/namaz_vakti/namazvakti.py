@@ -223,7 +223,7 @@ class namazvakti():
     def __yerBilgisi(self, sehir_id):
 
         # adres dosyası
-        adresDosyasi = os.path.join(os.path.join("./bin/namaz_vakti/db/"), "db", "adresler.ndb")
+        adresDosyasi = os.path.join(os.path.join("./bin/namaz_vakti/"), "db", "adresler.ndb")
         with open(adresDosyasi) as adres:
             adresler = json.load(adres)
 
