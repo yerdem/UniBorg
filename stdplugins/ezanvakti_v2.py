@@ -70,7 +70,7 @@ async def namaz_(event):
     ay = bugun[2:4]
     yil = bugun[4:]
     tam_gun = gun + "." + ay + "." + yil
-    print(sonuc['veri']['vakitler'][tam_gun])
+    print(sonuc)
     # tam_gun = int(tam_gun)
     # print(sonuc)
     yer = sonuc['veri']['yer_adi']
