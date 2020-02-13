@@ -272,7 +272,7 @@ class namazvakti():
     def __sunucudanVeriCek(self, yer):
 
         # geriye bunu döndürelim!
-        sonuc = { "durum" : "hata", "veri" : ""}
+        sonuc = { "durum" : "hata", "veri" : {}}
         vakitler = {}
         # tam urlyi dolduralım
         fullURL = "http://namazvakitleri.diyanet.gov.tr" + yer["url"]
