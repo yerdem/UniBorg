@@ -193,9 +193,9 @@ class namazvakti():
                 sonuc["durum"] = "basarili"
                 sonuc["veri"] = veri["veri"]
 
-                f = open(cacheDosyasi,'x',encoding='utf-8')
+                f = open("./bin/namaz_vakti/db/cache/"+"cache_" + str(yer["sehir_id"]) + ".ndb",'x',encoding='utf-8')
                 f.close()
-                f = open(cacheDosyasi, 'wt', encoding='utf-8')
+                f = open("./bin/namaz_vakti/db/cache/"+"cache_" + str(yer["sehir_id"]) + ".ndb", 'wt', encoding='utf-8')
                 f.write(sonuc)
                 f.close()
                 # dosya = str(open(os.path.join("./bin/namaz_vakti/db/cache/"+cacheDosyaAdi)))
