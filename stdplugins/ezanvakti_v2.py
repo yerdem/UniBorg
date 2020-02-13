@@ -49,14 +49,14 @@ async def namaz_(event):
     bugun = istanbul_now.strftime("%d.%m.%Y")
     print(sonuc['veri'])
     yer = sonuc['veri']['yer_adi']
-    tarih = sonuc['veri']['vakitler'][bugun]['uzun_tarih']
-    hicri_tarih = sonuc['veri']['vakitler'][bugun]['hicri_uzun']
-    imsak = sonuc['veri']['vakitler'][bugun]['imsak']
-    gunes = sonuc['veri']['vakitler'][bugun]['gunes']
-    ogle = sonuc['veri']['vakitler'][bugun]['ogle']
-    ikindi = sonuc['veri']['vakitler'][bugun]['ikindi']
-    aksam = sonuc['veri']['vakitler'][bugun]['aksam']
-    yatsi = sonuc['veri']['vakitler'][bugun]['yatsi']
+    tarih = sonuc['veri']['vakit'][bugun]['uzun_tarih']
+    hicri_tarih = sonuc['veri']['vakit'][bugun]['hicri_uzun']
+    imsak = sonuc['veri']['vakit'][bugun]['imsak']
+    gunes = sonuc['veri']['vakit'][bugun]['gunes']
+    ogle = sonuc['veri']['vakit'][bugun]['ogle']
+    ikindi = sonuc['veri']['vakit'][bugun]['ikindi']
+    aksam = sonuc['veri']['vakit'][bugun]['aksam']
+    yatsi = sonuc['veri']['vakit'][bugun]['yatsi']
     out = (f"**Namaz Vakitleri**\n\n" +
                 f"**Yer: ** `{yer}`\n" +
                 f"**Tarih ** `{tarih}`:\n" +
