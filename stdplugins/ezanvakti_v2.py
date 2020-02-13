@@ -30,7 +30,7 @@ async def namaz_(event):
             return
     else:
         LOKASYON = event.pattern_match.group(1)
-        LOKASYON = LOKASYON.decode('UTF-8').upper()
+        LOKASYON = LOKASYON.encode().decode('UTF-8').upper()
     namaz = namazvakti()
     sehirler_sonuc = namaz.sehirler(2)
     sonuc_sehirler = {v: k for k, v in sehirler_sonuc['veri'].items()}
