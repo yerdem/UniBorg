@@ -39,7 +39,7 @@ async def namaz_(event):
     LOKASYON_2 = event.pattern_match.group(2)
     if LOKASYON_2:
         LOKASYON_2 = LOKASYON_2.replace('i','İ').upper
-    yer = '/workspace/UniBorg/bin/namaz_vakti/db/yerler.ndb'
+    yer = './bin/namaz_vakti/db/yerler.ndb'
     with open(yer, "r", encoding="utf-8") as f:
         yerler_json = json.load(f)
     namaz = namazvakti()
