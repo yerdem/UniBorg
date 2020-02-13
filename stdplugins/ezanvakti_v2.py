@@ -30,13 +30,13 @@ async def namaz_(event):
             return
     else:
         LOKASYON = event.pattern_match.group(1)
-        LOKASYON = LOKASYON.upper()
+        LOKASYON = LOKASYON.decode('UTF-8').upper()
     namaz = namazvakti()
     sehirler_sonuc = namaz.sehirler(2)
     sonuc_sehirler = {v: k for k, v in sehirler_sonuc['veri'].items()}
     sonuc_sehirler_1 = sonuc_sehirler[LOKASYON]
     yer = './bin/namaz_vakti/db/yerler.ndb'
-    with open(yer, "r", encoding="utf8") as f:
+    with open(yer, "r", encoding="utf-8") as f:
         yerler_json = json.load(f)
     # print(yerler_json['2']['sehirler'][f"{sonuc_sehirler_1}"]['ilceler'].items())
     inverse_yerler = {v: k for k, v in yerler_json['2']['sehirler'][f"{sonuc_sehirler_1}"]['ilceler'].items()}
@@ -49,14 +49,14 @@ async def namaz_(event):
     bugun = istanbul_now.strftime("%d.%m.%Y")
     print(sonuc['veri'])
     yer = sonuc['veri']['yer_adi']
-    tarih = sonuc['veri']['vakit'][bugun]['uzun_tarih']
-    hicri_tarih = sonuc['veri']['vakit'][bugun]['hicri_uzun']
-    imsak = sonuc['veri']['vakit'][bugun]['imsak']
-    gunes = sonuc['veri']['vakit'][bugun]['gunes']
-    ogle = sonuc['veri']['vakit'][bugun]['ogle']
-    ikindi = sonuc['veri']['vakit'][bugun]['ikindi']
-    aksam = sonuc['veri']['vakit'][bugun]['aksam']
-    yatsi = sonuc['veri']['vakit'][bugun]['yatsi']
+    tarih = sonuc['veri']['vakit']['tarih'][bugun]['uzun_tarih']
+    hicri_tarih = sonuc['veri']['vakit']['tarih'][bugun]['hicri_uzun']
+    imsak = sonuc['veri']['vakit']['tarih'][bugun]['imsak']
+    gunes = sonuc['veri']['vakit']['tarih'][bugun]['gunes']
+    ogle = sonuc['veri']['vakit']['tarih'][bugun]['ogle']
+    ikindi = sonuc['veri']['vakit']['tarih'][bugun]['ikindi']
+    aksam = sonuc['veri']['vakit']['tarih'][bugun]['aksam']
+    yatsi = sonuc['veri']['vakit']['tarih'][bugun]['yatsi']
     out = (f"**Namaz Vakitleri**\n\n" +
                 f"**Yer: ** `{yer}`\n" +
                 f"**Tarih ** `{tarih}`:\n" +
