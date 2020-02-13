@@ -60,7 +60,7 @@ class namazvakti():
     # Başlatma metodu
     def __init__(self, cacheklasoru = None):
         # Dosya yolumuzu belirtelim
-        dosyaYolu = os.getcwd("./bin/namaz_vakti/db/cache")
+        dosyaYolu = os.getcwd()
 
         # Önce cache bellek işlemleri
         if cacheklasoru != None:
@@ -235,7 +235,7 @@ class namazvakti():
         adresDosyasi = os.path.join(os.getcwd(), "./bin/namaz_vakti/db/adresler.ndb")
         with open(adresDosyasi,mode='w+',encoding='utf-8') as adres:
             # adresler = json.load(adres)
-            json.dump(sonuc,adres)
+            json.dump(adres)
 
         veri = {}
         if str(sehir_id) in adresler:
