@@ -15,7 +15,7 @@ class namazvakti():
     ilceIsimleri = {}
     __veritabani = None
     __cache = ""
-    __cacheKlasorYolu = "./bin/namaz_vakti/db/cache"
+    __cacheKlasorYolu = "/bin/namaz_vakti/db/cache"
     __miladiAylar = {
         1 : "Ocak",
         2 : "Şubat",
