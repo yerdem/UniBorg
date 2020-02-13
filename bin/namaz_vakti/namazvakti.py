@@ -56,7 +56,7 @@ class namazvakti():
     # Başlatma metodu
     def __init__(self, cacheklasoru = None):
         # Dosya yolumuzu belirtelim
-        dosyaYolu = os.getcwd()
+        dosyaYolu = os.path.join("./bin/namaz_vakti/")
 
         # Önce cache bellek işlemleri
         if cacheklasoru != None:
