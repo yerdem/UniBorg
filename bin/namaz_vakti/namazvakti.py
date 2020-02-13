@@ -198,10 +198,11 @@ class namazvakti():
                     f.close()
                 except FileExistsError as error:
                     pass
-                f = open("./bin/namaz_vakti/db/cache/"+"cache_" + str(yer["sehir_id"]) + ".ndb", 'wt', encoding='utf-8')
-                f.write(son_veri)
-                json.dump(son_veri)
-                f.close()
+                with open("./bin/namaz_vakti/db/cache/"+"cache_" + str(yer["sehir_id"]) + ".ndb", 'wt', encoding='utf-8') as ver:
+                    json.dump(sonuc,ver)
+                # f.write(son_veri)
+                # json.dump(son_veri)
+                # f.close()
                 # dosya = str(open(os.path.join("./bin/namaz_vakti/db/cache/"+cacheDosyaAdi)))
                 # dosya_son = pathlib.Path(dosya).write_text(sonuc)
                 # json.dump(sonuc,dosya_son)
