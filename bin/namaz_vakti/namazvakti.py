@@ -60,7 +60,7 @@ class namazvakti():
     # Başlatma metodu
     def __init__(self, cacheklasoru = None):
         # Dosya yolumuzu belirtelim
-        dosyaYolu = os.getcwd()
+        dosyaYolu = os.getcwd("./bin/namaz_vakti/db/cache")
 
         # Önce cache bellek işlemleri
         if cacheklasoru != None:
@@ -70,8 +70,8 @@ class namazvakti():
 
         # veritabanını oluştur!
         yerler = os.path.join(dosyaYolu,  "./bin/namaz_vakti/db/yerler.ndb")
-        with open(yerler) as yer:
-            self.__veritabani = json.loads(yer)
+        with open(yerler,mode='w+',encoding='utf-8') as yer:
+            self.__veritabani = json.load(yer)
 
     # cache klasörünü değiştirir
     def cacheKlasoru(self,cacheklasoru):
@@ -168,8 +168,8 @@ class namazvakti():
         yer = self.__yerBilgisi(sehir_id)
         cacheDosyaAdi = "./bin/namaz_vakti/db/cache/cache_" + str(yer["sehir_id"]) + ".ndb"
         with open(os.path.join(cacheDosyaAdi),mode='w+',encoding='utf-8') as v:
-            jsonVeri = json.loads(v)
-            v.close()
+            json.dump(sonuc, v)
+
         cacheDosyasi = os.path.join(cacheDosyaAdi)
         bugun = datetime.strftime(datetime.now(), "%d.%m.%Y")
 
@@ -177,8 +177,8 @@ class namazvakti():
         if os.path.isfile(cacheDosyasi) and os.access(cacheDosyasi, os.R_OK):
             os.chdir(cacheDosyasi)
             # cache dosyasıdan okuma işlemleri yapak!
-            with open(cacheDosyasi) as v:
-                jsonVeri = json.loads(v)
+            with open(cacheDosyasi,mode='r',encoding='utf-8') as v:
+                jsonVeri = json.load(v)
 
             if bugun in jsonVeri["veri"]["vakitler"]:
                 # bugün vakitlerin içinde var
@@ -202,7 +202,7 @@ class namazvakti():
                 sonuc["veri"] = veri["veri"]
                 #cache belleğe ana işte burada yaz!
                 os.chdir(cacheDosyasi)
-                with open(cacheDosyasi, "w+") as yaz:
+                with open(cacheDosyasi, "w+",encoding='utf-8') as yaz:
                     json.dump(sonuc, yaz)
 
         # if sonuc["durum"] == "basarili":
@@ -223,7 +223,7 @@ class namazvakti():
         if veri["durum"] == "basarili":
             sonuc["durum"] = "basarili"
             sonuc["veri"] = veri["veri"]
-            with open(cacheDosyasi, "w+") as yaz:
+            with open(cacheDosyasi, "w+",encoding='utf-8') as yaz:
                 json.dump(sonuc, yaz)
 
         return sonuc
@@ -233,8 +233,9 @@ class namazvakti():
 
         # adres dosyası
         adresDosyasi = os.path.join(os.getcwd(), "./bin/namaz_vakti/db/adresler.ndb")
-        with open(adresDosyasi) as adres:
-            adresler = json.load(adres)
+        with open(adresDosyasi,mode='w+',encoding='utf-8') as adres:
+            # adresler = json.load(adres)
+            json.dump(sonuc,adres)
 
         veri = {}
         if str(sehir_id) in adresler:
