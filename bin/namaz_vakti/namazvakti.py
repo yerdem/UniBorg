@@ -199,7 +199,7 @@ class namazvakti():
                     error = None
                     pass
                 with open("./bin/namaz_vakti/db/cache/"+"cache_" + str(yer["sehir_id"]) + ".ndb", 'wt', encoding='utf-8') as ver:
-                    sonuc = json.dump(json.loads(ver))
+                    json.dump(sonuc,ver)
                 # f.write(son_veri)
                 # json.dump(son_veri)
                 # f.close()
