@@ -56,7 +56,7 @@ class namazvakti():
     # Başlatma metodu
     def __init__(self, cacheklasoru = None):
         # Dosya yolumuzu belirtelim
-        dosyaYolu = os.path.join("./bin/namaz_vakti/")
+        dosyaYolu = os.path.join("./bin/namaz_vakti/db/")
 
         # Önce cache bellek işlemleri
         if cacheklasoru != None:
@@ -65,7 +65,7 @@ class namazvakti():
             self.__cache = os.path.join(dosyaYolu, self.__cacheKlasorYolu)
 
         # veritabanını oluştur!
-        yerler = os.path.join(dosyaYolu, "db", "yerler.ndb")
+        yerler = os.path.join(dosyaYolu,  "yerler.ndb")
         with open(yerler) as yer:
             self.__veritabani = json.load(yer)
 
@@ -192,10 +192,10 @@ class namazvakti():
             if veri["durum"] == "basarili":
                 sonuc["durum"] = "basarili"
                 sonuc["veri"] = veri["veri"]
-                #cache belleğe ana işte burada yaz!
-                f = open(os.path.join(cacheDosyasi),'x',encoding='utf-8')
+
+                f = open(cacheDosyasi),'x',encoding='utf-8')
                 f.close()
-                f = open(os.path.join(cacheDosyasi), 'wt', encoding='utf-8')
+                f = open(cacheDosyasi), 'wt', encoding='utf-8')
                 f.write(sonuc)
                 f.close()
                 # dosya = str(open(os.path.join("./bin/namaz_vakti/db/cache/"+cacheDosyaAdi)))
