@@ -193,7 +193,8 @@ class namazvakti():
                 sonuc["durum"] = "basarili"
                 sonuc["veri"] = veri["veri"]
                 #cache belleğe ana işte burada yaz!
-                with open(os.path.join(cacheDosyasi), "x") as yaz:
+                dosya_olustur = open(os.path.join(cacheDosyasi),'x')
+                with open(os.path.join(dosya_olustur), "w") as yaz:
                     json.dump(sonuc, yaz)
 
         if sonuc["durum"] == "basarili":
