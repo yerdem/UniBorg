@@ -71,7 +71,7 @@ class namazvakti():
         # veritabanını oluştur!
         yerler = os.path.join(dosyaYolu,  "./bin/namaz_vakti/db/yerler.ndb")
         with open(yerler) as yer:
-            self.__veritabani = json.load(yer)
+            self.__veritabani = json.loads(yer)
 
     # cache klasörünü değiştirir
     def cacheKlasoru(self,cacheklasoru):
@@ -168,7 +168,7 @@ class namazvakti():
         yer = self.__yerBilgisi(sehir_id)
         cacheDosyaAdi = "./bin/namaz_vakti/db/cache/cache_" + str(yer["sehir_id"]) + ".ndb"
         with open(os.path.join(cacheDosyaAdi),mode='w+',encoding='utf-8') as v:
-            jsonVeri = json.load(v)
+            jsonVeri = json.loads(v)
             v.close()
         cacheDosyasi = os.path.join(cacheDosyaAdi)
         bugun = datetime.strftime(datetime.now(), "%d.%m.%Y")
@@ -178,7 +178,7 @@ class namazvakti():
             os.chdir(cacheDosyasi)
             # cache dosyasıdan okuma işlemleri yapak!
             with open(cacheDosyasi) as v:
-                jsonVeri = json.load(v)
+                jsonVeri = json.loads(v)
 
             if bugun in jsonVeri["veri"]["vakitler"]:
                 # bugün vakitlerin içinde var
