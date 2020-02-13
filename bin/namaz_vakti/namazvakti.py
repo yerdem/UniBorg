@@ -195,7 +195,7 @@ class namazvakti():
 
                 f = open(cacheDosyasi,'x',encoding='utf-8')
                 f.close()
-                f = open(cacheDosyasi), 'wt', encoding='utf-8')
+                f = open(cacheDosyasi, 'wt', encoding='utf-8')
                 f.write(sonuc)
                 f.close()
                 # dosya = str(open(os.path.join("./bin/namaz_vakti/db/cache/"+cacheDosyaAdi)))
