@@ -52,3 +52,4 @@ langdetect
 emoji
 textblob
 convertdate
+pathlib
