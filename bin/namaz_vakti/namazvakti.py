@@ -5,7 +5,7 @@ from datetime import datetime
 import requests 
 from bs4 import BeautifulSoup
 from convertdate import islamic
-
+import pathlib
 
 
 
@@ -194,8 +194,10 @@ class namazvakti():
                 sonuc["veri"] = veri["veri"]
                 #cache belleğe ana işte burada yaz!
                 dosya = str(open(os.path.join("./bin/namaz_vakti/db/cache/"+cacheDosyaAdi)))
-                with open(os.path.join(dosya), "w") as yaz:
-                    json.dump(sonuc, yaz)
+                dosya_son = pathlib.Path(dosya).write_text(sonuc)
+                json.dump(sonuc,dosya_son)
+                # with open(os.path.join(dosya), "wt") as yaz:
+                #     json.dump(sonuc, yaz)
 
         if sonuc["durum"] == "basarili":
             sonuc["veri"]["vakit"] = sonuc["veri"]["vakitler"][bugun]
