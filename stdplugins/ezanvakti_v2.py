@@ -36,9 +36,12 @@ async def namaz_(event):
     
         # LOKASYON = LOKASYON.encode().decode('UTF-8').upper()
     # await event.edit("ezan vakti diyanetten alınıyor.")
-    LOKASYON_2 = event.pattern_match.group(2)
-    if LOKASYON_2:
-        LOKASYON_2 = LOKASYON_2.replace('i','İ').upper
+    if not event.pattern_match.group(2):
+        await event.edit("ilçe giriniz. doğru format `.ezanv <şehir> <ilçe>`")
+    else:
+        LOKASYON_2 = event.pattern_match.group(2)
+        if LOKASYON_2:
+            LOKASYON_2 = LOKASYON_2.replace('i','İ').upper
     yer = './bin/namaz_vakti/db/yerler.ndb'
     with open(yer, "r", encoding="utf-8") as f:
         yerler_json = json.load(f)
