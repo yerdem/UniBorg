@@ -18,8 +18,9 @@ logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s'
 TEMP = ''
 
 
-@borg.on(admin_cmd(pattern=("ezanv ?(.*)")))
+@borg.on(admin_cmd(pattern=("ezanv ?(.*) + ?(.*)")))
 async def namaz_(event):
+    """kullanımı .ezanv <şehir> <ilçe>"""
     if not event.text.startswith("."):
         return ""
 
@@ -32,21 +33,35 @@ async def namaz_(event):
         LOKASYON = event.pattern_match.group(1)
         if LOKASYON:
             LOKASYON = LOKASYON.replace('i', 'İ').upper()
+    
         # LOKASYON = LOKASYON.encode().decode('UTF-8').upper()
-    await event.edit("ezan vakti diyanetten alınıyor.")
+    # await event.edit("ezan vakti diyanetten alınıyor.")
+    LOKASYON_2 = event.pattern_match.group(2)
+    if LOKASYON_2:
+        LOKASYON_2 = LOKASYON_2.replace('i','İ').upper
+    yer = '/workspace/UniBorg/bin/namaz_vakti/db/yerler.ndb'
+    with open(yer, "r", encoding="utf-8") as f:
+        yerler_json = json.load(f)
     namaz = namazvakti()
     sehirler_sonuc = namaz.sehirler(2)
     sonuc_sehirler = {v: k for k, v in sehirler_sonuc['veri'].items()}
-    sonuc_sehirler_1 = sonuc_sehirler[LOKASYON]
-    yer = './bin/namaz_vakti/db/yerler.ndb'
-    with open(yer, "r", encoding="utf-8") as f:
-        yerler_json = json.load(f)
+    # print(sonuc_sehirler)
+    sehir_id = sonuc_sehirler[LOKASYON]
+    # print(sehir_id)
+    ilceler_sonuc = namaz.ilceler(2, sehir_id)
+    # print(ilceler_sonuc)
+    sonuc_ilceler = {v: k for k, v in ilceler_sonuc['veri'].items()}
+    # print(sonuc_ilceler)    
+    # print(event.pattern_match.group(2).upper())
     # print(yerler_json['2']['sehirler'][f"{sonuc_sehirler_1}"]['ilceler'].items())
-    inverse_yerler = {v: k for k, v in yerler_json['2']['sehirler'][f"{sonuc_sehirler_1}"]['ilceler'].items()}
+    # inverse_yerler = {v: k for k, v in yerler_json['2']['sehirler'][f"{sonuc_sehirler_1}"]['ilceler'].items()}
     # print(inverse_yerler[LOKASYON])
-    sonuc_str = str(inverse_yerler[LOKASYON])
+    sonuc_str = sonuc_ilceler[event.pattern_match.group(2).upper()]
+    # print(sonuc_str)
     # print(sonuc_str)
     sonuc = namaz.vakit(sonuc_str)
+    
+    
     tz = pytz.timezone('Europe/Istanbul')
     istanbul_now = datetime.now(tz)
     bugun = istanbul_now.strftime("%d%m%Y")
@@ -55,19 +70,20 @@ async def namaz_(event):
     ay = bugun[2:4]
     yil = bugun[4:]
     tam_gun = gun + "." + ay + "." + yil
+    print(sonuc['veri']['vakitler'][tam_gun])
     # tam_gun = int(tam_gun)
     # print(sonuc)
     yer = sonuc['veri']['yer_adi']
-    if sonuc['veri']['vakit']['tarih'] in tam_gun:
+    if sonuc['veri']['vakitler'][tam_gun]:
         # print("tru")
-        tarih = sonuc['veri']['vakit']['uzun_tarih']
-        hicri_tarih = sonuc['veri']['vakit']['hicri_uzun']
-        imsak = sonuc['veri']['vakit']['imsak']
-        gunes = sonuc['veri']['vakit']['gunes']
-        ogle = sonuc['veri']['vakit']['ogle']
-        ikindi = sonuc['veri']['vakit']['ikindi']
-        aksam = sonuc['veri']['vakit']['aksam']
-        yatsi = sonuc['veri']['vakit']['yatsi']
+        tarih = sonuc['veri']['vakitler'][tam_gun]['uzun_tarih']
+        hicri_tarih = sonuc['veri']['vakitler'][tam_gun]['hicri_uzun']
+        imsak = sonuc['veri']['vakitler'][tam_gun]['imsak']
+        gunes = sonuc['veri']['vakitler'][tam_gun]['gunes']
+        ogle = sonuc['veri']['vakitler'][tam_gun]['ogle']
+        ikindi = sonuc['veri']['vakitler'][tam_gun]['ikindi']
+        aksam = sonuc['veri']['vakitler'][tam_gun]['aksam']
+        yatsi = sonuc['veri']['vakitler'][tam_gun]['yatsi']
     out = (f"**Diyanet Namaz Vakitleri**\n\n" +
                 f"**Yer: ** `{yer}`\n" +
                 f"**Tarih ** `{tarih}`:\n" +
