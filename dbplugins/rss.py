@@ -6,15 +6,17 @@ import logging
 import re
 import time
 
+import schedule
 from feedparser import parse
-from telethon import events
+from telethon import events, utils
 # from tg_bot.modules.helper_funcs.chat_status import user_admin
 from telethon.tl.types import ChannelParticipantsAdmins
 
-import schedule
 from sample_config import Config
 # from tg_bot.modules.sql import rss_sql as sql
-from sql_helpers import rss_sql as sql
+# from sql_helpers import rss_sql as sql
+from sql_helpers.rss_sql import (add_url, check_url_availability, get_all,
+                                 get_urls, remove_url, update_url)
 # from telegram.ext import CommandHandler
 # from tg_bot import dispatcher, updater
 from uniborg.util import admin_cmd
@@ -77,7 +79,7 @@ async def show_url(event):
 async def list_urls(event):
     tg_chat_id = str(event.chat_id)
 
-    user_data = sql.get_urls(tg_chat_id)
+    user_data = get_urls(tg_chat_id)
 
     # this loops gets every link from the DB based on the filter above and appends it to the list
     links_list = [row.feed_link for row in user_data]
@@ -104,7 +106,7 @@ async def list_urls(event):
 
 
 @borg.on(admin_cmd(pattern=("addrss ?(.*)")))
-async def add_url(event):
+async def add_url_(event):
     if event.pattern_match.group(1):
         chat = await event.get_chat()
 
@@ -122,13 +124,13 @@ async def add_url(event):
                 tg_old_entry_link = ""
 
             # gather the row which contains exactly that telegram group ID and link for later comparison
-            row = sql.check_url_availability(tg_chat_id, tg_feed_link)
+            row = check_url_availability(tg_chat_id, tg_feed_link)
 
             # check if there's an entry already added to DB by the same user in the same group with the same link
             if row:
                 await event.edit("This URL has already been added")
             else:
-                sql.add_url(tg_chat_id, tg_feed_link, tg_old_entry_link)
+                add_url(tg_chat_id, tg_feed_link, tg_old_entry_link)
 
                 await event.edit("Added URL to subscription")
         else:
@@ -139,7 +141,7 @@ async def add_url(event):
 
 
 @borg.on(admin_cmd(pattern=("removerss ?(.*)")))
-async def remove_url(event):
+async def remove_url_(event):
     if event.pattern_match.group(1):
         tg_chat_id = str(event.chat_id)
 
@@ -148,10 +150,10 @@ async def remove_url(event):
         link_processed = parse(tg_feed_link)
 
         if link_processed.bozo == 0:
-            user_data = sql.check_url_availability(tg_chat_id, tg_feed_link)
+            user_data = check_url_availability(tg_chat_id, tg_feed_link)
 
             if user_data:
-                sql.remove_url(tg_chat_id, tg_feed_link)
+                remove_url(tg_chat_id, tg_feed_link)
 
                 await event.edit("Removed URL from subscription")
             else:
@@ -162,8 +164,8 @@ async def remove_url(event):
         await event.edit("URL missing")
 
 
-async def rss_update(event):
-    user_data = sql.get_all()
+def rss_update(event):
+    user_data = get_all()
 
     # this loop checks for every row in the DB
     for row in user_data:
@@ -189,7 +191,7 @@ async def rss_update(event):
 
         # check if there's any new entries queued from the last check
         if new_entry_links:
-            sql.update_url(row_id, new_entry_links)
+            update_url(row_id, new_entry_links)
         else:
             pass
 
@@ -235,7 +237,7 @@ async def rss_update(event):
 
 
 def rss_set(event):
-    user_data = sql.get_all()
+    user_data = get_all()
 
     # this loop checks for every row in the DB
     for row in user_data:
@@ -259,7 +261,7 @@ def rss_set(event):
 
         # check if there's any new entries queued from the last check
         if new_entry_links:
-            sql.update_url(row_id, new_entry_links)
+            update_url(row_id, new_entry_links)
         else:
             pass
 schedule.every(10).minutes.do(rss_set)
