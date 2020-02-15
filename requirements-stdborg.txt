@@ -56,4 +56,3 @@ pathlib
 unicode_tr
 schedule
 feedparser
-html
