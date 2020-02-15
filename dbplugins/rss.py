@@ -164,7 +164,7 @@ async def remove_url_(event):
         await event.edit("URL missing")
 
 
-def rss_update(event):
+async def rss_update(event):
     user_data = get_all()
 
     # this loop checks for every row in the DB
