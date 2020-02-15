@@ -1,3 +1,5 @@
+"""created rss plugin for uniborg >> credid : @By_Azade"""
+
 import asyncio
 import html
 import logging

@@ -55,3 +55,4 @@ convertdate
 pathlib
 unicode_tr
 schedule
+feedparser
