@@ -49,7 +49,7 @@ async def spam_watch_(event):
                 await event.client(
                 EditBannedRequest(
                     event.chat_id,
-                    event.from_id,
+                    event.action_message.from_id,
                     BANNED_RIGHTS
                 )
             )
