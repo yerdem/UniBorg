@@ -128,7 +128,7 @@ class Config(object):
     BOTLOG = os.environ.get("BOTLOG", None)
     # MONGOCLIENT = pymongo.MongoClient(MONGO_DB_URI)
     # MONGO = MONGOCLIENT.userbot
-    RSS_POST_MSG_GROUP_ID = os.environ.get("RSS_POST_MSG_GROUP_ID", None)
+    RSS_POST_MSG_GROUP_ID = set(int(x) for x in os.environ.get("RSS_POST_MSG_GROUP_ID", "").split())
 
 
 
