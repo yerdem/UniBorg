@@ -40,10 +40,11 @@ BANNED_RIGHTS = ChatBannedRights(
 async def spam_watch_(event):
     # user = await get_user_from_event(event)
     client = spamwatch.Client(Config.SPAM_WATCH_API)
-    ban = client.get_ban(event.from_id)
+    # ban = client.get_ban(event.from_id)
     user = await event.get_user()
     if event.user_joined or event.user_added:
         try:
+            ban = client.get_ban(event.from_id)
             if ban:
                 await event.client(
                 EditBannedRequest(
