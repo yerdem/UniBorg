@@ -129,8 +129,9 @@ class Config(object):
     # MONGOCLIENT = pymongo.MongoClient(MONGO_DB_URI)
     # MONGO = MONGOCLIENT.userbot
     RSS_POST_MSG_GROUP_ID = os.environ.get("RSS_POST_MSG_GROUP_ID", None)
-    if RSS_POST_MSG_GROUP_ID:
-        RSS_POST_MSG_GROUP_ID = int(RSS_POST_MSG_GROUP_ID)
+    RSS_POST_MSG_GROUP_ID = map(int, os.environ.get("RSS_POST_MSG_GROUP_ID", "-1001275740957 -1001123894584 -1001220993104").split())
+    # if RSS_POST_MSG_GROUP_ID:
+    #     RSS_POST_MSG_GROUP_ID = int(RSS_POST_MSG_GROUP_ID)
 
 
 
