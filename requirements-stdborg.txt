@@ -58,3 +58,4 @@ schedule
 feedparser
 apscheduler
 aioschedule
+spamwatch
