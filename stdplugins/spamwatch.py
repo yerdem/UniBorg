@@ -65,7 +65,7 @@ async def spam_watch_(event):
 
 
 async def get_user_from_event(event):
-    if event.reply_to_msg_id:
+    if event.message.is_reply:
         previous_message = await event.get_reply_message()
         user_obj = await event.client.get_entity(previous_message.from_id)
     else:
