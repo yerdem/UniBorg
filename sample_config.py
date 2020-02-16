@@ -64,8 +64,7 @@ class Config(object):
         "fban_gban",
         "gban",
         "unbanmute",
-        "antispam",
-        "rss"
+        "antispam"
     ]
     # Get your own API key from https://www.remove.bg/ or
     # feel free to use http://telegram.dog/Remove_BGBot
