@@ -35,39 +35,37 @@ async def show_url(event):
 
         if link_processed.bozo == 0:
             feed_title = link_processed.feed.get("title", default="Unknown")
-            feed_description = "<i>{}</i>".format(
+            feed_description = "__{}__".format(
                 re.sub('<[^<]+?>', '', link_processed.feed.get("description", default="Unknown")))
             feed_link = link_processed.feed.get("link", default="Unknown")
 
-            feed_message = "<b>Feed Title:</b> \n{}" \
-                           "\n\n<b>Feed Description:</b> \n{}" \
-                           "\n\n<b>Feed Link:</b> \n{}".format(html.escape(feed_title),
+            feed_message = "**Feed Title:** \n{}" \
+                           "\n\n**Feed Description:** \n{}" \
+                           "\n\n**Feed Link:** \n{}".format(html.escape(feed_title),
                                                                feed_description,
                                                                html.escape(feed_link))
 
             if len(link_processed.entries) >= 1:
                 entry_title = link_processed.entries[0].get("title", default="Unknown")
-                entry_description = "<i>{}</i>".format(
+                entry_description = "__{}__".format(
                     re.sub('<[^<]+?>', '', link_processed.entries[0].get("description", default="Unknown")))
                 entry_link = link_processed.entries[0].get("link", default="Unknown")
 
-                entry_message = "\n\n<b>Entry Title:</b> \n{}" \
-                                "\n\n<b>Entry Description:</b> \n{}" \
-                                "\n\n<b>Entry Link:</b> \n{}".format(html.escape(entry_title),
+                entry_message = "\n\n**Entry Title:** \n{}" \
+                                "\n\n<b>Entry Description:** \n{}" \
+                                "\n\n**Entry Link:** \n{}".format(html.escape(entry_title),
                                                                      entry_description,
                                                                      html.escape(entry_link))
                 final_message = feed_message + entry_message
 
                 await borg.send_message(
                     entity=entity, 
-                    message=final_message, 
-                    parse_mode='html'
+                    message=final_message
                 )
             else:
                 await borg.send_message(
                     entity=Config.RSS_POST_MSG_GROUP_ID, 
-                    message=feed_message, 
-                    parse_mode='html'
+                    message=feed_message
                 )
         else:
             await event.edit("This link is not an RSS Feed link")
@@ -99,8 +97,7 @@ async def list_urls(event):
     else:
         await bot.send_message(
             entity=entity, 
-            parse_mode='html',
-            message="<b>Warning:</b> The message is too long to be sent"
+            message="**Warning:** The message is too long to be sent"
         )
 
 
@@ -197,41 +194,36 @@ async def rss_update(event):
         if len(new_entry_links) < 5:
             # this loop sends every new update to each user from each group based on the DB entries
             for link, title in zip(reversed(new_entry_links), reversed(new_entry_titles)):
-                final_message = "<b>{}</b>\n\n{}".format(html.escape(title), html.escape(link))
+                final_message = "**{}**\n\n{}".format(html.escape(title), html.escape(link))
 
                 if len(final_message) <= Config.MAX_MESSAGE_SIZE_LIMIT:
                     await borg.send_message(
                         entity=entity, 
-                        message=final_message, 
-                        parse_mode='html'
+                        message=final_message
                     )
                 else:
                     await borg.send_message(
                         entity=entity, 
-                        message="<b>Warning:</b> The message is too long to be sent",
-                        parse_mode='html'
+                        message="**Warning:** The message is too long to be sent"
                     )
         else:
             for link, title in zip(reversed(new_entry_links[-5:]), reversed(new_entry_titles[-5:])):
-                final_message = "<b>{}</b>\n\n{}".format(html.escape(title), html.escape(link))
+                final_message = "**{}**\n\n{}".format(html.escape(title), html.escape(link))
 
                 if len(final_message) <= Config.MAX_MESSAGE_SIZE_LIMIT:
                     await borg.send_message(
                         entity=entity, 
-                        message=final_message, 
-                        parse_mode='html'
+                        message=final_message
                     )
                 else:
                     await borg.send_message(
                         entity=entity, 
-                        message="<b>Warning:</b> The message is too long to be sent",
-                        parse_mode='html'
+                        message="**Warning:** The message is too long to be sent"
                     )
 
             await borg.send_message(
                 entity=entity, 
-                parse_mode='html',
-                message="<b>Warning: </b>{} occurrences have been left out to prevent spam".format(len(new_entry_links) - 5)
+                message="**Warning: **{} occurrences have been left out to prevent spam".format(len(new_entry_links) - 5)
             )
 
 
