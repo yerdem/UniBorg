@@ -304,7 +304,7 @@ async def unban(eventUnban):
         if not admin and not creator:
             await eventUnban.edit("`I am not an admin!`")
             return
-        await eventUnban.edit("[cHAuHaN](http://t.me/amnd33p) `forgives everyone. Unbanning!`")
+        await eventUnban.edit("Unbanning!`")
         user = await get_user_from_event(eventUnban)
         if user:
             pass
@@ -651,7 +651,7 @@ async def pinmessage(eventPinMessage):
             )
 
 
-@borg.on(events.NewMessage(outgoing=True, pattern="^.ikick(?: |$)(.*)"))
+@borg.on(events.NewMessage(outgoing=True, pattern="^.kick(?: |$)(.*)"))
 async def kick(eventKickUser):
     if not eventKickUser.text[0].isalpha() and eventKickUser.text[0] not in ("/", "#", "@", "!"):
         chat = await eventKickUser.get_chat()
