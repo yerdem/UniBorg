@@ -38,9 +38,9 @@ BANNED_RIGHTS = ChatBannedRights(
 
 @borg.on(events.ChatAction())
 async def spam_watch_(event):
-    chat_id = event.chat_id
+    user = await get_user_from_event(event)
     client = spamwatch.Client(Config.SPAM_WATCH_API)
-    ban = client.get_ban(chat_id)
+    ban = client.get_ban(user.id)
     if event.user_joined or event.user_added:
         try:
             if ban:
@@ -62,3 +62,39 @@ async def spam_watch_(event):
                 f"USER: [{user.first_name}](tg://user?id={user.id})\n"
                 f"CHAT: {event.chat.title}(`{event.chat_id}`)"
             )
+
+
+async def get_user_from_event(event):
+    if event.reply_to_msg_id:
+        previous_message = await event.get_reply_message()
+        user_obj = await event.client.get_entity(previous_message.from_id)
+    else:
+        user = event.pattern_match.group(1)
+        if user.isnumeric():
+            user = int(user)
+        if not user:
+            await event.edit("`Pass the user's username, id or reply!`")
+            return
+        if event.message.entities is not None:
+            probable_user_mention_entity = event.message.entities[0]
+
+            if isinstance(probable_user_mention_entity, MessageEntityMentionName):
+                user_id = probable_user_mention_entity.user_id
+                user_obj = await event.client.get_entity(user_id)
+                return user_obj
+        try:
+            user_obj = await event.client.get_entity(user)
+        except (TypeError, ValueError) as err:
+            await event.edit(str(err))
+            return None
+    return user_obj
+
+async def get_user_from_id(user, event):
+    if isinstance(user, str):
+        user = int(user)
+    try:
+        user_obj = await event.client.get_entity(user)
+    except (TypeError, ValueError) as err:
+        await event.edit(str(err))
+        return None
+    return user_obj
