@@ -41,18 +41,22 @@ async def spam_watch_(event):
     # user = await get_user_from_event(event)
     client = spamwatch.Client(Config.SPAM_WATCH_API)
     # ban = client.get_ban(event.from_id)
+    chat = await event.get_chat()
     user = await event.get_user()
     if event.user_joined or event.user_added:
         try:
             ban = client.get_ban(event.action_message.from_id)
             if ban:
-                await borg(
-                EditBannedRequest(
-                    event.chat_id,
-                    event.action_message.from_id,
-                    BANNED_RIGHTS
-                )
-            )
+                # await borg(EditBannedRequest(event.chat_id,event.action_message.from_id,BANNED_RIGHTS))
+                async for g in borg.iter_participants(chat):
+                        entity = g.id
+                await borg.edit_permissions(entity, user.id, view_messages=False)
+            #     await event.client.send_message(
+            #     LOGGING_CHATID,
+            #     "#SPAM_WATCH\n"
+            #     f"USER: [{user.first_name}](tg://user?id={user.id})\n"
+            #     f"CHAT: {event.chat.title}(`{event.chat_id}`)"
+            # )
             else:
                 return
         except BadRequestError:
