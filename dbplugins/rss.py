@@ -59,13 +59,13 @@ async def show_url(event):
                 final_message = feed_message + entry_message
 
                 await borg.send_message(
-                    entity=tg_chat_id, 
+                    entity=Config.RSS_POST_MSG_GROUP_ID, 
                     message=final_message, 
                     parse_mode='html'
                 )
             else:
                 await borg.send_message(
-                    entity=tg_chat_id, 
+                    entity=Config.RSS_POST_MSG_GROUP_ID, 
                     message=feed_message, 
                     parse_mode='html'
                 )
@@ -88,17 +88,17 @@ async def list_urls(event):
     # check if the length of the message is too long to be posted in 1 chat bubble
     if len(final_content) == 0:
         await borg.send_message(
-            entity=tg_chat_id, 
+            entity=Config.RSS_POST_MSG_GROUP_ID, 
             message="This chat is not subscribed to any links"
         )
     elif len(final_content) <= Config.MAX_MESSAGE_SIZE_LIMIT:
         await borg.send_message(
-            entity=tg_chat_id, 
+            entity=Config.RSS_POST_MSG_GROUP_ID, 
             message="This chat is subscribed to the following links:\n" + final_content
         )
     else:
         await bot.send_message(
-            entity=tg_chat_id, 
+            entity=Config.RSS_POST_MSG_GROUP_ID, 
             parse_mode='html',
             message="<b>Warning:</b> The message is too long to be sent"
         )
@@ -201,13 +201,13 @@ async def rss_update(event):
 
                 if len(final_message) <= Config.MAX_MESSAGE_SIZE_LIMIT:
                     await borg.send_message(
-                        entity=tg_chat_id, 
+                        entity=Config.RSS_POST_MSG_GROUP_ID, 
                         message=final_message, 
                         parse_mode='html'
                     )
                 else:
                     await borg.send_message(
-                        entity=tg_chat_id, 
+                        entity=Config.RSS_POST_MSG_GROUP_ID, 
                         message="<b>Warning:</b> The message is too long to be sent",
                         parse_mode='html'
                     )
@@ -217,19 +217,19 @@ async def rss_update(event):
 
                 if len(final_message) <= Config.MAX_MESSAGE_SIZE_LIMIT:
                     await borg.send_message(
-                        entity=tg_chat_id, 
+                        entity=Config.RSS_POST_MSG_GROUP_ID, 
                         message=final_message, 
                         parse_mode='html'
                     )
                 else:
                     await borg.send_message(
-                        entity=tg_chat_id, 
+                        entity=Config.RSS_POST_MSG_GROUP_ID, 
                         message="<b>Warning:</b> The message is too long to be sent",
                         parse_mode='html'
                     )
 
             await borg.send_message(
-                entity=tg_chat_id, 
+                entity=Config.RSS_POST_MSG_GROUP_ID, 
                 parse_mode='html',
                 message="<b>Warning: </b>{} occurrences have been left out to prevent spam".format(len(new_entry_links) - 5)
             )
