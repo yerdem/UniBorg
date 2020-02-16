@@ -44,7 +44,7 @@ async def spam_watch_(event):
     user = await event.get_user()
     if event.user_joined or event.user_added:
         try:
-            ban = client.get_ban(event.from_id)
+            ban = client.get_ban(event.action_message.from_id)
             if ban:
                 await event.client(
                 EditBannedRequest(
