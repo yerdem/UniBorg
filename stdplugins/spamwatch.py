@@ -1,16 +1,14 @@
 """spamwatch for uniborg users. Credits : @By_Azade"""
 
-import asyncio
 from asyncio import sleep
 from os import remove
-
+import asyncio
 from telethon import events
 from telethon.errors import (BadRequestError, ChatAdminRequiredError,
                              ImageProcessFailedError, PhotoCropSizeSmallError,
                              UserAdminInvalidError)
 from telethon.errors.rpcerrorlist import (MessageTooLongError,
                                           UserIdInvalidError)
-from telethon.tl import functions, types
 from telethon.tl.functions.channels import (EditAdminRequest,
                                             EditBannedRequest,
                                             EditPhotoRequest)
@@ -20,9 +18,9 @@ from telethon.tl.types import (ChannelParticipantsAdmins,
                                ChatBannedRights, MessageEntityMentionName,
                                MessageMediaPhoto, PeerChat)
 
-import spamwatch
 from sample_config import Config
 from uniborg.util import admin_cmd
+import spamwatch
 
 ENABLE_LOG = True
 LOGGING_CHATID = Config.PRIVATE_CHANNEL_BOT_API_ID
@@ -38,11 +36,6 @@ BANNED_RIGHTS = ChatBannedRights(
     embed_links=True,
 )
 
-rights = ChatBannedRights(
-            until_date=None,
-            view_messages=True
-        )
-
 @borg.on(events.ChatAction())
 async def spam_watch_(event):
     # user = await get_user_from_event(event)
@@ -52,44 +45,34 @@ async def spam_watch_(event):
     user = await event.get_user()
     if (chat.admin_rights or chat.creator):
         if event.user_joined or event.user_added:
-            async for i in borg.iter_participants(event.chat_id):
-                try:
-                    ban = client.get_ban(event.action_message.from_id)
-                    if ban:
-                        await ban_user(event.chat_id, i, rights)
-                        # await borg(EditBannedRequest(event.chat_id,event.action_message.from_id,BANNED_RIGHTS))
-                    #     await event.client.send_message(
-                    #     LOGGING_CHATID,
-                    #     "#SPAM_WATCH\n"
-                    #     f"USER: [{user.first_name}](tg://user?id={user.id})\n"
-                    #     f"CHAT: {event.chat.title}(`{event.chat_id}`)"
-                    # )
-                    else:
-                        return
-                except AttributeError:
+            try:
+                ban = client.get_ban(event.action_message.from_id)
+                if ban:
+                    await borg(EditBannedRequest(event.chat_id,event.action_message.from_id,BANNED_RIGHTS))
+                #     await event.client.send_message(
+                #     LOGGING_CHATID,
+                #     "#SPAM_WATCH\n"
+                #     f"USER: [{user.first_name}](tg://user?id={user.id})\n"
+                #     f"CHAT: {event.chat.title}(`{event.chat_id}`)"
+                # )
+                else:
                     return
-                except BadRequestError:
-                    return
-                if ENABLE_LOG:
-                    await event.client.send_message(
-                        LOGGING_CHATID,
-                        "#SPAM_WATCH_BAN\n"
-                        f"USER: [{user.first_name}](tg://user?id={user.id})\n"
-                        f"CHAT: {event.chat.title}(`{event.chat_id}`)"
-                    )
+            except AttributeError:
+                return
+            except BadRequestError:
+                return
+            if ENABLE_LOG:
+                await event.client.send_message(
+                    LOGGING_CHATID,
+                    "#SPAM_WATCH_BAN\n"
+                    f"USER: [{user.first_name}](tg://user?id={user.id})\n"
+                    f"CHAT: {event.chat.title}(`{event.chat_id}`)"
+                )
         else:
             return ""
     else:
         return ""
 
-
-
-async def ban_user(chat_id, i, rights):
-    try:
-        await borg(functions.channels.EditBannedRequest(chat_id, i, rights))
-        return True, None
-    except Exception as exc:
-        return False, str(exc)
 
 # async def get_user_from_event(event):
 #     if event.reply_to_msg_id:
