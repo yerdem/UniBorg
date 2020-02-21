@@ -265,9 +265,14 @@ async def download_video(v_url):
                                 supports_streaming=True,
                             )
                         ]
-                    image_link = ytdl_data['thumbnail']
-                    downloaded_image = wget.download(image_link,out_folder)
-                    thumb = downloaded_image
+
+                    for file in os.listdir("./DOWNLOADS/youtubedl/"):
+                        if file.endswith(".jpg"):
+                            thumb = "./DOWNLOADS/youtubedl/" + file
+                            # print(os.path.join("./DOWNLOADS/youtubedl/", file))
+                    # image_link = ytdl_data['thumbnail']
+                    # downloaded_image = wget.download(image_link,out_folder)
+                    # thumb = downloaded_image
                     file_path = single_file
                     video_size = file_size(file_path)
                     try:

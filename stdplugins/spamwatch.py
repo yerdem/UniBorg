@@ -61,6 +61,8 @@ async def spam_watch_(event):
                 return
             except BadRequestError:
                 return
+            except ValueError:
+                return
             if ENABLE_LOG:
                 await event.client.send_message(
                     LOGGING_CHATID,
