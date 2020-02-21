@@ -269,7 +269,7 @@ async def download_video(v_url):
                                 supports_streaming=True,
                             )
                         ]
-
+                    print(ytdl_data['thumbnail'])
                     for file in os.listdir("./DOWNLOADS/youtubedl/"):
                         if file.endswith(".jpg"):
                             thumb = "./DOWNLOADS/youtubedl/" + file
@@ -287,7 +287,7 @@ async def download_video(v_url):
                             caption=f"`{ytdl_data_name_video}`" + "\n" + f"{video_size}",
                             force_document=force_document,
                             supports_streaming=supports_streaming,
-                            thumb = thumb,
+                            thumb = out_folder + '%(title)s'+'.jpg',
                             allow_cache=False,
                             reply_to=v_url.message.id,
                             attributes=document_attributes,
