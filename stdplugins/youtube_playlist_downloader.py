@@ -213,6 +213,9 @@ async def download_video(v_url):
                                 supports_streaming=True,
                             )
                         ]
+                        for file in os.listdir("./DOWNLOADS/youtubedl/"):
+                            if file.endswith(".jpg"):
+                                thumb = "./DOWNLOADS/youtubedl/" + file
                     try:
                         ytdl_data_name_audio = os.path.basename(single_file)
                         print(ytdl_data_name_audio)
@@ -225,6 +228,7 @@ async def download_video(v_url):
                             force_document=force_document,
                             supports_streaming=supports_streaming,
                             allow_cache=False,
+                            thumb = thumb,
                             reply_to=v_url.message.id,
                             attributes=document_attributes,
                             progress_callback=lambda d, t: asyncio.get_event_loop(
@@ -240,7 +244,7 @@ async def download_video(v_url):
                         continue
                     os.remove(single_file)
                     await asyncio.sleep(DELETE_TIMEOUT)
-                    await v_url.delete()
+                    # await v_url.delete()
         shutil.rmtree(out_folder)
     if video:
         for single_file in filename:
@@ -300,7 +304,7 @@ async def download_video(v_url):
                         continue
                     os.remove(single_file)
                     await asyncio.sleep(DELETE_TIMEOUT)
-                    await v_url.delete()
+                    # await v_url.delete()
         shutil.rmtree(out_folder)
         
 
