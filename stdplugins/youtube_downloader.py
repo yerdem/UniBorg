@@ -101,6 +101,7 @@ async def download_video(v_url):
             'addmetadata':True,
             'key':'FFmpegMetadata',
             'writethumbnail':True,
+            'embedthumbnail':True,
             'prefer_ffmpeg':True,
             'geo_bypass':True,
             'nocheckcertificate':True,
@@ -176,6 +177,7 @@ async def download_video(v_url):
     if song:
         # raster_size = os.path.getsize(f"{out_folder + ytdl_data['id']}.mp3")
         # song_size = size(raster_size)
+        thumb = out_folder + f"{out_folder + ytdl_data['id']}.mp3"[:(len(f"{out_folder + ytdl_data['id']}.mp3")-4)] + ".jpg"
         file_path = f"{out_folder + ytdl_data['id']}.mp3"
         song_size = file_size(file_path)
         await v_url.edit(f"`Preparing to upload song:`\
@@ -186,6 +188,7 @@ async def download_video(v_url):
             f"{out_folder + ytdl_data['id']}.mp3",
             caption=ytdl_data['title'] + "\n" + f"`{song_size}`",
             supports_streaming=True,
+            thumb = thumb,
             attributes=[
                 DocumentAttributeAudio(duration=int(ytdl_data['duration']),
                                        title=str(ytdl_data['title']),
@@ -198,6 +201,8 @@ async def download_video(v_url):
         os.remove(f"{out_folder + ytdl_data['id']}.mp3")
         await asyncio.sleep(DELETE_TIMEOUT)
         await v_url.delete()
+        os.remove(f"{out_folder + ytdl_data['id']}.mp3")
+        os.removedirs(out_folder)
     elif video:
         for single_file in filename:
             # image_link = ytdl_data['thumbnail']
