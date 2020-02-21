@@ -213,11 +213,9 @@ async def download_video(v_url):
                                 supports_streaming=True,
                             )
                         ]
-                        for file in os.listdir("./DOWNLOADS/youtubedl/"):
-                            if file.endswith(".jpg"):
-                                thumb = "./DOWNLOADS/youtubedl/" + file
                     try:
                         ytdl_data_name_audio = os.path.basename(single_file)
+                        thumb = ytdl_data_name_audio[:(len(ytdl_data_name_audio)-4)]
                         print(ytdl_data_name_audio)
                         file_path = single_file
                         song_size = file_size(file_path)
@@ -281,7 +279,7 @@ async def download_video(v_url):
                     video_size = file_size(file_path)
                     try:
                         ytdl_data_name_video = os.path.basename(single_file)
-                        thumb = ytdl_data_name_video + ".jpg"
+                        thumb = ytdl_data_name_video[:(len(ytdl_data_name_video)-4)]
                         await v_url.client.send_file(
                             v_url.chat_id,
                             single_file,
