@@ -64,7 +64,7 @@ async def spam_watch_(event):
             if ENABLE_LOG:
                 await event.client.send_message(
                     LOGGING_CHATID,
-                    "#SPAM_WATCH_BAN\n"
+                    "#SPAMWATCH_BAN\n"
                     f"USER: [{user.first_name}](tg://user?id={user.id})\n"
                     f"CHAT: {event.chat.title}(`{event.chat_id}`)"
                 )
