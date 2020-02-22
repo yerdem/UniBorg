@@ -88,15 +88,15 @@ async def namaz_(event):
         aksam = sonuc['veri']['vakit']['aksam']
         yatsi = sonuc['veri']['vakit']['yatsi']
     out = (f"**Diyanet Namaz Vakitleri**\n\n" +
-                f"**Yer: ** `{yer}`\n" +
-                f"**Tarih ** `{tarih}`\n" +
-                f"**Hicri Tarih :** `{hicri_tarih}`\n"+
-                f"**Güneş :** `{gunes}`\n" +
-                f"**İmsak :** `{imsak}`\n" +
-                f"**Öğle :** `{ogle}`\n" +
-                f"**İkindi :** `{ikindi}`\n" +
-                f"**Akşam :** `{aksam}`\n" +
-                f"**Yatsı :** `{yatsi}`\n"
+                f"📍**Yer: ** `{yer}`\n" +
+                f"🗓**Tarih ** `{tarih}`\n" +
+                f"🌕**Hicri Tarih :** `{hicri_tarih}`\n"+
+                f"🏙**İmsak :** `{imsak}`\n" +
+                f"🌅**Güneş :** `{gunes}`\n" +
+                f"🌇**Öğle :** `{ogle}`\n" +
+                f"🌆**İkindi :** `{ikindi}`\n" +
+                f"🌃**Akşam :** `{aksam}`\n" +
+                f"🌌**Yatsı :** `{yatsi}`\n"
     )
     await event.edit(out)
     # print(inverse_yerler)

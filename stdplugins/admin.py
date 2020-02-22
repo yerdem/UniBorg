@@ -139,7 +139,7 @@ async def promote(eventPromote):
             delete_messages=True,
             pin_messages=True
         )
-        await eventPromote.edit("`Promoting this guy...`")
+        await eventPromote.edit("`Bu kişiyi yetkilendiriyorum...`")
         user = await get_user_from_event(eventPromote)
         if user:
             pass
@@ -154,9 +154,9 @@ async def promote(eventPromote):
                     rank = ""
                 )
             )
-            await eventPromote.edit("`Promoted Successfully!`")
+            await eventPromote.edit("`Başarıyla yetkilendirildi!`")
         except BadRequestError:
-            await eventPromote.edit("`I don't have sufficient permissions!`")
+            await eventPromote.edit("`Yeterli yetkilerim yok!`")
             return
         if ENABLE_LOG:
             await eventPromote.client.send_message(
@@ -202,7 +202,7 @@ async def demote(eventDemote):
         except BadRequestError:
             await eventDemote.edit("`I don't have sufficient permissions!`")
             return
-        await eventDemote.edit("`Demoted Successfully!`")
+        await eventDemote.edit("`Yetkileri başarıyla kaldırıldı!`")
         if ENABLE_LOG:
             await eventDemote.client.send_message(
                 LOGGING_CHATID,
@@ -226,7 +226,7 @@ async def ban(eventBan):
             pass
         else:
             return
-        await eventBan.edit("`Finding this retarded guy...`")
+        await eventBan.edit("`Banlanacak kişiyi arıyorum...`")
         try:
             await eventBan.client(
                 EditBannedRequest(
@@ -245,7 +245,7 @@ async def ban(eventBan):
         except BadRequestError:
             await eventBan.edit("`I dont have message nuking rights! But still he was banned!`")
             return
-        await eventBan.edit("`{}` was banned!".format(str(user.id)))
+        await eventBan.edit("`{}` banlandı!".format(str(user.id)))
         if ENABLE_LOG:
             await eventBan.client.send_message(
                 LOGGING_CHATID,
