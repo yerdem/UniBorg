@@ -245,7 +245,7 @@ async def ban(eventBan):
         except BadRequestError:
             await eventBan.edit("`I dont have message nuking rights! But still he was banned!`")
             return
-        await eventBan.edit("`{}` banlandı!".format(str(user.id)))
+        await eventBan.edit(f"[{user.first_name}](tg://user?id={user.id}) banlandı!")
         if ENABLE_LOG:
             await eventBan.client.send_message(
                 LOGGING_CHATID,
@@ -684,7 +684,7 @@ async def kick(eventKickUser):
                 ChatBannedRights(until_date=None)
             )
         )
-        await eventKickUser.edit(f"`Kicked` [{user.first_name}](tg://user?id={user.id})`!`")
+        await eventKickUser.edit(f"[{user.first_name}](tg://user?id={user.id})` `atıldı` !`")
         if ENABLE_LOG:
             await eventKickUser.client.send_message(
                 LOGGING_CHATID,
