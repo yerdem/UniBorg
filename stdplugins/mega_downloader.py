@@ -29,7 +29,7 @@ def subprocess_run(cmd):
     return talk
 
 
-@borg.on(admin_cmd(outgoing=True, pattern=r"^\.mega(?: |$)(.*)"))
+@borg.on(admin_cmd(pattern="mega ?(.*)"))
 async def mega_downloader(megadl):
     await megadl.edit("`Processing...`")
     textx = await megadl.get_reply_message()
