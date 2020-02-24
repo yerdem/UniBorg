@@ -35,7 +35,7 @@ spotify_token
 lxml
 remotezip
 patool
-pytube
+pytube3
 wget
 hurry.filesize
 PyPDF2
