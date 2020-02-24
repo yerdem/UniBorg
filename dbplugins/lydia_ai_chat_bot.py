@@ -24,6 +24,8 @@ from sql_helpers.lydia_ai_sql import get_s, get_all_s, add_s, remove_s
 from time import time
 from uniborg.util import admin_cmd
 from sample_config import Config
+from coffeehouse.lydia import LydiaAI
+from coffeehouse.api import API
 
 if Config.LYDIA_API is not None:
     api_key = Config.LYDIA_API
@@ -45,7 +47,7 @@ async def lydia_disable_enable(event):
         chat_id = event.chat_id
         await event.edit("Processing...")
         if input_str == "ena":
-            session = api_client.create_session()
+            session = lydia.create_session()
             logger.info(session)
             logger.info(add_s(user_id, chat_id, session.id, session.expires))
             await event.edit(f"Lydia AI turned on for [user](tg://user?id={user_id}) in chat: `{chat_id}`")
