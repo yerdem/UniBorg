@@ -28,9 +28,9 @@ from coffeehouse.lydia import LydiaAI
 from coffeehouse.api import API
 
 if Config.LYDIA_API is not None:
-    api_key = Config.LYDIA_API
+    api_key = API(Config.LYDIA_API)
     # Initialise client
-    api_client = cf.API(api_key)
+    api_client = LydiaAI(api_key)
 
 
 @borg.on(admin_cmd(pattern="(ena|del|lst)cf", allow_sudo=True))
@@ -47,7 +47,7 @@ async def lydia_disable_enable(event):
         chat_id = event.chat_id
         await event.edit("Processing...")
         if input_str == "ena":
-            session = lydia.create_session()
+            session = api_client.create_session()
             logger.info(session)
             logger.info(add_s(user_id, chat_id, session.id, session.expires))
             await event.edit(f"Lydia AI turned on for [user](tg://user?id={user_id}) in chat: `{chat_id}`")
