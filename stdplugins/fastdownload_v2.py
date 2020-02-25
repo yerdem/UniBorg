@@ -9,6 +9,9 @@ import os
 from uniborg.util import admin_cmd
 from sample_config import Config
 
+if not os.path.isdir(Config.TMP_DOWNLOAD_DIRECTORY):
+    os.makedirs(Config.TMP_DOWNLOAD_DIRECTORY)
+
 cmd = f"aria2c --enable-rpc --dir={Config.TMP_DOWNLOAD_DIRECTORY} --rpc-listen-all=false --rpc-listen-port 6800  --max-connection-per-server=10 --rpc-max-request-size=1024M --seed-time=0.01 --min-split-size=10M --follow-torrent=mem --split=10 --daemon=true"
 
 aria2_is_running = os.system(cmd)
