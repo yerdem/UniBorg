@@ -51,19 +51,15 @@ async def download_from_url(url: str, file_name: str) -> str:
     return status
 
 
-async def download_from_tg(target_file,event) -> (str, BytesIO):
+async def download_from_tg(target_file) -> (str, BytesIO):
     """
     Download files from Telegram
     """
-    mone = await event.edit("Processing ...")
-    c_time = time.time()
     async def dl_file(buffer: BytesIO) -> BytesIO:
         buffer = await target_file.client.download_media(
             reply_msg,
             buffer,
-            progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
-                    progress(d, t, mone, c_time, "trying to download")
-                ),
+            progress_callback=progress,
         )
         return buffer
 
@@ -75,9 +71,7 @@ async def download_from_tg(target_file,event) -> (str, BytesIO):
         if reply_msg.media.document.size >= avail_mem:  # unlikely to happen but baalaji crai
             filen = await target_file.client.download_media(
                 reply_msg,
-                progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
-                    progress(d, t, mone, c_time, "trying to download")
-                ),
+                progress_callback=progress,
             )
         else:
             buf = await dl_file(buf)
@@ -216,29 +210,60 @@ async def gdrive(request):
 @borg.on(admin_cmd(pattern="jdownload ?(.*)"))
 async def download(target_file):
     """ For .download command, download files to the userbot's server. """
-    if target_file.fwd_from:
-        return
-    await target_file.edit("Processing ...")
-    input_str = target_file.pattern_match.group(1)
-    reply_msg = await target_file.get_reply_message()
-    if not os.path.isdir(TEMP_DOWNLOAD_DIRECTORY):
-        os.makedirs(TEMP_DOWNLOAD_DIRECTORY)
-    if reply_msg and reply_msg.media:
-        await target_file.edit('`Downloading file from Telegram....`')
-        filen, buf = await download_from_tg(target_file)
-        if buf:
-            with open(filen, 'wb') as to_save:
-                to_save.write(buf.read())
-    elif "|" in input_str:
-        url, file_name = input_str.split("|")
-        url = url.strip()
-        file_name = file_name.strip()
-        await target_file.edit(f'`Downloading {file_name}`')
-        status = await download_from_url(url, file_name)
-        await target_file.edit(status)
-    else:
-        await target_file.edit("`Reply to a message to \
-            download to my local server.`\n")
+    if not target_file.text[0].isalpha() and target_file.text[0] not in ("/", "#", "@", "!"):
+        if target_file.fwd_from:
+            return
+        mone = await target_file.edit("Processing ...")
+        input_str = target_file.pattern_match.group(1)
+        if not os.path.isdir(TEMP_DOWNLOAD_DIRECTORY):
+            os.makedirs(TEMP_DOWNLOAD_DIRECTORY)
+        if target_file.reply_to_msg_id:
+            start = datetime.now()
+            c_time = time.time()
+            downloaded_file_name = await target_file.client.download_media(
+                await target_file.get_reply_message(),
+                TEMP_DOWNLOAD_DIRECTORY,
+                progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
+                    progress(d, t, mone, c_time, "trying to download")
+                ),
+            )
+            end = datetime.now()
+            duration = (end - start).seconds
+            await target_file.edit(
+                "Downloaded to `{}` in {} seconds.".format(downloaded_file_name, duration)
+            )
+        elif "|" in input_str:
+            url, file_name = input_str.split("|")
+            url = url.strip()
+            # https://stackoverflow.com/a/761825/4723940
+            file_name = file_name.strip()
+            required_file_name = TEMP_DOWNLOAD_DIRECTORY + "" + file_name
+            start = datetime.now()
+            resp = requests.get(url, stream=True)
+            with open(required_file_name, "wb") as file:
+                total_length = resp.headers.get("content-length")
+                # https://stackoverflow.com/a/15645088/4723940
+                if total_length is None:  # no content length header
+                    file.write(resp.content)
+                else:
+                    downloaded = 0
+                    total_length = int(total_length)
+                    for chunk in resp.iter_content(chunk_size=128):
+                        downloaded += len(chunk)
+                        file.write(chunk)
+                        done = int(100 * downloaded / total_length)
+                        download_progress_string = "Downloading ... [%s%s]" % (
+                            "=" * done,
+                            " " * (50 - done),
+                        )
+                        LOGS.info(download_progress_string)
+            end = datetime.now()
+            duration = (end - start).seconds
+            await target_file.edit(
+                "Downloaded to `{}` in {} seconds.".format(required_file_name, duration)
+            )
+        else:
+            await target_file.edit("Reply to a message to download to my local server.")
 
 
 # @borg.on(admin_cmd(pattern="download ?(.*)", allow_sudo=True))
@@ -254,7 +279,7 @@ async def download(target_file):
 #         reply_message = await event.get_reply_message()
 #         try:
 #             c_time = time.time()
-#             filen, buf = await download_from_tg(event)
+#             filen, buf = await download_from_tg(target_file)
 #             downloaded_file_name = await borg.download_media(
 #                 reply_message,
 #                 Config.TMP_DOWNLOAD_DIRECTORY,
