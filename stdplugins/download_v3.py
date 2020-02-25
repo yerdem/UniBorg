@@ -201,7 +201,7 @@ async def gdrive(request):
 
 
 # @register(pattern=r"^.download(?: |$)(.*)", outgoing=True)
-@borg.on(admin_cmd(pattern=r"^.jdownload(?: |$)(.*)"))
+@borg.on(admin_cmd(pattern="jdownload ?(.*)"))
 async def download(target_file):
     """ For .download command, download files to the userbot's server. """
     if target_file.fwd_from:
