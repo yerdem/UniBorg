@@ -257,7 +257,8 @@ async def download(target_file):
                             "=" * done,
                             " " * (50 - done),
                         )
-                        LOGS.info(download_progress_string)
+                        logger.info(download_progress_string)
+                        await mone.edit(download_progress_string)
             end = datetime.now()
             duration = (end - start).seconds
             await target_file.edit(
