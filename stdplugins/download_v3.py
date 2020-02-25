@@ -22,11 +22,12 @@ from uniborg.util import admin_cmd
 
 TEMP_DOWNLOAD_DIRECTORY = Config.TMP_DOWNLOAD_DIRECTORY
 GDRIVE_FOLDER = Config.GDRIVE_FOLDER_ID
-
+logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s',
+                    level=logging.WARNING)
 
 def progress(current, total):
     """ Logs the download progress """
-    LOGS.info("Downloaded %s of %s\nCompleted %s", current, total,
+    logger.info("Downloaded %s of %s\nCompleted %s", current, total,
               (current / total) * 100)
 
 
