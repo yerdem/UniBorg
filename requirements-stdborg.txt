@@ -62,3 +62,4 @@ spamwatch
 psutil
 pydownload
 PyDrive
+pylast
