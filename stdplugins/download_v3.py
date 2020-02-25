@@ -8,20 +8,20 @@ from datetime import datetime
 from io import BytesIO
 from time import sleep
 
+from telethon.tl.types import DocumentAttributeVideo, MessageMediaPhoto
 
+import psutil
 from hachoir.metadata import extractMetadata
 from hachoir.parser import createParser
-from psutil import Downloader
+from pyDownload import Downloader
 from pydrive.auth import GoogleAuth
 from pydrive.drive import GoogleDrive
-from telethon.tl.types import DocumentAttributeVideo, MessageMediaPhoto
 from sample_config import Config
 from uniborg.events import register
-from sample_config import Config
 
 TEMP_DOWNLOAD_DIRECTORY = Config.TMP_DOWNLOAD_DIRECTORY
-
 GDRIVE_FOLDER = Config.GDRIVE_FOLDER_ID
+
 
 def progress(current, total):
     """ Logs the download progress """
@@ -199,8 +199,8 @@ async def gdrive(request):
     await request.edit(reply)
 
 
-
-@borg.on(admin_cmd(pattern=("^.sdownload(?: |$)(.*)")))
+# @register(pattern=r"^.download(?: |$)(.*)", outgoing=True)
+@borg.on(admin_cmd(pattern="^.jdownload(?: |$)(.*)", allow_sudo=True))
 async def download(target_file):
     """ For .download command, download files to the userbot's server. """
     if target_file.fwd_from:
@@ -477,5 +477,3 @@ async def uploadas(uas_event):
             await uas_event.edit(str(err))
     else:
         await uas_event.edit("404: File Not Found")
-
-
