@@ -7,7 +7,7 @@ import subprocess
 from datetime import datetime
 from io import BytesIO
 from time import sleep
-
+import time
 from telethon.tl.types import DocumentAttributeVideo, MessageMediaPhoto
 import asyncio
 import psutil
@@ -56,10 +56,14 @@ async def download_from_tg(target_file) -> (str, BytesIO):
     Download files from Telegram
     """
     async def dl_file(buffer: BytesIO) -> BytesIO:
+        mone = await target_file.edit('`Downloading file from Telegram....`')
+        c_time = time.time()
         buffer = await target_file.client.download_media(
             reply_msg,
             buffer,
-            progress_callback=progress,
+            progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
+                    progress(d, t, mone, c_time, "trying to download")
+                ),
         )
         return buffer
 
@@ -218,7 +222,7 @@ async def download(target_file):
     if not os.path.isdir(TEMP_DOWNLOAD_DIRECTORY):
         os.makedirs(TEMP_DOWNLOAD_DIRECTORY)
     if reply_msg and reply_msg.media:
-        await target_file.edit('`Downloading file from Telegram....`')
+        mone = await target_file.edit('`Downloading file from Telegram....`')
         filen, buf = await download_from_tg(target_file)
         if buf:
             with open(filen, 'wb') as to_save:
