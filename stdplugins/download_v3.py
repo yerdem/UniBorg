@@ -18,6 +18,7 @@ from pydrive.auth import GoogleAuth
 from pydrive.drive import GoogleDrive
 from sample_config import Config
 from uniborg.events import register
+from uniborg.util import admin_cmd
 
 TEMP_DOWNLOAD_DIRECTORY = Config.TMP_DOWNLOAD_DIRECTORY
 GDRIVE_FOLDER = Config.GDRIVE_FOLDER_ID
