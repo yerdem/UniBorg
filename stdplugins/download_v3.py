@@ -8,6 +8,7 @@ from datetime import datetime
 from io import BytesIO
 from time import sleep
 import time
+import requests
 from telethon.tl.types import DocumentAttributeVideo, MessageMediaPhoto
 import asyncio
 import psutil
