@@ -8,7 +8,7 @@ from datetime import datetime
 from io import BytesIO
 from time import sleep
 
-import psutil
+
 from hachoir.metadata import extractMetadata
 from hachoir.parser import createParser
 from psutil import Downloader
