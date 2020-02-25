@@ -9,7 +9,7 @@ from io import BytesIO
 from time import sleep
 
 from telethon.tl.types import DocumentAttributeVideo, MessageMediaPhoto
-
+import asyncio
 import psutil
 from hachoir.metadata import extractMetadata
 from hachoir.parser import createParser
@@ -19,16 +19,21 @@ from pydrive.drive import GoogleDrive
 from sample_config import Config
 from uniborg.events import register
 from uniborg.util import admin_cmd
-
+from uniborg.util import progress
 TEMP_DOWNLOAD_DIRECTORY = Config.TMP_DOWNLOAD_DIRECTORY
 GDRIVE_FOLDER = Config.GDRIVE_FOLDER_ID
+EDIT_SLEEP_TIME_OUT = 10
+
 logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s',
                     level=logging.WARNING)
 
-def progress(current, total):
+async def progress_url(current, total):
     """ Logs the download progress """
     logger.info("Downloaded %s of %s\nCompleted %s", current, total,
               (current / total) * 100)
+    prog = "Downloaded {} of {}\nCompleted {}".format(current,total,current / total * 100)
+    await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
+    return prog
 
 
 async def download_from_url(url: str, file_name: str) -> str:
