@@ -47,7 +47,7 @@ async def _(event):
         voice_note = False
         supports_streaming = False
         if input_str == "voice":
-            new_required_file_caption = downloaded_file_name + ".opus"
+            new_required_file_caption = downloaded_file_name[12:-4] + ".opus"
             new_required_file_name =  new_required_file_caption
             command_to_run = [
                 "ffmpeg",
@@ -66,7 +66,7 @@ async def _(event):
             voice_note = True
             supports_streaming = True
         elif input_str == "mp3":
-            new_required_file_caption = downloaded_file_name + ".mp3"
+            new_required_file_caption = downloaded_file_name[12:-4] + ".mp3"
             new_required_file_name =  new_required_file_caption
             command_to_run = [
                 "ffmpeg",
