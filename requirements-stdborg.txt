@@ -63,3 +63,4 @@ psutil
 pydownload
 PyDrive
 pylast
+setuptools==39.1.0
